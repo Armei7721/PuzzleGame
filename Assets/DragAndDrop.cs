@@ -5,6 +5,7 @@ using UnityEngine;
 public class DragAndDrop : MonoBehaviour
 {
     public GameObject SelectPiece; // 현재 선택된 퍼즐 조각
+    public static DragAndDrop insatance;
     private bool isDragging = false; // 현재 조각을 드래그 중인지 여부
 
     private float zoomSpeed = 0.5f; // 확대 및 축소 속도
@@ -16,6 +17,7 @@ public class DragAndDrop : MonoBehaviour
 
     void Start()
     {
+        insatance = this;
         // 카메라의 뷰포트 좌표를 월드 좌표로 변환하여 경계 설정
         Vector3 min = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
         Vector3 max = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
@@ -30,7 +32,7 @@ public class DragAndDrop : MonoBehaviour
     {
         HandleInput();
         HandleDrag();
-        HandleZoom();
+       // HandleZoom();
     }
 
     void HandleInput()
