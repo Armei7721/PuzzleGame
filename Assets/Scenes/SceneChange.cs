@@ -8,7 +8,7 @@ public class SceneChange : MonoBehaviour
 {
     public void GameSecenCtrl()
     {
-        SceneManger.LoadScene("SkyPuzzle");
+        SceneManager.LoadScene("SkyPuzzle");
     }
     // Start is called before the first frame update
     void Start()
