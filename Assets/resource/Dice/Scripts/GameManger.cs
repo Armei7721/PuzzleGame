@@ -6,16 +6,15 @@ public class GameManger : MonoBehaviour
 {
     public bool Selectable = false;
     public static List<GameObject> array = new List<GameObject>();
-    public List<GameObject> Dice = new List<GameObject>();
+    public GameObject Dice;
+    public List<GameObject> DiceList = new List<GameObject>();
     private int currentPlayerIndex = 0;
     private bool isGameOver = false;
 
     public GameObject[] players; // 플레이어들을 배열로 저장
     
-    [Header("다이스 롤")]
-    static Rigidbody rb;
-    public static Vector3 diceVelocity;
-
+  
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +24,7 @@ public class GameManger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Diceroll();
+        
     }
 
     IEnumerator StartTurns()
@@ -65,24 +64,7 @@ public class GameManger : MonoBehaviour
         // 예를 들어, 모든 플레이어의 체력이 다 소진되면 게임 종료
         return false;
     }
-    public void Diceroll()
-    {
-        diceVelocity = rb.velocity;
-
-        if (Input.GetMouseButton(0))
-        {
-            float dirX = Random.Range(0, 500);
-            float dirY = Random.Range(0, 500);
-            float dirZ = Random.Range(0, 500);
-            for (int i = 0; i < Dice.Count; i++)
-            {
-                transform.position = new Vector3(0, 2, 0);
-                transform.rotation = Quaternion.identity;
-                rb.AddForce(transform.up * 10);
-                rb.AddTorque(dirX, dirY, dirZ);
-            }
-        }
-    }
+    
     void DiceStart()
     {
 
