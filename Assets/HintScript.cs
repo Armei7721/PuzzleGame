@@ -1,27 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HintScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private Vector3 lastPosition;
+
     void Start()
     {
-        
+       
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+       
     }
     public void Hint()
     {
-        if (gameObject.activeSelf)
+        if (gameObject.activeSelf == true)
         {
             gameObject.SetActive(false);
         }
-        else if(!gameObject.activeSelf)
+        else if (gameObject.activeSelf == false)
         {
             gameObject.SetActive(true);
         }
