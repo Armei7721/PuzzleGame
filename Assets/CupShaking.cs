@@ -96,8 +96,13 @@ public class CupShaking : MonoBehaviour
             // rotationTimer가 2.6에서 1.8 사이에 있는지 확인합니다.
             if (rotationTimer < 3.6 && rotationTimer > 2.8)
             {
+               
                 // mugRb(Rigidbody)를 Z축을 중심으로 1초에 145도의 속도로 회전시킵니다.
                 mugRb.rotation = mugRb.rotation * Quaternion.Euler(0f, 0f, -145.0f * Time.deltaTime);
+            }
+            else if(rotationTimer >0.8)
+            {
+                Dice.RollDice();
             }
             // rotationTimer가 0.8에서 0 사이에 있는지 확인합니다.
             else if (rotationTimer < 0.8 && rotationTimer > 0)
@@ -110,6 +115,8 @@ public class CupShaking : MonoBehaviour
             {
                 // 더 이상의 회전을 멈추기 위해 'rotate'를 false로 설정합니다.
                 rotate = false;
+                
+                GameManger.gamemanager.selectdice = true;
             }
         }
 
@@ -120,13 +127,13 @@ public class CupShaking : MonoBehaviour
             if (shakeTimer > 0.05)
             {
                 mugDir.x = -1;
-                transform.forward = mugDir;
+                //transform.forward = mugDir;
                 mugRb.MovePosition(mugRb.position - mugDir * shakeSpeed);
             }
             else if (shakeTimer < 0.05 && shakeTimer > 0)
             {
                 mugDir.x = -1;
-                transform.forward = mugDir;
+               //transform.forward = mugDir;
                 mugRb.MovePosition(mugRb.position + mugDir * shakeSpeed);
             }
             else if (shakeTimer < 0)

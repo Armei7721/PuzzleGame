@@ -10,17 +10,9 @@ TagManager:
   - Slot4
   - P2Btn
   - Total
-  - Slot3
   - P4Btn
-  - Slot5
   - Ground
-  - Slot1
-  - Slot2
-  - Dice3
-  - Dice5
-  - Dice1
-  - Dice2
-  - Dice4
+  - Dice
   layers:
   - Default
   - TransparentFX

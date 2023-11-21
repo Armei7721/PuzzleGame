@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Dice : MonoBehaviour
 {
-
+	public static Dice dice;
 	static Rigidbody rb; // 주사위의 리지드바디
 	static bool hasLanded; // 주사위가 땅에 도달했는지 확인하는 변수
 	static bool thrown; // 주사위가 던져졌는지 확인하는 변수
@@ -17,9 +17,11 @@ public class Dice : MonoBehaviour
 	public static bool resetPosition;  // 점수판에 점수를 넣었을때 주사위 위치 전체 초기화
 	Vector3 DicePosition;
 	Vector3 upDice;
+	bool SetDice = false;
 	// Start is called before the first frame update
 	void Start()
 	{
+		dice = this;
 		// 각종 변수 초기화
 		rb = GetComponent<Rigidbody>();
 		initPosition = transform.position;
@@ -47,7 +49,27 @@ public class Dice : MonoBehaviour
 				MouseDownPos = Input.mousePosition;
 				Ray ray = Camera.main.ScreenPointToRay(MouseDownPos);
 				RaycastHit hit;
-
+				if (Physics.Raycast(ray, out hit))
+				{
+					GameObject hitObject = hit.collider.gameObject;
+					if (hitObject.CompareTag("Dice"))
+                    {
+						if (slotValue<5)
+						{
+							slotValue++;
+							SetDice = true;
+							PutSlot(hit);
+						}
+						else if(SetDice= true)
+                        {
+							PopSlot(hit,slotValue-1);
+                        }
+					}
+					else if(hitObject==null)
+                    {
+						return;
+                    }
+				}
 			}
 		}
 
@@ -58,6 +80,7 @@ public class Dice : MonoBehaviour
 		// 두 조건문의 차이점 : 아래거는 숫자판에 값을 넣었을때 실행. 슬롯보드에 무관하게 전체 초기화. 위에거는 슬롯보드는 저장
 		if (resetPosition)
 		{
+			GameManger.gamemanager.selectdice = false;
 			thrown = false;
 			hasLanded = false;
 			transform.position = initPosition;
@@ -72,7 +95,7 @@ public class Dice : MonoBehaviour
 		if (!thrown && !hasLanded)
 		{
 			thrown = true;
-			rb.AddForce(Random.Range(200, 800), 0, Random.Range(2500, 4500));
+			rb.AddForce(Random.Range(1000, 2000), 0, Random.Range(2500, 4500));
 		}
 	}
 	void PutSlot(RaycastHit hit)
@@ -81,14 +104,20 @@ public class Dice : MonoBehaviour
 		{
 			if (inSlot[i] == false)
 			{
-				// 슬롯에서 뺐을때 주사위 위치를 지정해주기 위해서 현재 주사위 위치를 저장
 				DicePosition = hit.transform.position;
+				// 슬롯에서 뺐을때 주사위 위치를 지정해주기 위해서 현재 주사위 위치를 저장
+
 				// 주사위 위치를 슬롯으로 이동
-				hit.transform.position = Slots[i].transform.position + upDice;
+				transform.position = GameManger.Slut[i].transform.position;
 				inSlot[i] = true;
 				break;
 			}
 		}
+	}
+	void PopSlot(RaycastHit hit, int value)
+	{
+		hit.transform.position = DicePosition;
+		inSlot[value] = false;
 	}
 	void ResetDice()
 	{

@@ -4,20 +4,28 @@ using UnityEngine;
 
 public class GameManger : MonoBehaviour
 {
+    public static GameManger gamemanager;
     public bool Selectable = false;
-    public static List<GameObject> array = new List<GameObject>();
-    public GameObject Dice;
-    public List<GameObject> DiceList = new List<GameObject>();
+    //public static List<GameObject> array = new List<GameObject>();
+    //public List<GameObject> DiceList = new List<GameObject>();
     private int currentPlayerIndex = 0;
     private bool isGameOver = false;
 
     public GameObject[] players; // 플레이어들을 배열로 저장
-    
-  
-    
+
+    public static GameObject[] Slut;
+    public bool shakedice;
+    public bool selectdice;
+
+    private void Awake()
+    {
+        gamemanager = this;
+        
+    }
     // Start is called before the first frame update
     void Start()
     {
+        SlutEquip();
         StartCoroutine(StartTurns());
     }
 
@@ -74,6 +82,27 @@ public class GameManger : MonoBehaviour
         if (DiceRoll.diceVelocity == Vector3.zero)
         {
             Selectable = true;
+        }
+    }
+    void SlutEquip()
+    {
+        GameObject parentObject = GameObject.Find("DicePlane");
+        if (parentObject != null)
+        {
+            Transform[] children = parentObject.GetComponentsInChildren<Transform>(true);
+
+            // 자식 오브젝트들만 참조하는데, 부모 자신은 제외하기 위해 배열 크기를 조정합니다.
+            Slut = new GameObject[children.Length - 1];
+
+            // 첫 번째 요소는 부모 자신이므로 인덱스를 1부터 시작하여 자식 오브젝트들을 참조합니다.
+            for (int i = 1; i < children.Length; i++)
+            {
+                Slut[i - 1] = children[i].gameObject;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("DicePlane을 찾을 수 없습니다.");
         }
     }
 }
