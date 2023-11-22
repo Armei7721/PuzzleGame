@@ -116,7 +116,7 @@ public class CupShaking : MonoBehaviour
                 // 더 이상의 회전을 멈추기 위해 'rotate'를 false로 설정합니다.
                 rotate = false;
                 
-                GameManger.gamemanager.selectdice = true;
+                GameManager.gamemanager.selectdice = true;
             }
         }
 

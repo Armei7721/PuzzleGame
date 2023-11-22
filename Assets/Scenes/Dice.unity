@@ -143,7 +143,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!114 &209702260
 MonoBehaviour:
@@ -1122,6 +1122,10 @@ PrefabInstance:
       value: Dice
       objectReference: {fileID: 0}
     - target: {fileID: 8637253160402980606, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
+      propertyPath: gameManger
+      value: 
+      objectReference: {fileID: 209702260}
+    - target: {fileID: 8637253160402980606, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
       propertyPath: Slots.Array.size
       value: 5
       objectReference: {fileID: 0}
@@ -1198,9 +1202,9 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  field of view: 95.8
+  orthographic: 1
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1224,7 +1228,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822628401}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 20, z: 0}
+  m_LocalPosition: {x: -6.1, y: 23.62, z: 0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1812,6 +1816,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2108429708, guid: e3d42ce81daa5c24699fb1c8b9f7d843, type: 3}
+      propertyPath: m_Name
+      value: Slut5
+      objectReference: {fileID: 0}
     - target: {fileID: 1376605242003886585, guid: e3d42ce81daa5c24699fb1c8b9f7d843, type: 3}
       propertyPath: m_RootOrder
       value: 7

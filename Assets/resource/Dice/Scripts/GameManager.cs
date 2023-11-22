@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManger : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static GameManger gamemanager;
+    public static GameManager gamemanager;
     public bool Selectable = false;
     //public static List<GameObject> array = new List<GameObject>();
     //public List<GameObject> DiceList = new List<GameObject>();
@@ -27,6 +27,7 @@ public class GameManger : MonoBehaviour
     {
         SlutEquip();
         StartCoroutine(StartTurns());
+       
     }
 
     // Update is called once per frame
@@ -73,17 +74,6 @@ public class GameManger : MonoBehaviour
         return false;
     }
     
-    void DiceStart()
-    {
-
-    }
-    void DiceSelect()
-    {
-        if (DiceRoll.diceVelocity == Vector3.zero)
-        {
-            Selectable = true;
-        }
-    }
     void SlutEquip()
     {
         GameObject parentObject = GameObject.Find("DicePlane");

@@ -4,33 +4,37 @@ using UnityEngine;
 
 public class Dice : MonoBehaviour
 {
-	public static Dice dice;
 	static Rigidbody rb; // 주사위의 리지드바디
 	static bool hasLanded; // 주사위가 땅에 도달했는지 확인하는 변수
 	static bool thrown; // 주사위가 던져졌는지 확인하는 변수
 	Vector3 initPosition; // 주사위의 초기 위치
+	
+	
 	public static int diceValue; // 주사위의 눈을 담을 변수
-	public static bool[] inSlot;
+	public bool[] inSlot;
+	
+	
 	Vector3 MouseDownPos;  // 마우스 클릭 위치
 	public GameObject[] Slots;
 	int slotValue;
+
+
 	public static bool resetPosition;  // 점수판에 점수를 넣었을때 주사위 위치 전체 초기화
 	Vector3 DicePosition;
+	Quaternion DiceRotation;
 	Vector3 upDice;
 	bool SetDice = false;
+
 	// Start is called before the first frame update
 	void Start()
 	{
-		dice = this;
 		// 각종 변수 초기화
 		rb = GetComponent<Rigidbody>();
 		initPosition = transform.position;
-		//rb.useGravity = true;
 		thrown = false;
+		inSlot = new bool[] { false, false, false, false, false };
 		slotValue = 0;
 		resetPosition = false;
-
-	
 	}
 
 	// Update is called once per frame
@@ -45,25 +49,31 @@ public class Dice : MonoBehaviour
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
-				Debug.Log("클릭 중!!");
+				
 				MouseDownPos = Input.mousePosition;
 				Ray ray = Camera.main.ScreenPointToRay(MouseDownPos);
 				RaycastHit hit;
 				if (Physics.Raycast(ray, out hit))
 				{
+					
 					GameObject hitObject = hit.collider.gameObject;
 					if (hitObject.CompareTag("Dice"))
                     {
-						if (slotValue<5)
+						Debug.Log(hitObject);
+						if (SetDice == false)
 						{
-							slotValue++;
-							SetDice = true;
-							PutSlot(hit);
+							if (slotValue < 5 && SetDice == false)
+							{
+								slotValue++;
+								SetDice = true;
+								PutSlot(hit);
+							}
+							
 						}
-						else if(SetDice= true)
-                        {
-							PopSlot(hit,slotValue-1);
-                        }
+						else if (SetDice == true)
+						{
+							PopSlot(hit, slotValue - 1);
+						}
 					}
 					else if(hitObject==null)
                     {
@@ -80,7 +90,7 @@ public class Dice : MonoBehaviour
 		// 두 조건문의 차이점 : 아래거는 숫자판에 값을 넣었을때 실행. 슬롯보드에 무관하게 전체 초기화. 위에거는 슬롯보드는 저장
 		if (resetPosition)
 		{
-			GameManger.gamemanager.selectdice = false;
+			GameManager.gamemanager.selectdice = false;
 			thrown = false;
 			hasLanded = false;
 			transform.position = initPosition;
@@ -104,20 +114,24 @@ public class Dice : MonoBehaviour
 		{
 			if (inSlot[i] == false)
 			{
-				DicePosition = hit.transform.position;
 				// 슬롯에서 뺐을때 주사위 위치를 지정해주기 위해서 현재 주사위 위치를 저장
-
+				DicePosition = hit.transform.position;
+				DiceRotation = hit.transform.rotation;
 				// 주사위 위치를 슬롯으로 이동
-				transform.position = GameManger.Slut[i].transform.position;
+				transform.position = GameManager.Slut[i].transform.position;
+				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
 				inSlot[i] = true;
 				break;
 			}
+			
 		}
 	}
 	void PopSlot(RaycastHit hit, int value)
 	{
 		hit.transform.position = DicePosition;
+		hit.transform.rotation = DiceRotation;
 		inSlot[value] = false;
+		SetDice = false;
 	}
 	void ResetDice()
 	{
