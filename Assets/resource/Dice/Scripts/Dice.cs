@@ -67,7 +67,7 @@ public class Dice : MonoBehaviour
 							if (slotValue < 5 && SetDice == false)
 							{
 								SelectDice = hit.transform.gameObject;
-								//Dice	SelectDice = hit.collider.GetComponent<Dice>();
+							 //Dice	SelectDice = hit.collider.GetComponent<Dice>();
 								slotValue++;
 								SelectDice.GetComponent<Dice>().SetDice = true;
 								//SelectDice.SetDice = true;
@@ -132,7 +132,11 @@ public class Dice : MonoBehaviour
 				DiceRotation = hit.transform.rotation;
 				// 주사위 위치를 슬롯으로 이동
 				SelectDice.transform.position = GameManager.Slut[i].transform.position;
-				SelectDice.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
+
+				//Quaternion newRotation = SelectDice.transform.rotation;
+				//newRotation.eulerAngles = new Vector3(newRotation.eulerAngles.x, 0f, newRotation.eulerAngles.z);
+				//transform.rotation = newRotation;
+				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
 				inSlot[i] = true;
 				break;
 			}
