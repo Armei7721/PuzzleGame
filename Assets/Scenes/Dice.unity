@@ -877,7 +877,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5152684497444129506, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.56
+      value: 12.62
       objectReference: {fileID: 0}
     - target: {fileID: 5152684497444129506, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -885,7 +885,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5152684497444129506, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.61
+      value: -0.52
       objectReference: {fileID: 0}
     - target: {fileID: 5152684497444129506, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1037,34 +1037,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 425836564}
     m_Modifications:
-    - target: {fileID: 231424060, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 548727179, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1142371505, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1294737358, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1361772359, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1568406569, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 19985450079904219, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5152684497444129506, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1112,22 +1084,6 @@ PrefabInstance:
     - target: {fileID: 5533186630172643416, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
       propertyPath: m_Name
       value: Dice
-      objectReference: {fileID: 0}
-    - target: {fileID: 5533186630172643416, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5533186630172643416, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
-      propertyPath: m_TagString
-      value: Dice
-      objectReference: {fileID: 0}
-    - target: {fileID: 8637253160402980606, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
-      propertyPath: gameManger
-      value: 
-      objectReference: {fileID: 209702260}
-    - target: {fileID: 8637253160402980606, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
-      propertyPath: Slots.Array.size
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8637253160402980606, guid: c7da5f985aa2ed04687370752f6853a7, type: 3}
       propertyPath: Slots.Array.data[0]

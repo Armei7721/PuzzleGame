@@ -8,8 +8,9 @@ public class Dice : MonoBehaviour
 	static bool hasLanded; // 주사위가 땅에 도달했는지 확인하는 변수
 	static bool thrown; // 주사위가 던져졌는지 확인하는 변수
 	Vector3 initPosition; // 주사위의 초기 위치
-	
-	
+	public GameObject SelectDice; // 현재 선택된 다이스
+	public bool isSelected;
+
 	public static int diceValue; // 주사위의 눈을 담을 변수
 	public bool[] inSlot;
 	
@@ -23,7 +24,7 @@ public class Dice : MonoBehaviour
 	Vector3 DicePosition;
 	Quaternion DiceRotation;
 	Vector3 upDice;
-	bool SetDice = false;
+	public bool SetDice = false;
 
 	// Start is called before the first frame update
 	void Start()
@@ -56,17 +57,22 @@ public class Dice : MonoBehaviour
 				if (Physics.Raycast(ray, out hit))
 				{
 					
-					GameObject hitObject = hit.collider.gameObject;
+					GameObject hitObject = hit.transform.gameObject;
 					if (hitObject.CompareTag("Dice"))
-                    {
-						Debug.Log(hitObject);
-						if (SetDice == false)
+					{
+						Dice diceScript = hitObject.GetComponent<Dice>();
+
+						if (diceScript != null && !diceScript.isSelected)
 						{
 							if (slotValue < 5 && SetDice == false)
 							{
+								SelectDice = hit.transform.gameObject;
+								//Dice	SelectDice = hit.collider.GetComponent<Dice>();
 								slotValue++;
-								SetDice = true;
+								SelectDice.GetComponent<Dice>().SetDice = true;
+								//SelectDice.SetDice = true;
 								PutSlot(hit);
+								Debug.Log(SelectDice);
 							}
 							
 						}
@@ -81,6 +87,13 @@ public class Dice : MonoBehaviour
                     }
 				}
 			}
+			if (Input.GetMouseButtonUp(0) && SelectDice != null)
+			{
+				SelectDice.GetComponent<Dice>().isSelected = false;
+				SelectDice = null;
+				// 다른 작업 수행...
+			}
+
 		}
 
 		if (Input.GetKeyDown(KeyCode.R) && slotValue == 0) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
@@ -118,8 +131,8 @@ public class Dice : MonoBehaviour
 				DicePosition = hit.transform.position;
 				DiceRotation = hit.transform.rotation;
 				// 주사위 위치를 슬롯으로 이동
-				transform.position = GameManager.Slut[i].transform.position;
-				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
+				SelectDice.transform.position = GameManager.Slut[i].transform.position;
+				SelectDice.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
 				inSlot[i] = true;
 				break;
 			}

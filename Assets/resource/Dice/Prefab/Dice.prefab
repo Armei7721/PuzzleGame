@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 8637253160402980606}
   m_Layer: 0
   m_Name: Dice
-  m_TagString: Untagged
+  m_TagString: Dice
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -448,3 +448,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fc2cf6a9b7373747a99e85e188ec6f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SelectDice: {fileID: 0}
+  isSelected: 0
+  inSlot: 
+  Slots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  SetDice: 0
