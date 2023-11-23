@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
-{
+{   
     public static GameManager gamemanager;
     public bool Selectable = false;
-    //public static List<GameObject> array = new List<GameObject>();
-    //public List<GameObject> DiceList = new List<GameObject>();
     private int currentPlayerIndex = 0;
     private bool isGameOver = false;
 
@@ -17,6 +15,7 @@ public class GameManager : MonoBehaviour
     public bool shakedice;
     public bool selectdice;
 
+    public static GameObject[] ChooseDice;
     private void Awake()
     {
         gamemanager = this;
@@ -93,6 +92,13 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.LogWarning("DicePlane을 찾을 수 없습니다.");
+        }
+    }
+    void SelectingDice()
+    {
+        if(Dice.thrown== true)
+        {
+
         }
     }
 }

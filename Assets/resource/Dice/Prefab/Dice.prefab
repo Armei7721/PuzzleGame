@@ -451,10 +451,7 @@ MonoBehaviour:
   SelectDice: {fileID: 0}
   isSelected: 0
   inSlot: 
-  Slots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   SetDice: 0
+  putPlane: 0
+  conditiontransform: []
+  conditionDice: []

@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Dice : MonoBehaviour
 {
+	public static Dice dice;
 	static Rigidbody rb; // 주사위의 리지드바디
 	static bool hasLanded; // 주사위가 땅에 도달했는지 확인하는 변수
-	static bool thrown; // 주사위가 던져졌는지 확인하는 변수
+	public static bool thrown; // 주사위가 던져졌는지 확인하는 변수
 	Vector3 initPosition; // 주사위의 초기 위치
 	public GameObject SelectDice; // 현재 선택된 다이스
 	public bool isSelected;
@@ -16,7 +17,6 @@ public class Dice : MonoBehaviour
 	
 	
 	Vector3 MouseDownPos;  // 마우스 클릭 위치
-	public GameObject[] Slots;
 	int slotValue;
 
 
@@ -25,10 +25,13 @@ public class Dice : MonoBehaviour
 	Quaternion DiceRotation;
 	Vector3 upDice;
 	public bool SetDice = false;
-
+	public bool putPlane = false;
+	public GameObject[] conditiontransform;
+	public  List<GameObject> conditionDice = new List<GameObject>();
 	// Start is called before the first frame update
 	void Start()
 	{
+		dice = this;
 		// 각종 변수 초기화
 		rb = GetComponent<Rigidbody>();
 		initPosition = transform.position;
@@ -36,6 +39,8 @@ public class Dice : MonoBehaviour
 		inSlot = new bool[] { false, false, false, false, false };
 		slotValue = 0;
 		resetPosition = false;
+		ConditionDice();
+		InsertDice();
 	}
 
 	// Update is called once per frame
@@ -46,8 +51,18 @@ public class Dice : MonoBehaviour
 		{
 			hasLanded = true;
 		}
-		if (rb.IsSleeping() && hasLanded && thrown)
+		if (rb.IsSleeping() && hasLanded && thrown &&!putPlane)
 		{
+
+			transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
+			rb.isKinematic = true;
+			rb.constraints = RigidbodyConstraints.FreezeAll;
+			for (int i=0; i<conditiontransform.Length; i++ )
+            {
+				conditionDice[i].transform.position = conditiontransform[i].transform.position;
+				
+			}
+			
 			if (Input.GetMouseButtonDown(0))
 			{
 				
@@ -123,6 +138,7 @@ public class Dice : MonoBehaviour
 	}
 	void PutSlot(RaycastHit hit)
 	{
+		putPlane = true;
 		for (int i = 0; i < 5; i++)
 		{
 			if (inSlot[i] == false)
@@ -132,11 +148,6 @@ public class Dice : MonoBehaviour
 				DiceRotation = hit.transform.rotation;
 				// 주사위 위치를 슬롯으로 이동
 				SelectDice.transform.position = GameManager.Slut[i].transform.position;
-
-				//Quaternion newRotation = SelectDice.transform.rotation;
-				//newRotation.eulerAngles = new Vector3(newRotation.eulerAngles.x, 0f, newRotation.eulerAngles.z);
-				//transform.rotation = newRotation;
-				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
 				inSlot[i] = true;
 				break;
 			}
@@ -145,6 +156,7 @@ public class Dice : MonoBehaviour
 	}
 	void PopSlot(RaycastHit hit, int value)
 	{
+		putPlane = false;
 		hit.transform.position = DicePosition;
 		hit.transform.rotation = DiceRotation;
 		inSlot[value] = false;
@@ -156,5 +168,43 @@ public class Dice : MonoBehaviour
 		hasLanded = false;
 		transform.position = initPosition;
 		diceValue = 0;
+	}
+
+	void InsertDice()
+	{
+		// "Dice" 태그가 지정된 모든 게임 오브젝트를 찾습니다.
+		GameObject[] diceObjects = GameObject.FindGameObjectsWithTag("Dice");
+		foreach (GameObject diceObject in diceObjects)
+		{
+			// 각 게임 오브젝트에서 Dice 스크립트를 찾습니다.
+			Dice diceComponent = diceObject.GetComponent<Dice>();
+			if (diceComponent != null)
+			{
+				// Dice 스크립트가 있다면 해당 게임 오브젝트를 conditionDice 리스트에 추가합니다.
+				conditionDice.Add(diceObject);
+			}
+		}
+	}
+
+	void ConditionDice()
+    {
+		GameObject parentObject = GameObject.Find("ConditionDice");
+		if (parentObject != null)
+		{
+			Transform[] children = parentObject.GetComponentsInChildren<Transform>(true);
+
+			// 자식 오브젝트들만 참조하는데, 부모 자신은 제외하기 위해 배열 크기를 조정합니다.
+			conditiontransform = new GameObject[children.Length - 1];
+
+			// 첫 번째 요소는 부모 자신이므로 인덱스를 1부터 시작하여 자식 오브젝트들을 참조합니다.
+			for (int i = 1; i < children.Length; i++)
+			{
+				conditiontransform[i - 1] = children[i].gameObject;
+			}
+		}
+		else
+		{
+			Debug.LogWarning("DicePlane을 찾을 수 없습니다.");
+		}
 	}
 }

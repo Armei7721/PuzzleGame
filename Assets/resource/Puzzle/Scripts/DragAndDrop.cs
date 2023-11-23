@@ -50,7 +50,7 @@ public class DragAndDrop : MonoBehaviour
                     // 퍼즐이 맞는 위치에 있지 않으면 선택 가능
                     if (!hit.transform.GetComponent<PieceScript>().InRightPosition)
                     {
-                       // SelectPiece = hit.transform.gameObject;
+                        SelectPiece = hit.transform.gameObject;
                         SelectPiece.GetComponent<PieceScript>().selected = true; // 선택된 상태로 설정
                         isDragging = true; // 드래그 중으로 설정
                     }
