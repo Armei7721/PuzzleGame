@@ -15,7 +15,8 @@ public class GameManager : MonoBehaviour
     public bool shakedice;
     public bool selectdice;
 
-    public static GameObject[] ChooseDice;
+
+    
     private void Awake()
     {
         gamemanager = this;
@@ -23,8 +24,7 @@ public class GameManager : MonoBehaviour
     }
     // Start is called before the first frame update
     void Start()
-    {
-        SlutEquip();
+    { SlutEquip();
         StartCoroutine(StartTurns());
        
     }
@@ -94,11 +94,6 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("DicePlane을 찾을 수 없습니다.");
         }
     }
-    void SelectingDice()
-    {
-        if(Dice.thrown== true)
-        {
-
-        }
-    }
+    
+  
 }

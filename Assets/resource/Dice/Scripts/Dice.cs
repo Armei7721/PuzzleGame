@@ -9,23 +9,22 @@ public class Dice : MonoBehaviour
 	static bool hasLanded; // 주사위가 땅에 도달했는지 확인하는 변수
 	public static bool thrown; // 주사위가 던져졌는지 확인하는 변수
 	Vector3 initPosition; // 주사위의 초기 위치
+	
 	public GameObject SelectDice; // 현재 선택된 다이스
 	public bool isSelected;
 
 	public static int diceValue; // 주사위의 눈을 담을 변수
 	public bool[] inSlot;
 	
-	
 	Vector3 MouseDownPos;  // 마우스 클릭 위치
 	int slotValue;
-
 
 	public static bool resetPosition;  // 점수판에 점수를 넣었을때 주사위 위치 전체 초기화
 	Vector3 DicePosition;
 	Quaternion DiceRotation;
 	Vector3 upDice;
 	public bool SetDice = false;
-	public bool putPlane = false;
+
 	public GameObject[] conditiontransform;
 	public  List<GameObject> conditionDice = new List<GameObject>();
 	// Start is called before the first frame update
@@ -41,65 +40,92 @@ public class Dice : MonoBehaviour
 		resetPosition = false;
 		ConditionDice();
 		InsertDice();
+		
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		
+		StartCoroutine(Throw());
+		ClickDice();
+	}
+	public static void RollDice()
+	{
+		if (!thrown && !hasLanded)
+		{
+			thrown = true;
+			rb.AddForce(Random.Range(1000, 2000), 0, Random.Range(2500, 4500));
+		}
+	}
+	public IEnumerator Throw()
+    {
 		if (rb.IsSleeping() && !hasLanded && thrown)
 		{
 			hasLanded = true;
 		}
-		if (rb.IsSleeping() && hasLanded && thrown &&!putPlane)
+		if (rb.IsSleeping() && hasLanded && thrown  && !SetDice)
 		{
-
+	
+			yield return new WaitForSeconds(1.5f);
 			transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
-			rb.isKinematic = true;
-			rb.constraints = RigidbodyConstraints.FreezeAll;
-			for (int i=0; i<conditiontransform.Length; i++ )
-            {
-				conditionDice[i].transform.position = conditiontransform[i].transform.position;
-				
+			foreach (GameObject diceObject in conditionDice)
+			{
+				rb = diceObject.GetComponent<Rigidbody>();
+				if (rb != null)
+				{
+					rb.isKinematic = true;
+				}
 			}
-			
+			for (int i = 0; i < conditiontransform.Length; i++)
+			{	
+				
+				//conditionDice[i].transform.position = Vector3.Lerp(conditionDice[i].transform.position,conditiontransform[i].transform.position, 0.03f);
+				//conditionDice[i].transform.position = conditiontransform[i].transform.position;
+
+			}
+
+		}
+	}
+	public void ClickDice()
+    {
+		if (rb.IsSleeping() && hasLanded && thrown)
+		{
 			if (Input.GetMouseButtonDown(0))
 			{
-				
 				MouseDownPos = Input.mousePosition;
 				Ray ray = Camera.main.ScreenPointToRay(MouseDownPos);
 				RaycastHit hit;
 				if (Physics.Raycast(ray, out hit))
 				{
-					
+
 					GameObject hitObject = hit.transform.gameObject;
 					if (hitObject.CompareTag("Dice"))
 					{
 						Dice diceScript = hitObject.GetComponent<Dice>();
-
 						if (diceScript != null && !diceScript.isSelected)
 						{
-							if (slotValue < 5 && SetDice == false)
+							if (slotValue < 5)
 							{
+								conditionDice.Remove(diceScript.gameObject);
 								SelectDice = hit.transform.gameObject;
-							 //Dice	SelectDice = hit.collider.GetComponent<Dice>();
 								slotValue++;
 								SelectDice.GetComponent<Dice>().SetDice = true;
-								//SelectDice.SetDice = true;
 								PutSlot(hit);
 								Debug.Log(SelectDice);
+
 							}
-							
+
 						}
-						else if (SetDice == true)
+						else if(SetDice==true)
 						{
+							conditionDice.Add(diceScript.gameObject);
 							PopSlot(hit, slotValue - 1);
 						}
 					}
-					else if(hitObject==null)
-                    {
+					else if (hitObject == null)
+					{
 						return;
-                    }
+					}
 				}
 			}
 			if (Input.GetMouseButtonUp(0) && SelectDice != null)
@@ -109,43 +135,34 @@ public class Dice : MonoBehaviour
 				// 다른 작업 수행...
 			}
 
-		}
 
-		if (Input.GetKeyDown(KeyCode.R) && slotValue == 0) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
-		{
-			ResetDice();
-		}
-		// 두 조건문의 차이점 : 아래거는 숫자판에 값을 넣었을때 실행. 슬롯보드에 무관하게 전체 초기화. 위에거는 슬롯보드는 저장
-		if (resetPosition)
-		{
-			GameManager.gamemanager.selectdice = false;
-			thrown = false;
-			hasLanded = false;
-			transform.position = initPosition;
-			resetPosition = false;
-			diceValue = 0;
-		
+
+			if (Input.GetKeyDown(KeyCode.R) && slotValue == 0) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
+			{
+				ResetDice();
+			}
+			// 두 조건문의 차이점 : 아래거는 숫자판에 값을 넣었을때 실행. 슬롯보드에 무관하게 전체 초기화. 위에거는 슬롯보드는 저장
+			if (resetPosition)
+			{
+				GameManager.gamemanager.selectdice = false;
+				thrown = false;
+				hasLanded = false;
+				transform.position = initPosition;
+				resetPosition = false;
+				diceValue = 0;
+
+			}
 		}
 	}
 
-	public static void RollDice()
-	{
-		if (!thrown && !hasLanded)
-		{
-			thrown = true;
-			rb.AddForce(Random.Range(1000, 2000), 0, Random.Range(2500, 4500));
-		}
-	}
 	void PutSlot(RaycastHit hit)
 	{
-		putPlane = true;
+		
 		for (int i = 0; i < 5; i++)
 		{
 			if (inSlot[i] == false)
 			{
 				// 슬롯에서 뺐을때 주사위 위치를 지정해주기 위해서 현재 주사위 위치를 저장
-				DicePosition = hit.transform.position;
-				DiceRotation = hit.transform.rotation;
 				// 주사위 위치를 슬롯으로 이동
 				SelectDice.transform.position = GameManager.Slut[i].transform.position;
 				inSlot[i] = true;
@@ -156,7 +173,6 @@ public class Dice : MonoBehaviour
 	}
 	void PopSlot(RaycastHit hit, int value)
 	{
-		putPlane = false;
 		hit.transform.position = DicePosition;
 		hit.transform.rotation = DiceRotation;
 		inSlot[value] = false;
@@ -185,9 +201,10 @@ public class Dice : MonoBehaviour
 			}
 		}
 	}
-
+	
+	
 	void ConditionDice()
-    {
+	{   //conditionDice의 자식 오브젝트들을 가져옴
 		GameObject parentObject = GameObject.Find("ConditionDice");
 		if (parentObject != null)
 		{

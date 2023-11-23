@@ -63,6 +63,7 @@ public class CupShaking : MonoBehaviour
                 shakeCount++;
                 //shakeAudioSource.PlayOneShot(shakeAudioClip);
             }
+           
             //if (shakeDelay == false && shakeCount == 7)
             //{
             //    shakeDelay = true;
