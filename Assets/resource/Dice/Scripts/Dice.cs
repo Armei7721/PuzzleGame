@@ -25,8 +25,10 @@ public class Dice : MonoBehaviour
 	Vector3 upDice;
 	public bool SetDice = false;
 
+	int a = 0;
 	public GameObject[] conditiontransform;
 	public  List<GameObject> conditionDice = new List<GameObject>();
+	public float timer;
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -46,10 +48,13 @@ public class Dice : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		StartCoroutine(Throw());
+		
+		Debug.Log(a);
+		Throw();
 		ClickDice();
+		ResetDice();
 	}
-	public static void RollDice()
+    public static void RollDice()
 	{
 		if (!thrown && !hasLanded)
 		{
@@ -57,33 +62,48 @@ public class Dice : MonoBehaviour
 			rb.AddForce(Random.Range(1000, 2000), 0, Random.Range(2500, 4500));
 		}
 	}
-	public IEnumerator Throw()
+	public void Throw()
     {
 		if (rb.IsSleeping() && !hasLanded && thrown)
 		{
 			hasLanded = true;
 		}
-		if (rb.IsSleeping() && hasLanded && thrown  && !SetDice)
+		if (rb.IsSleeping() && hasLanded && thrown && !SetDice)
 		{
-	
-			yield return new WaitForSeconds(1.5f);
-			transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
-			foreach (GameObject diceObject in conditionDice)
+			timer += Time.deltaTime;
+			if (timer >= 2.0f)
 			{
-				rb = diceObject.GetComponent<Rigidbody>();
-				if (rb != null)
+				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
+
+				for (int i = 0; i < conditionDice.Count; i++)
 				{
-					rb.isKinematic = true;
+					GameObject diceObject = conditionDice[i];
+					Rigidbody rb = diceObject.GetComponent<Rigidbody>();
+
+					if (rb != null)
+					{
+						rb.isKinematic = true;
+					}
 				}
-			}
-			for (int i = 0; i < conditiontransform.Length; i++)
-			{	
+				if (timer >= 3.0f)
+				{
+					if (a == 0)
+					{
+						for (int i = 0; i < conditiontransform.Length; i++)
+						{
+							conditionDice[i].transform.position = Vector3.Lerp(conditionDice[i].transform.position, conditiontransform[i].transform.position, 0.1f);
+							//conditionDice[i].transform.position = conditiontransform[i].transform.position;
+
+						}
+
+					}
+				}
+				if (timer >= 4.0f)
+				{
+					a = 1;
+				}
 				
-				//conditionDice[i].transform.position = Vector3.Lerp(conditionDice[i].transform.position,conditiontransform[i].transform.position, 0.03f);
-				//conditionDice[i].transform.position = conditiontransform[i].transform.position;
-
 			}
-
 		}
 	}
 	public void ClickDice()
@@ -97,7 +117,6 @@ public class Dice : MonoBehaviour
 				RaycastHit hit;
 				if (Physics.Raycast(ray, out hit))
 				{
-
 					GameObject hitObject = hit.transform.gameObject;
 					if (hitObject.CompareTag("Dice"))
 					{
@@ -106,19 +125,17 @@ public class Dice : MonoBehaviour
 						{
 							if (slotValue < 5)
 							{
-								conditionDice.Remove(diceScript.gameObject);
+								
 								SelectDice = hit.transform.gameObject;
 								slotValue++;
 								SelectDice.GetComponent<Dice>().SetDice = true;
 								PutSlot(hit);
-								Debug.Log(SelectDice);
-
+								
 							}
-
 						}
 						else if(SetDice==true)
 						{
-							conditionDice.Add(diceScript.gameObject);
+							
 							PopSlot(hit, slotValue - 1);
 						}
 					}
@@ -134,27 +151,9 @@ public class Dice : MonoBehaviour
 				SelectDice = null;
 				// 다른 작업 수행...
 			}
-
-
-
-			if (Input.GetKeyDown(KeyCode.R) && slotValue == 0) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
-			{
-				ResetDice();
-			}
-			// 두 조건문의 차이점 : 아래거는 숫자판에 값을 넣었을때 실행. 슬롯보드에 무관하게 전체 초기화. 위에거는 슬롯보드는 저장
-			if (resetPosition)
-			{
-				GameManager.gamemanager.selectdice = false;
-				thrown = false;
-				hasLanded = false;
-				transform.position = initPosition;
-				resetPosition = false;
-				diceValue = 0;
-
-			}
+		
 		}
 	}
-
 	void PutSlot(RaycastHit hit)
 	{
 		
@@ -167,8 +166,7 @@ public class Dice : MonoBehaviour
 				SelectDice.transform.position = GameManager.Slut[i].transform.position;
 				inSlot[i] = true;
 				break;
-			}
-			
+			}	
 		}
 	}
 	void PopSlot(RaycastHit hit, int value)
@@ -180,29 +178,42 @@ public class Dice : MonoBehaviour
 	}
 	void ResetDice()
 	{
+		if (Input.GetKeyDown(KeyCode.R)) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
+		{ 
 		thrown = false;
 		hasLanded = false;
 		transform.position = initPosition;
 		diceValue = 0;
-	}
+		a = 0;
+			timer = 0;
+			CupShaking.cupshaking.Wall.SetActive(true);
+			for (int i = 0; i < conditionDice.Count; i++)
+			{
+				GameObject diceObject = conditionDice[i];
+				Rigidbody rb = diceObject.GetComponent<Rigidbody>();
 
+				if (rb != null)
+				{
+					rb.isKinematic = false;
+				}
+			}
+		}
+	}
 	void InsertDice()
 	{
 		// "Dice" 태그가 지정된 모든 게임 오브젝트를 찾습니다.
 		GameObject[] diceObjects = GameObject.FindGameObjectsWithTag("Dice");
-		foreach (GameObject diceObject in diceObjects)
+		for (int i = 0; i < diceObjects.Length; i++)
 		{
-			// 각 게임 오브젝트에서 Dice 스크립트를 찾습니다.
+			GameObject diceObject = diceObjects[i];
 			Dice diceComponent = diceObject.GetComponent<Dice>();
+
 			if (diceComponent != null)
 			{
-				// Dice 스크립트가 있다면 해당 게임 오브젝트를 conditionDice 리스트에 추가합니다.
 				conditionDice.Add(diceObject);
 			}
 		}
 	}
-	
-	
 	void ConditionDice()
 	{   //conditionDice의 자식 오브젝트들을 가져옴
 		GameObject parentObject = GameObject.Find("ConditionDice");

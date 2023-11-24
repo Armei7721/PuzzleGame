@@ -156,7 +156,6 @@ MonoBehaviour:
   players:
   - {fileID: 1921912683}
   shakedice: 0
-  selectdice: 0
 --- !u!4 &209702261
 Transform:
   m_ObjectHideFlags: 0
@@ -467,7 +466,7 @@ GameObject:
   - component: {fileID: 358781500}
   m_Layer: 0
   m_Name: ChooseDice4
-  m_TagString: Untagged
+  m_TagString: DicePlane
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -640,7 +639,7 @@ GameObject:
   - component: {fileID: 789203560}
   m_Layer: 0
   m_Name: ChooseDice3
-  m_TagString: Untagged
+  m_TagString: DicePlane
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -978,7 +977,7 @@ GameObject:
   - component: {fileID: 1577688807}
   m_Layer: 0
   m_Name: ChooseDice1
-  m_TagString: Untagged
+  m_TagString: DicePlane
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1009,7 +1008,7 @@ GameObject:
   - component: {fileID: 1610296407}
   m_Layer: 0
   m_Name: ChooseDice
-  m_TagString: Untagged
+  m_TagString: DicePlane
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1362,7 +1361,7 @@ GameObject:
   - component: {fileID: 1892602841}
   m_Layer: 0
   m_Name: ChooseDice2
-  m_TagString: Untagged
+  m_TagString: DicePlane
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -13,6 +13,7 @@ TagManager:
   - P4Btn
   - Ground
   - Dice
+  - DicePlane
   layers:
   - Default
   - TransparentFX

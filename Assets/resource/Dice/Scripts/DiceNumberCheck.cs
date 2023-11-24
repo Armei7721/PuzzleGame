@@ -9,7 +9,6 @@ public class DiceNumberCheck : MonoBehaviour
     private void FixedUpdate()
     {
         diceVelocity = DiceRoll.diceVelocity;
-        Debug.Log(DiceNumberText.diceNumber);
     }
     private void Update()
     {

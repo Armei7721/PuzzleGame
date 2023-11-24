@@ -13,9 +13,6 @@ public class GameManager : MonoBehaviour
 
     public static GameObject[] Slut;
     public bool shakedice;
-    public bool selectdice;
-
-
     
     private void Awake()
     {
@@ -24,9 +21,9 @@ public class GameManager : MonoBehaviour
     }
     // Start is called before the first frame update
     void Start()
-    { SlutEquip();
+    {   
+        SlutEquip();
         StartCoroutine(StartTurns());
-       
     }
 
     // Update is called once per frame
