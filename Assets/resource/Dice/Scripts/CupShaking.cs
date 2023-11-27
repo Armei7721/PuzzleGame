@@ -97,7 +97,7 @@ public class CupShaking : MonoBehaviour
                 // mugRb(Rigidbody)를 Z축을 중심으로 1초에 145도의 속도로 회전시킵니다.
                 mugRb.rotation = mugRb.rotation * Quaternion.Euler(0f, 0f, -145.0f * Time.deltaTime);
             }
-            else if(rotationTimer >0.8f)
+            else if(rotationTimer >1.0f)
             {
                 Dice.RollDice();
             }

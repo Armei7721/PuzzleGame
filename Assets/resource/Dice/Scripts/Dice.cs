@@ -27,7 +27,8 @@ public class Dice : MonoBehaviour
 
 	int a = 0;
 	public GameObject[] conditiontransform;
-	public  List<GameObject> conditionDice = new List<GameObject>();
+	public List<GameObject> conditionDice = new List<GameObject>();
+	public List<GameObject> setDicePlane = new List<GameObject>();
 	public float timer;
 	// Start is called before the first frame update
 	void Start()
@@ -38,6 +39,7 @@ public class Dice : MonoBehaviour
 		initPosition = transform.position;
 		thrown = false;
 		inSlot = new bool[] { false, false, false, false, false };
+		
 		slotValue = 0;
 		resetPosition = false;
 		ConditionDice();
@@ -48,8 +50,6 @@ public class Dice : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		
-		Debug.Log(a);
 		Throw();
 		ClickDice();
 		ResetDice();
@@ -59,7 +59,7 @@ public class Dice : MonoBehaviour
 		if (!thrown && !hasLanded)
 		{
 			thrown = true;
-			rb.AddForce(Random.Range(1000, 2000), 0, Random.Range(2500, 4500));
+			rb.AddForce(Random.Range(3000, 3500), 0, Random.Range(4000, 6500));
 		}
 	}
 	public void Throw()
@@ -93,15 +93,15 @@ public class Dice : MonoBehaviour
 						{
 							conditionDice[i].transform.position = Vector3.Lerp(conditionDice[i].transform.position, conditiontransform[i].transform.position, 0.1f);
 							//conditionDice[i].transform.position = conditiontransform[i].transform.position;
-
+							if(conditionDice[i].transform.position== conditiontransform[i].transform.position)
+                            {
+								a = 1;
+                            }
 						}
 
 					}
 				}
-				if (timer >= 4.0f)
-				{
-					a = 1;
-				}
+				
 				
 			}
 		}
@@ -109,10 +109,10 @@ public class Dice : MonoBehaviour
 	public void ClickDice()
     {
 		if (rb.IsSleeping() && hasLanded && thrown)
-		{
+		{	//리지드바디의 힘이 가해지지 않았을 경우
 			if (Input.GetMouseButtonDown(0))
 			{
-				MouseDownPos = Input.mousePosition;
+				MouseDownPos = Input.mousePosition;// 마우스포인트 위치를 담고
 				Ray ray = Camera.main.ScreenPointToRay(MouseDownPos);
 				RaycastHit hit;
 				if (Physics.Raycast(ray, out hit))
@@ -120,12 +120,11 @@ public class Dice : MonoBehaviour
 					GameObject hitObject = hit.transform.gameObject;
 					if (hitObject.CompareTag("Dice"))
 					{
-						Dice diceScript = hitObject.GetComponent<Dice>();
+						Dice diceScript = hitObject.GetComponent<Dice>();//diceScript에 글릭한 오브젝트의 스크립트를 담는다.
 						if (diceScript != null && !diceScript.isSelected)
 						{
 							if (slotValue < 5)
 							{
-								
 								SelectDice = hit.transform.gameObject;
 								slotValue++;
 								SelectDice.GetComponent<Dice>().SetDice = true;
@@ -178,21 +177,22 @@ public class Dice : MonoBehaviour
 	}
 	void ResetDice()
 	{
-		if (Input.GetKeyDown(KeyCode.R)) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
+		if (Input.GetKeyDown(KeyCode.R)&& SetDice==false) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
 		{ 
 		thrown = false;
 		hasLanded = false;
 		transform.position = initPosition;
 		diceValue = 0;
 		a = 0;
-			timer = 0;
-			CupShaking.cupshaking.Wall.SetActive(true);
+		timer = 0;
+		CupShaking.cupshaking.Wall.SetActive(true);
+			
 			for (int i = 0; i < conditionDice.Count; i++)
 			{
 				GameObject diceObject = conditionDice[i];
 				Rigidbody rb = diceObject.GetComponent<Rigidbody>();
-
-				if (rb != null)
+				
+				if (rb != null &&SetDice==false)
 				{
 					rb.isKinematic = false;
 				}
