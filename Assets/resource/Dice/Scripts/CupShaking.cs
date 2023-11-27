@@ -5,6 +5,7 @@ using TMPro;
 
 public class CupShaking : MonoBehaviour
 {
+   
     public static CupShaking cupshaking;
     float rotationTime = 0f;
     float rotationTimer = 0;
@@ -99,7 +100,7 @@ public class CupShaking : MonoBehaviour
             }
             else if(rotationTimer >1.0f)
             {
-                Dice.RollDice();
+                Dice.dice.RollDice();
             }
             // rotationTimer가 0.8에서 0 사이에 있는지 확인합니다.
             else if (rotationTimer < 0.8f && rotationTimer > 0f)

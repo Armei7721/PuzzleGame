@@ -5,7 +5,7 @@ using UnityEngine;
 public class Dice : MonoBehaviour
 {
 	public static Dice dice;
-	static Rigidbody rb; // 주사위의 리지드바디
+	private Rigidbody rb; // 주사위의 리지드바디
 	static bool hasLanded; // 주사위가 땅에 도달했는지 확인하는 변수
 	public static bool thrown; // 주사위가 던져졌는지 확인하는 변수
 	Vector3 initPosition; // 주사위의 초기 위치
@@ -28,22 +28,22 @@ public class Dice : MonoBehaviour
 	int a = 0;
 	public GameObject[] conditiontransform;
 	public List<GameObject> conditionDice = new List<GameObject>();
-	public List<GameObject> setDicePlane = new List<GameObject>();
+
 	public float timer;
 	// Start is called before the first frame update
 	void Start()
 	{
 		dice = this;
-		// 각종 변수 초기화
-		rb = GetComponent<Rigidbody>();
+		// 각종 변수 초기화3
+		rb = this.GetComponent<Rigidbody>();
 		initPosition = transform.position;
 		thrown = false;
 		inSlot = new bool[] { false, false, false, false, false };
-		
 		slotValue = 0;
 		resetPosition = false;
 		ConditionDice();
 		InsertDice();
+		
 		
 	}
 
@@ -54,12 +54,16 @@ public class Dice : MonoBehaviour
 		ClickDice();
 		ResetDice();
 	}
-    public static void RollDice()
+    public void RollDice()
 	{
 		if (!thrown && !hasLanded)
-		{
-			thrown = true;
-			rb.AddForce(Random.Range(3000, 3500), 0, Random.Range(4000, 6500));
+		{for (int i = 0; i < conditionDice.Count; i++)
+			{
+				thrown = true;
+				Rigidbody rigid = conditionDice[i].GetComponent<Rigidbody>();
+				rigid.AddForce(new Vector3(Random.Range(3000, 3500), 0, Random.Range(4000, 6500)));
+				rigid.AddTorque(new Vector3(Random.Range(-20, 20), Random.Range(-20, 20), Random.Range(-20, 20)));
+			}
 		}
 	}
 	public void Throw()
@@ -148,7 +152,6 @@ public class Dice : MonoBehaviour
 			{
 				SelectDice.GetComponent<Dice>().isSelected = false;
 				SelectDice = null;
-				// 다른 작업 수행...
 			}
 		
 		}

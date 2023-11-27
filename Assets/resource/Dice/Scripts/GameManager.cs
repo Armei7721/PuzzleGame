@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {   
@@ -8,12 +9,12 @@ public class GameManager : MonoBehaviour
     public bool Selectable = false;
     private int currentPlayerIndex = 0;
     private bool isGameOver = false;
-
     public GameObject[] players; // 플레이어들을 배열로 저장
 
     public static GameObject[] Slut;
     public bool shakedice;
     
+
     private void Awake()
     {
         gamemanager = this;
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        ReloadScene();
     }
 
     IEnumerator StartTurns()
@@ -91,6 +92,9 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("DicePlane을 찾을 수 없습니다.");
         }
     }
-    
+    public void ReloadScene()
+    {if(Input.GetKeyDown(KeyCode.P))
+        SceneManager.LoadScene("Dice");
+    }
   
 }
