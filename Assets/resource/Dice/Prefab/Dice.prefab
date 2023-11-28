@@ -452,6 +452,7 @@ MonoBehaviour:
   isSelected: 0
   inSlot: 
   SetDice: 0
-  putPlane: 0
+  a: 0
   conditiontransform: []
   conditionDice: []
+  timer: 0

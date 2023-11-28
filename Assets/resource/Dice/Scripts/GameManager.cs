@@ -1,36 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
-{   
+{
     public static GameManager gamemanager;
     public bool Selectable = false;
     private int currentPlayerIndex = 0;
     private bool isGameOver = false;
+
     public GameObject[] players; // 플레이어들을 배열로 저장
 
     public static GameObject[] Slut;
     public bool shakedice;
-    
+    public bool selectdice;
+
+    public GameObject[] conditiontransform;
+    public List<GameObject> conditionDice = new List<GameObject>();
+
+    public bool[] inSlot;
+    public bool[] outSlot;
 
     private void Awake()
     {
         gamemanager = this;
-        
+
     }
     // Start is called before the first frame update
     void Start()
-    {   
+    {
+        inSlot = new bool[] { false, false, false, false, false };
+        outSlot = new bool[] { true, true, true, true, true };
+        ConditionDice();
+        InsertDice();
         SlutEquip();
         StartCoroutine(StartTurns());
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        ReloadScene();
+
     }
 
     IEnumerator StartTurns()
@@ -38,7 +49,7 @@ public class GameManager : MonoBehaviour
         while (!isGameOver)
         {
             yield return StartCoroutine(PlayerTurn());
-            ChangeTurn();
+            //ChangeTurn();
         }
     }
     IEnumerator PlayerTurn()
@@ -46,7 +57,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Player " + (currentPlayerIndex + 1) + "'s turn");
 
         // 여기에 해당 플레이어의 턴 동작을 추가
-        
+
         // 예를 들어, 플레이어의 움직임이나 행동 등을 수행할 수 있습니다.
 
         // 플레이어의 턴이 끝날 때까지 대기
@@ -70,7 +81,7 @@ public class GameManager : MonoBehaviour
         // 예를 들어, 모든 플레이어의 체력이 다 소진되면 게임 종료
         return false;
     }
-    
+
     void SlutEquip()
     {
         GameObject parentObject = GameObject.Find("DicePlane");
@@ -92,9 +103,42 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("DicePlane을 찾을 수 없습니다.");
         }
     }
-    public void ReloadScene()
-    {if(Input.GetKeyDown(KeyCode.P))
-        SceneManager.LoadScene("Dice");
+    void InsertDice()
+    {
+        // "Dice" 태그가 지정된 모든 게임 오브젝트를 찾습니다.
+        GameObject[] diceObjects = GameObject.FindGameObjectsWithTag("Dice");
+        foreach (GameObject diceObject in diceObjects)
+        {
+            // 각 게임 오브젝트에서 Dice 스크립트를 찾습니다.
+            Dice diceComponent = diceObject.GetComponent<Dice>();
+            if (diceComponent != null)
+            {
+                // Dice 스크립트가 있다면 해당 게임 오브젝트를 conditionDice 리스트에 추가합니다.
+                conditionDice.Add(diceObject);
+            }
+        }
     }
-  
+    void ConditionDice()
+    {   //conditionDice의 자식 오브젝트들을 가져옴
+        GameObject parentObject = GameObject.Find("ConditionDice");
+        if (parentObject != null)
+        {
+            Transform[] children = parentObject.GetComponentsInChildren<Transform>(true);
+
+            // 자식 오브젝트들만 참조하는데, 부모 자신은 제외하기 위해 배열 크기를 조정합니다.
+            conditiontransform = new GameObject[children.Length - 1];
+
+            // 첫 번째 요소는 부모 자신이므로 인덱스를 1부터 시작하여 자식 오브젝트들을 참조합니다.
+            for (int i = 1; i < children.Length; i++)
+            {
+                conditiontransform[i - 1] = children[i].gameObject;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("DicePlane을 찾을 수 없습니다.");
+        }
+    }
+
+   
 }

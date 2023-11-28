@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Title.unity
-    guid: fe8f5871a579ec542a8196309d60384e
-  - enabled: 1
-    path: Assets/Scenes/SkyPuzzle.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Dice.unity
+    guid: aff712bd2cbedfe418c8f4677a841024
   m_configObjects: {}

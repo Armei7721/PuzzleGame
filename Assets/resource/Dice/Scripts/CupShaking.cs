@@ -100,7 +100,7 @@ public class CupShaking : MonoBehaviour
             }
             else if(rotationTimer >1.0f)
             {
-                Dice.dice.RollDice();
+                Dice.RollDice();
             }
             // rotationTimer가 0.8에서 0 사이에 있는지 확인합니다.
             else if (rotationTimer < 0.8f && rotationTimer > 0f)
