@@ -5,7 +5,7 @@ using UnityEngine;
 public class Dice : MonoBehaviour
 {
 	public static Dice dice;
-	static Rigidbody rb; // 주사위의 리지드바디
+	private Rigidbody rb; // 주사위의 리지드바디
 	static bool hasLanded; // 주사위가 땅에 도달했는지 확인하는 변수
 	public static bool thrown; // 주사위가 던져졌는지 확인하는 변수
 	Vector3 initPosition; // 주사위의 초기 위치
@@ -48,7 +48,7 @@ public class Dice : MonoBehaviour
 		Throw();
 		ClickDice();
 	}
-	public static void RollDice()
+	public void RollDice()
 	{
 		if (!thrown && !hasLanded)
 		{
@@ -71,8 +71,7 @@ public class Dice : MonoBehaviour
 			timer += Time.deltaTime;
 			if (timer >= 2.0f)
 			{
-				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
-
+				
 				for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
 				{
 					GameObject diceObject = GameManager.gamemanager.conditionDice[i];
@@ -83,22 +82,28 @@ public class Dice : MonoBehaviour
 						rb.isKinematic = true;
 					}
 				}
-				if (timer >= 3.0f)
+				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
+
+				if (timer >= 3.0f && a==0)
 				{
-					if (a == 0)
+					for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
 					{
-						for (int i = 0; i < GameManager.gamemanager.conditiontransform.Length; i++)
+						if (GameManager.gamemanager.conditionDice.Contains(gameObject) != false)
 						{
-							Debug.Log("발동!!");
 							GameManager.gamemanager.conditionDice[i].transform.position = Vector3.Lerp(GameManager.gamemanager.conditionDice[i].transform.position, GameManager.gamemanager.conditiontransform[i].transform.position, 0.6f);
-							//conditionDice[i].transform.position = conditiontransform[i].transform.position;
-							if (GameManager.gamemanager.conditionDice[i].transform.position == GameManager.gamemanager.conditiontransform[i].transform.position)
-							{
-								a = 1;
-							}
+
+                            if (GameManager.gamemanager.conditionDice[i].transform.position== GameManager.gamemanager.conditiontransform[i].transform.position)
+                            {
+								//a = 1;
+                            }
 						}
 
+						else
+						{
+							continue;
+						}
 					}
+					
 				}
 
 
@@ -114,34 +119,44 @@ public class Dice : MonoBehaviour
 				MouseDownPos = Input.mousePosition;
 				Ray ray = Camera.main.ScreenPointToRay(MouseDownPos);
 				RaycastHit hit;
+				
 				if (Physics.Raycast(ray, out hit))
 				{
-
+					//Debug.DrawLine(ray.origin, hit.point, Color.red, 1.0f);
 					GameObject hitObject = hit.transform.gameObject;
 					if (hitObject.CompareTag("Dice"))
 					{
 						Dice diceScript = hitObject.GetComponent<Dice>();
 						if (diceScript != null && !diceScript.isSelected)
 						{
-							if (slotValue < 5 && SetDice == false)
+							SelectDice = hit.transform.gameObject;
+							if (slotValue < 5 && SelectDice.GetComponent<Dice>().SetDice == false)
 							{
-								SelectDice = hit.transform.gameObject;
+								if (GameManager.gamemanager.conditionDice.Contains(SelectDice.gameObject))
+								{								
+									GameManager.gamemanager.conditionDice.Remove(SelectDice.gameObject);
+								}
 								slotValue++;
 								SelectDice.GetComponent<Dice>().SetDice = true;
 								PutSlot(hit);
-
+								Debug.Log("발동이 되네");
 							}
-							else if (SetDice == true)
+							else if (SelectDice.GetComponent<Dice>().SetDice == true)
 							{
-							
+								Debug.Log("Test");
+								PopSlot(hit);
 							}
-						}
 
-					}
+						}
+                        
+
+                    }
+					
 					else if (hitObject == null)
 					{
 						return;
 					}
+					Debug.Log(hit.collider.gameObject.tag);
 				}
 			}
 			if (Input.GetMouseButtonUp(0) && SelectDice != null)
@@ -190,8 +205,9 @@ public class Dice : MonoBehaviour
 			if (inSlot[i] == false)
 			{
 				// 슬롯에서 뺐을때 주사위 위치를 지정해주기 위해서 현재 주사위 위치를 저장
-				GameManager.gamemanager.conditionDice.Remove(SelectDice.gameObject);
+				//GameManager.gamemanager.conditionDice.Remove(SelectDice.gameObject);
 				// 주사위 위치를 슬롯으로 이동
+
 				SelectDice.transform.position = GameManager.Slut[i].transform.position;
 				inSlot[i] = true;
 				break;
@@ -199,4 +215,12 @@ public class Dice : MonoBehaviour
 			
 		}
 	}
+	void PopSlot(RaycastHit hit)
+	{
+		Debug.Log("이게 왜 발동이 될까요");
+
+		GameManager.gamemanager.conditionDice.Add(SelectDice.gameObject);
+
+		SelectDice.GetComponent<Dice>().SetDice = false;
+    }
 }

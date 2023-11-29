@@ -320,7 +320,6 @@ GameObject:
   - component: {fileID: 6325639501797273997}
   - component: {fileID: 6371469521484480717}
   - component: {fileID: 1169763493}
-  - component: {fileID: 1169763488}
   - component: {fileID: 8637253160402980606}
   m_Layer: 0
   m_Name: Dice
@@ -424,18 +423,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &1169763488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5533186630172643416}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a455f216052776c40b2f8b504f0e6003, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8637253160402980606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -448,11 +435,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fc2cf6a9b7373747a99e85e188ec6f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 0}
   SelectDice: {fileID: 0}
   isSelected: 0
   inSlot: 
   SetDice: 0
-  a: 0
-  conditiontransform: []
-  conditionDice: []
   timer: 0
