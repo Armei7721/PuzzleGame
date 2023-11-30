@@ -5,39 +5,49 @@ using UnityEngine;
 public class DiceNumberCheck : MonoBehaviour
 {
     Vector3 diceVelocity;
-
+    static int One=0;
+    static int two=0;
+    static int three = 0;
+    static int four = 0;
+    static int five = 0;
+    static int six = 0;
     private void FixedUpdate()
     {
-        diceVelocity = DiceRoll.diceVelocity;
     }
     private void Update()
     {
-        
+        Debug.Log(One);
+        Debug.Log(two);
+        Debug.Log(three);
+        Debug.Log(four);
+        Debug.Log(five);
+        Debug.Log(six);
+
     }
     // Start is called before the first frame update
     private void OnTriggerStay(Collider number)
     {
-        if(diceVelocity.x ==0f && diceVelocity.y == 0f && diceVelocity.z ==0f)
+        if(Dice.dice.SetDice)
         {
             switch (number.gameObject.name)
             {
                 case "One":
-                    DiceNumberText.diceNumber = 1;
+                    One += 1;
                     break;
                 case "Two":
-                    DiceNumberText.diceNumber = 2;
+                    two += 1;
                     break;
                 case "Three":
-                    DiceNumberText.diceNumber = 3;
+                    three += 1;
                     break;
                 case "Four":
-                    DiceNumberText.diceNumber = 4;
+                    four += 1;
                     break;
                 case "Five":
-                    DiceNumberText.diceNumber = 5;
+                    five += 1;
                     break;
                 case "Six":
-                    DiceNumberText.diceNumber = 6;
+                    six += 1;
                     break;
                 
 

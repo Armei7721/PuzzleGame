@@ -12,15 +12,12 @@ public class GameManager : MonoBehaviour
     public GameObject[] players; // 플레이어들을 배열로 저장
 
     public static GameObject[] Slut;
+    public GameObject[] slots;
     public bool shakedice;
     public bool selectdice;
 
     public GameObject[] conditiontransform;
     public List<GameObject> conditionDice = new List<GameObject>();
-
-    public bool[] inSlot;
-    public bool[] outSlot;
-
     private void Awake()
     {
         gamemanager = this;
@@ -29,8 +26,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        inSlot = new bool[] { false, false, false, false, false };
-        outSlot = new bool[] { true, true, true, true, true };
+
+      
         ConditionDice();
         InsertDice();
         SlutEquip();
@@ -41,7 +38,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        ClickDice();
     }
 
     IEnumerator StartTurns()
@@ -140,5 +137,49 @@ public class GameManager : MonoBehaviour
         }
     }
 
-   
+    public void ClickDice()
+    {
+        if (Dice.dice.rb.IsSleeping() && Dice.hasLanded && Dice.thrown)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Dice.dice.ClickDice();
+                
+            }
+           
+        }
+        if (Input.GetMouseButtonUp(0) && Dice.dice.SelectDice != null)
+        {
+            Dice.dice.SelectDice.GetComponent<Dice>().isSelected = false;
+            Dice.dice.SelectDice = null;
+            // 다른 작업 수행...
+        }
+    }
+    public void PlaceDiceInSlot(GameObject diceObject)
+    {
+        int emptySlotIndex = FindEmptySlotIndex(); // 빈 슬롯 인덱스 찾기
+        if (emptySlotIndex != -1)
+        {
+            // 빈 슬롯이 있으면 해당 슬롯에 주사위를 넣음
+            slots[emptySlotIndex] = diceObject;
+            diceObject.transform.position = Slut[emptySlotIndex].transform.position;
+            // 슬롯 상태를 채워짐으로 변경하거나 필요에 따라 관리
+        }
+    }
+
+    // 빈 슬롯 인덱스를 찾는 함수
+    private int FindEmptySlotIndex()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            // 슬롯이 비어있는지 확인하고 빈 슬롯의 인덱스 반환
+            if (slots[i]== null)
+            {
+                return i; // 비어 있는 슬롯의 인덱스 반환
+            }
+        }
+        return -1; // 빈 슬롯을 찾지 못한 경우 -1 반환
+    }
+
+    
 }
