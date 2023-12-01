@@ -13,7 +13,7 @@ public class Dice : MonoBehaviour
 	public GameObject SelectDice; // 현재 선택된 다이스
 	public bool isSelected;
 
-	public static int diceValue; // 주사위의 눈을 담을 변수
+	public int diceValue; // 주사위의 눈을 담을 변수
 	public Vector3 MouseDownPos;  // 마우스 클릭 위치
 	
 
@@ -197,5 +197,15 @@ public class Dice : MonoBehaviour
         }
 
     }
+	public void SetDiceValue(int value)
+	{
+		diceValue = value;
+	}
 
+	// 눈 값 반환 함수
+	public int GetDiceValue()
+	{
+		return diceValue;
+	}
+	
 }

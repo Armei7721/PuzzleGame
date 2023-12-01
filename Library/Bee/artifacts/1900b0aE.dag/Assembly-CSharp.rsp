@@ -375,6 +375,7 @@
 "Assets/resource/Dice/Scripts/DiceNumberText.cs"
 "Assets/resource/Dice/Scripts/DiceRoll.cs"
 "Assets/resource/Dice/Scripts/GameManager.cs"
+"Assets/resource/Dice/Scripts/RuleScripts.cs"
 "Assets/resource/Puzzle/Scripts/DragAndDrop.cs"
 "Assets/resource/Puzzle/Scripts/HintScript.cs"
 "Assets/resource/Puzzle/Scripts/PieceScript.cs"

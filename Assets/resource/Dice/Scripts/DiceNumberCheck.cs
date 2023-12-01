@@ -4,56 +4,67 @@ using UnityEngine;
 
 public class DiceNumberCheck : MonoBehaviour
 {
+    public static DiceNumberCheck diceNumberCheck;
+    public int dicenum;
     Vector3 diceVelocity;
-    static int One=0;
-    static int two=0;
-    static int three = 0;
-    static int four = 0;
-    static int five = 0;
-    static int six = 0;
-    private void FixedUpdate()
+
+    public void Start()
     {
+        diceNumberCheck = this;
     }
     private void Update()
     {
-        Debug.Log(One);
-        Debug.Log(two);
-        Debug.Log(three);
-        Debug.Log(four);
-        Debug.Log(five);
-        Debug.Log(six);
-
+        CheckNumber();
+        
     }
-    // Start is called before the first frame update
-    private void OnTriggerStay(Collider number)
+
+    public void CheckNumber()
     {
-        if(Dice.dice.SetDice)
+        for (int i = 0; i < GameManager.gamemanager.slots.Length; i++)
+        {
+            if (GameManager.gamemanager.slots[i] != null)
+            {
+                Dice currentDice = GameManager.gamemanager.slots[i].gameObject.GetComponent<Dice>();
+                if (currentDice != null && currentDice.SetDice)
+                {
+                    //Debug.Log(GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue + "  " + GameManager.gamemanager.slots[i] + "번째의 눈값입니다.");
+                    dicenum = GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
+                }
+            }
+            else
+            {
+                break;
+            }    
+        }
+        //Debug.Log(dicenum+"의 값");
+    }
+    private void OnTriggerEnter(Collider number)
+    {
+        Dice currentDice = number.gameObject.GetComponentInParent<Dice>();
+        if (currentDice != null)
         {
             switch (number.gameObject.name)
             {
                 case "One":
-                    One += 1;
+                    currentDice.SetDiceValue(1);
                     break;
                 case "Two":
-                    two += 1;
+                    currentDice.SetDiceValue(2);
                     break;
                 case "Three":
-                    three += 1;
+                    currentDice.SetDiceValue(3);
                     break;
                 case "Four":
-                    four += 1;
+                    currentDice.SetDiceValue(4);
                     break;
                 case "Five":
-                    five += 1;
+                    currentDice.SetDiceValue(5);
                     break;
                 case "Six":
-                    six += 1;
+                    currentDice.SetDiceValue(6);
                     break;
-                
-
-
             }
-            
         }
     }
+
 }
