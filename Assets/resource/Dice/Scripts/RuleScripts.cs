@@ -6,142 +6,311 @@ public class RuleScripts : MonoBehaviour
 {
     public int kind = 0;
     public int[] diceValues = new int[5];
+    Dictionary<int, int> counts = new Dictionary<int, int>();
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             Debug.Log("발동");
-            FourOfKind();
+            //FourOfKind();
+            CalculateScore();
+            FullHouse();
+            DiceSort();
+            One();
+            Two();
+            Three();
+            Four();
+            Five();
+            Six();
+            Choice();
         }
+
     }
-    public int One()
+    public void DiceSort()
     {
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < GameManager.gamemanager.slots.Length; i++)
         {
-            if (GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue == 1)
+            if (GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue != null)
             {
-                DiceNumberCheck.diceNumberCheck.dicenum += GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
+                diceValues[i] = GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
             }
         }
-        return DiceNumberCheck.diceNumberCheck.dicenum;
+        Array.Sort(diceValues);
+
+
+    }
+    public void One()
+    {
+        int score = 0; // score 변수를 0으로 초기화
+
+        foreach (int value in diceValues)
+        {
+            if (value == 1)
+            {
+                if (counts.ContainsKey(value))
+                {
+                    counts[value]++;
+                    score += value; // counts[value] 대신 value 값을 누적하여 score에 추가
+                }
+                else
+                {
+                    counts[value] = 1;
+                    score = value; // counts[value]가 새로 추가되는 경우에도 value 값을 누적하여 score에 추가
+                }
+            }
+        }
+
+        Debug.Log("1의 값은 몇인가: " + score);
+
     }
     public void Two()
     {
-        
-        for (int i = 0; i < 5; i++)
+
+        int score = 0; // score 변수를 0으로 초기화
+
+        foreach (int value in diceValues)
         {
-            if (GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue == 2)
+            if (value == 2)
             {
-                DiceNumberCheck.diceNumberCheck.dicenum += GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
+                if (counts.ContainsKey(value))
+                {
+                    counts[value]++;
+                    score += value; // counts[value] 대신 value 값을 누적하여 score에 추가
+                }
+                else
+                {
+                    counts[value] = 1;
+                    // counts[value]가 새로 추가되는 경우에도 value 값을 누적하여 score에 추가
+                }
             }
         }
-        Debug.Log(DiceNumberCheck.diceNumberCheck.dicenum);
+        Debug.Log("2의 값은 몇인가: " + score);
     }
     public void Three()
     {
 
-        for (int i = 0; i < 5; i++)
+        int score = 0; // score 변수를 0으로 초기화
+
+        foreach (int value in diceValues)
         {
-            if (GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue == 3)
+            if (value == 3)
             {
-                DiceNumberCheck.diceNumberCheck.dicenum += GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
+                if (counts.ContainsKey(value))
+                {
+                    counts[value]++;
+                    score += value; // counts[value] 대신 value 값을 누적하여 score에 추가
+                }
+                else
+                {
+                    counts[value] = 1;
+                    // counts[value]가 새로 추가되는 경우에도 value 값을 누적하여 score에 추가
+                }
             }
-            
         }
-        Debug.Log(DiceNumberCheck.diceNumberCheck.dicenum);
+        Debug.Log("3의 값은 몇인가: " + score);
     }
     public void Four()
     {
 
-        for (int i = 0; i < 5; i++)
+        int score = 0; // score 변수를 0으로 초기화
+
+        foreach (int value in diceValues)
         {
-            if (GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue == 4)
+            if (value == 4)
             {
-                DiceNumberCheck.diceNumberCheck.dicenum += GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
+                if (counts.ContainsKey(value))
+                {
+                    counts[value]++;
+                    score += value; // counts[value] 대신 value 값을 누적하여 score에 추가
+                }
+                else
+                {
+                    counts[value] = 1;
+                    // counts[value]가 새로 추가되는 경우에도 value 값을 누적하여 score에 추가
+                }
             }
         }
-        Debug.Log(DiceNumberCheck.diceNumberCheck.dicenum);
+        Debug.Log("4의 값은 몇인가: " + score);
     }
     public void Five()
     {
-        for (int i = 0; i < 5; i++)
+        int score = 0; // score 변수를 0으로 초기화
+
+        foreach (int value in diceValues)
         {
-            if (GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue == 5)
+            if (value == 5)
             {
-                DiceNumberCheck.diceNumberCheck.dicenum += GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
+                if (counts.ContainsKey(value))
+                {
+                    counts[value]++;
+                    score += value; // counts[value] 대신 value 값을 누적하여 score에 추가
+                }
+                else
+                {
+                    counts[value] = 1;
+                    // counts[value]가 새로 추가되는 경우에도 value 값을 누적하여 score에 추가
+                }
             }
         }
-        Debug.Log(DiceNumberCheck.diceNumberCheck.dicenum);
+        Debug.Log("5의 값은 몇인가: " + score);
     }
     public void Six()
     {
-        for (int i = 0; i < 5; i++)
+        int score = 0; // score 변수를 0으로 초기화
+
+        foreach (int value in diceValues)
         {
-            if (GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue == 6)
+            if (value == 6)
             {
-                DiceNumberCheck.diceNumberCheck.dicenum += GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
+                if (counts.ContainsKey(value))
+                {
+                    counts[value]++;
+                    score += value; // counts[value] 대신 value 값을 누적하여 score에 추가
+                }
+                else
+                {
+                    counts[value] = 1;
+                    // counts[value]가 새로 추가되는 경우에도 value 값을 누적하여 score에 추가
+                }
             }
         }
-        Debug.Log(DiceNumberCheck.diceNumberCheck.dicenum);
+        Debug.Log("6의 값은 몇인가: " + score);
     }
 
     public void Choice()
     {
-        for (int i = 0; i < 5; i++)
-        {          
+        int score = 0;
+        foreach (int value in diceValues)
+        {
             
-            DiceNumberCheck.diceNumberCheck.dicenum += GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;            
+                if (counts.ContainsKey(value))
+                {
+                    counts[value]++;
+                    score += value; // counts[value] 대신 value 값을 누적하여 score에 추가
+                }
+                else
+                {
+                    counts[value] = 1;
+                    // counts[value]가 새로 추가되는 경우에도 value 값을 누적하여 score에 추가
+                }
+           
         }
-        Debug.Log(DiceNumberCheck.diceNumberCheck.dicenum);
+        Debug.Log("choice의 값은 몇인가: " + score);
     }
 
-    public void FourOfKind()
+    public int CalculateFourOfAKind(int[] diceValues)
     {
-        for (int i = 0; i < 5; i++)
-        {            
-            diceValues[i] = GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;         
-        }
-        Array.Sort(diceValues);
+       
 
-        for (int i = 0; i < 4; i++)
+        // 각 주사위 눈금 값의 개수 카운트
+        foreach (int value in diceValues)
         {
-            if (diceValues[i] == diceValues[i + 1])
+            if (counts.ContainsKey(value))
             {
-                kind++;
+                counts[value]++;
             }
-            //else if (diceValues[(i + 1)] == diceValues[(i+1)+1])
-            //{
-            //    kind++;
-            //}
+            else
+            {
+                counts[value] = 1;
+            }
         }
-        if(kind==3 || kind ==4)
+
+        int score = 0;
+        bool fourOfAKindFound = false;
+
+        // 주사위 눈금 값 중 4개가 같은 경우 점수 계산
+        foreach (var pair in counts)
         {
-            for(int i= 0; i <= ((kind %2)+2); i++)
+            if (pair.Value >= 4)
             {
-                DiceNumberCheck.diceNumberCheck.dicenum+= GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
-                
+                fourOfAKindFound = true;
+                score = pair.Key * 4; // 4개의 주사위 눈금 값과 동일한 값으로 점수 계산
+                break;
             }
-            Debug.Log(DiceNumberCheck.diceNumberCheck.dicenum);
+        }
+
+        // 4개의 주사위가 같은 값일 때만 해당하는 점수를 반환
+        return fourOfAKindFound ? score : 0;
+    }
+
+    // 예시 사용법
+    void CalculateScore()
+    {
+
+        int[] diceValues = new int[GameManager.gamemanager.slots.Length];
+        for (int i = 0; i < GameManager.gamemanager.slots.Length; i++)
+        {
+            // 각 주사위의 눈금 값을 배열에 저장
+            diceValues[i] = GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
+        }
+        int score = CalculateFourOfAKind(diceValues);
+
+        if (score > 0)
+        {
+            Debug.Log("Four of a Kind! Score: " + score);
+        }
+        else
+        {
+            Debug.Log("No Four of a Kind. Score: 0");
         }
     }
     public void FullHouse()
     {
-        for(int i = 0; i < 5; i++)
+        bool threeOfKind = false;
+        bool pair = false;
+        bool fivecard = true;
+        foreach (int value in diceValues)
         {
-           
+            if (counts.ContainsKey(value))
+            {
+                counts[value]++;
+            }
+            else
+            {
+                counts[value] = 1;
+            }
+        }
+        // counts 딕셔너리의 값 확인하여 풀하우스 여부 판별
+        foreach (var kvp in counts)
+        {
+            if (kvp.Value == 3) // 값이 3번 출현했는지 확인하여 threeOfKind를 true로 설정
+            {
+                Debug.Log(counts + "이건 counts의 값");
+                Debug.Log(kvp);
+                threeOfKind = true;
+            }
+            else if (kvp.Value == 2) // 값이 2번 출현했는지 확인하여 pair를 true로 설정
+            {
+                pair = true;
+            }
+            else if (kvp.Value ==5)
+            {
+                fivecard = true;
+            }
+        }
+
+        // 풀하우스 여부에 따라 결과 출력
+        if (threeOfKind && pair ||fivecard)
+        {
+            Debug.Log("Full House! Score: 25");
+        }
+        else
+        {
+            Debug.Log("No Full House. Score: 0");
         }
     }
+
     public void SMS()
     {
-
+        
     }
     public void LGS()
     {

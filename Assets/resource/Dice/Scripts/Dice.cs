@@ -150,7 +150,6 @@ public class Dice : MonoBehaviour
             {
                 return;
             }
-            Debug.Log(hit.collider.gameObject.tag);
         }
 	}
 
