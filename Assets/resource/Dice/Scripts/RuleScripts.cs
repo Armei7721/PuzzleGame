@@ -19,7 +19,6 @@ public class RuleScripts : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G))
         {
             Debug.Log("발동");
-            //FourOfKind();
             CalculateScore();
             FullHouse();
             DiceSort();
@@ -30,6 +29,9 @@ public class RuleScripts : MonoBehaviour
             Five();
             Six();
             Choice();
+            SMS();
+            LGS();
+            Yacht();
         }
 
     }
@@ -152,6 +154,7 @@ public class RuleScripts : MonoBehaviour
                 {
                     counts[value]++;
                     score += value; // counts[value] 대신 value 값을 누적하여 score에 추가
+                    
                 }
                 else
                 {
@@ -183,6 +186,10 @@ public class RuleScripts : MonoBehaviour
             }
         }
         Debug.Log("6의 값은 몇인가: " + score);
+    }
+    public void Bonus()
+    {
+
     }
 
     public void Choice()
@@ -266,7 +273,6 @@ public class RuleScripts : MonoBehaviour
     {
         bool threeOfKind = false;
         bool pair = false;
-        bool fivecard = true;
         foreach (int value in diceValues)
         {
             if (counts.ContainsKey(value))
@@ -291,16 +297,14 @@ public class RuleScripts : MonoBehaviour
             {
                 pair = true;
             }
-            else if (kvp.Value ==5)
-            {
-                fivecard = true;
-            }
+            
         }
 
         // 풀하우스 여부에 따라 결과 출력
-        if (threeOfKind && pair ||fivecard)
+        if (threeOfKind && pair)
         {
             Debug.Log("Full House! Score: 25");
+            Debug.Log(threeOfKind);
         }
         else
         {
@@ -310,14 +314,90 @@ public class RuleScripts : MonoBehaviour
 
     public void SMS()
     {
-        
+        int score = 0;
+        bool smallStraight = false;
+
+        // Small Straight 여부 판별
+        for (int i = 0; i < diceValues.Length - 1; i++)
+        {
+            // 연속된 숫자 확인
+            if (diceValues[i] == diceValues[i + 1] - 1)
+            {
+                smallStraight = true;
+            }
+            else if (diceValues[i] == diceValues[i + 1])
+            {
+                continue; // 같은 숫자인 경우도 다음 숫자로 이동
+            }
+            else
+            {
+                // 연속되지 않는 경우가 하나라도 있으면 Small Straight가 아님
+                smallStraight = false;
+                break;
+            }
+        }
+
+        // Small Straight인 경우 결과 출력
+        if (smallStraight)
+        {
+            Debug.Log("Small Straight! Score: [15]");
+        }
+        else
+        {
+            Debug.Log("No Small Straight. Score: 0");
+        }
     }
     public void LGS()
     {
-
+        int score = 0;
+        foreach (int value in diceValues)
+        {
+            if (counts.ContainsKey(value))
+            {
+                counts[value]++;
+             
+            }
+            else
+            {
+                counts[value] = 1;
+                if (counts[value] == 1)
+                {
+                    score =30;
+                }
+            }
+        }
+        
+        Debug.Log("LargeStraight : "+score);
     }
     public void Yacht()
     {
+        int score = 0;
 
+        foreach (int value in diceValues)
+        {
+            if (counts.ContainsKey(value))
+            {
+                counts[value]++;
+            }
+            else
+            {
+                counts[value] = 1;
+            }
+        }
+
+        bool found = false;
+        foreach (var pair in counts)
+        {
+            if (pair.Value >= 5) // 5회 이상 등장하는지 확인
+            {
+                found = true;
+                break;
+            }
+        }
+
+        score = found ? 50 : 0; // 5개의 주사위 눈금 값과 동일한 값이 있으면 50 반환, 아니면 0 반환
+        Debug.Log(score + " Yacht 값");
     }
+
+
 }

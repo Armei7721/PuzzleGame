@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject Wall;
     public static GameManager gamemanager;
     public bool Selectable = false;
     private int currentPlayerIndex = 0;

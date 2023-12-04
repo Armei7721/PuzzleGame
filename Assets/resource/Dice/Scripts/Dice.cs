@@ -63,6 +63,7 @@ public class Dice : MonoBehaviour
 			timer += Time.deltaTime;
 			if (timer >= 2.0f)
 			{
+				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
 
 				for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
 				{
@@ -74,8 +75,8 @@ public class Dice : MonoBehaviour
 						rb.isKinematic = true;
 					}
 				}
-				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
-
+				
+				
 				if (timer >= 3.0f && a == 0)
 				{
 					for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
@@ -158,11 +159,22 @@ public class Dice : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.R)) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
 		{
 
-			if (SetDice != false)
+			if (SetDice == false)
 			{
+				for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
+				{
+					GameObject diceObject = GameManager.gamemanager.conditionDice[i];
+					Rigidbody rb = diceObject.GetComponent<Rigidbody>();
+
+					if (rb != null)
+					{
+						rb.isKinematic = false;
+					}
+				}
 				GameManager.gamemanager.selectdice = false;
 				thrown = false;
 				hasLanded = false;
+				GameManager.gamemanager.Wall.SetActive(true);
 				transform.position = initPosition;
 				diceValue = 0;
 			}

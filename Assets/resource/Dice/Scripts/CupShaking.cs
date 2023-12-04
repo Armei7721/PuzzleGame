@@ -21,7 +21,7 @@ public class CupShaking : MonoBehaviour
     float delayTime = 1.0f;
     float delayTimer = 0;
     public static int rollChance;  // 주사위를 굴릴 수 있는 횟수
-    public GameObject Wall;
+    
     //public TMP_Text rollChanceText;
 
     //public AudioSource shakeAudioSource;
@@ -43,7 +43,7 @@ public class CupShaking : MonoBehaviour
         // Space 키를 누르면 머그컵을 회전시킴
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Wall.SetActive(false);
+            GameManager.gamemanager.Wall.SetActive(false);
             if (rotate == false)
             {
                 if (rollChance > 0)
