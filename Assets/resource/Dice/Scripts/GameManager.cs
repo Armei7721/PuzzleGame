@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject Wall;
@@ -182,5 +182,11 @@ public class GameManager : MonoBehaviour
         return -1; // 빈 슬롯을 찾지 못한 경우 -1 반환
     }
 
-    
+    private void Escape()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
 }

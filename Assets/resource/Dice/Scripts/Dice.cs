@@ -21,7 +21,6 @@ public class Dice : MonoBehaviour
 	public bool SetDice = false;
 	int a = 0;
 	public float timer;
-
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -63,8 +62,7 @@ public class Dice : MonoBehaviour
 			timer += Time.deltaTime;
 			if (timer >= 2.0f)
 			{
-				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
-
+				gameObject.GetComponent<Dice>().transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
 				for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
 				{
 					GameObject diceObject = GameManager.gamemanager.conditionDice[i];
@@ -176,6 +174,7 @@ public class Dice : MonoBehaviour
 				hasLanded = false;
 				GameManager.gamemanager.Wall.SetActive(true);
 				transform.position = initPosition;
+				timer = 0;
 				diceValue = 0;
 			}
 		}
