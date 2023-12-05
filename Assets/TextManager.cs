@@ -32,7 +32,7 @@ public class TextManager : MonoBehaviour
     }
     public void InsertText()
     {
-        GameObject parentObject = GameObject.Find("TextArray");
+        GameObject parentObject = GameObject.Find("ScoreText");
         if (parentObject != null)
         {
            

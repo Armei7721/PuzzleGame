@@ -359,7 +359,7 @@ public class RuleScripts : MonoBehaviour
         bool found = false;
         foreach (var pair in counts)
         {
-            if (pair.Value > 5) // 5회 이상 등장하는지 확인
+            if (pair.Value >  5) // 5회 이상 등장하는지 확인
             {
                 found = true;
                 break;

@@ -31,6 +31,7 @@ public class Dice : MonoBehaviour
 		initPosition = transform.position;
 		thrown = false;
 		resetPosition = false;
+		
 	}
 
 	// Update is called once per frame
@@ -41,10 +42,23 @@ public class Dice : MonoBehaviour
 	}
 	public void RollDice()
 	{
+		GameObject[] diceObjects = GameObject.FindGameObjectsWithTag("Dice");
 		if (!thrown && !hasLanded)
 		{
 			thrown = true;
-			rb.AddForce(Random.Range(3000, 4000), 0, Random.Range(2500, 4500));
+			foreach (GameObject diceObject in diceObjects)
+			{
+				Rigidbody rb = diceObject.GetComponent<Rigidbody>();
+
+				if (rb != null)
+				{
+					rb.AddForce(Random.Range(-10000, -12000), 0, Random.Range(-6500, 2500));
+				}
+				else
+				{
+					Debug.LogWarning("Rigidbody 컴포넌트를 찾을 수 없습니다.");
+				}
+			}
 		}
 	}
 	public void Throw()
@@ -62,7 +76,7 @@ public class Dice : MonoBehaviour
 			timer += Time.deltaTime;
 			if (timer >= 2.0f)
 			{
-				gameObject.GetComponent<Dice>().transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
+				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
 				for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
 				{
 					GameObject diceObject = GameManager.gamemanager.conditionDice[i];
@@ -110,7 +124,6 @@ public class Dice : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            //Debug.DrawLine(ray.origin, hit.point, Color.red, 1.0f);
             GameObject hitObject = hit.transform.gameObject;
             if (hitObject.CompareTag("Dice"))
             {
