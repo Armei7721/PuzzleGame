@@ -5,7 +5,7 @@ using TMPro;
 
 public class CupShaking : MonoBehaviour
 {
-   
+    Animator animator;
     public static CupShaking cupshaking;
     float rotationTime = 0f;
     float rotationTimer = 0;
@@ -29,6 +29,7 @@ public class CupShaking : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         cupshaking = this;
         mugRb = GetComponent<Rigidbody>(); // 머그컵의 Rigidbody 가져오기
         mugDir = Vector3.zero; // 초기화
