@@ -5,8 +5,10 @@ using TMPro;
 
 public class TextManager : MonoBehaviour
 {
+    public bool dicideDice;
+    
     public TextMeshProUGUI[] arraytextmeshpro;
-    string[] methodNames = { "One", "Two", "Three", "Four", "Five", "Six", "SubTotalPoint" ,"Choice","FourOfAKind","FullHouse","SMS","LGS","Yacht"};
+    string[] methodNames = { "One", "Two", "Three", "Four", "Five", "Six", "SubTotalPoint" ,"Choice","FourOfAKind","FullHouse","SMS","LGS","Yacht","TotalScore"};
     public TextMeshProUGUI rollChance;
     // Start is called before the first frame update
     void Start()

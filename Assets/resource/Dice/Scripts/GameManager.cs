@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         ClickDice();
+        Escape();
     }
 
     IEnumerator StartTurns()

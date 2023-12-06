@@ -63,7 +63,6 @@ public class Dice : MonoBehaviour
 	}
 	public void Throw()
 	{
-		//timer += Time.deltaTime;
 		if (rb.IsSleeping() && !hasLanded && thrown)
 		{
 
@@ -73,6 +72,7 @@ public class Dice : MonoBehaviour
 		}
 		if (rb.IsSleeping() && hasLanded && thrown && !SetDice)
 		{
+			
 			timer += Time.deltaTime;
 			if (timer >= 2.0f)
 			{

@@ -35,57 +35,31 @@ public class RuleScripts : MonoBehaviour
             SMS();
             LGS();
             Yacht();
+            
         }
 
     }
     public void DiceSort()
     {
-        
-            for (int i = 0; i < GameManager.gamemanager.slots.Length; i++)
-            {
-                if (GameManager.gamemanager.slots[i] != null)
+
+        for (int i = 0; i < GameManager.gamemanager.slots.Length; i++)
+        {
+            if (GameManager.gamemanager.slots[i] != null)
             {
                 diceValues[i] = GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
-                }
-            }
-            
-        
-
-    }
-    public int FourOfAKind()
-    {
-
-        // 각 주사위 눈금 값의 개수 카운트
-        foreach (int value in diceValues)
-        {
-            if (counts.ContainsKey(value))
-            {
-                counts[value]++;
             }
             else
             {
-                counts[value] = 1;
+                diceValues[i] = 0; // 슬롯이 비어있는 경우 0 또는 다른 기본값 설정
             }
         }
 
-        int score = 0;
-        bool fourOfAKindFound = false;
-
-        // 주사위 눈금 값 중 4개가 같은 경우 점수 계산
-        foreach (var pair in counts)
-        {
-            if (pair.Value >= 4)
-            {
-                fourOfAKindFound = true;
-                score = pair.Key * 4; // 4개의 주사위 눈금 값과 동일한 값으로 점수 계산
-                break;
-            }
-        }
-
-        // 4개의 주사위가 같은 값일 때만 해당하는 점수를 반환
-        return fourOfAKindFound ? score : 0;
+        Array.Sort(diceValues);
         
+        
+
     }
+   
     public int One()
     {
         int score = 0; // score 변수를 0으로 초기화
@@ -232,7 +206,10 @@ public class RuleScripts : MonoBehaviour
         {
             score = One() + Two() + Three() + Four() + Five() + Six() + 35;
         }
-
+        else
+        {
+            score = One() + Two() + Three() + Four() + Five() + Six();
+        }
         return score;
     }
     public int Choice()
@@ -256,56 +233,88 @@ public class RuleScripts : MonoBehaviour
 
     }
 
+        public int FourOfAKind()
+        {
 
+            // 각 주사위 눈금 값의 개수 카운트
+            foreach (int value in diceValues)
+            {
+                if (counts.ContainsKey(value))
+                {
+                    counts[value]++;
+                }
+                else
+                {
+                    counts[value] = 1;
+                }
+            }
 
-    // 예시 사용법
+            int score = 0;
+            bool fourOfAKindFound = false;
+
+            // 주사위 눈금 값 중 4개가 같은 경우 점수 계산
+            foreach (var pair in counts)
+            {
+                if (pair.Value >= 4)
+                {   
+                    fourOfAKindFound = true;
+                    score = pair.Key * 4; // 4개의 주사위 눈금 값과 동일한 값으로 점수 계산
+                    break;
+                }
+            }
+
+            // 4개의 주사위가 같은 값일 때만 해당하는 점수를 반환
+            return fourOfAKindFound ? score : 0;
+
+        }
 
     public int FullHouse()
-    {  
-        bool threeOfKind = false;
-        bool pair = false;
-        foreach (int value in diceValues)
-        {
-            if (counts.ContainsKey(value))
-            {
-                counts[value]++;
-            }
-            else
-            {
-                counts[value] = 1;
-            }
-        }
-        // counts 딕셔너리의 값 확인하여 풀하우스 여부 판별
-        foreach (var kvp in counts)
-        {
-            if (kvp.Value == 3) // 값이 3번 출현했는지 확인하여 threeOfKind를 true로 설정
-            {
-                threeOfKind = true;
-            }
-            else if (kvp.Value == 2) // 값이 2번 출현했는지 확인하여 pair를 true로 설정
-            {
-                pair = true;
-            }
+    {
+        bool threeOfAKind = false;
+        bool twoOfAKind = false;
 
+        // 순회하면서 풀하우스인지 확인합니다.
+        for (int i = 0; i < diceValues.Length - 2; i++)
+        {
+            // 세 개의 동일한 눈을 찾습니다.
+            if (diceValues[i] != 0 && diceValues[i] == diceValues[i + 1] && diceValues[i + 1] == diceValues[i + 2])
+            {
+                threeOfAKind = true;
+                i += 2; // 이미 세 개의 눈을 찾았으므로 인덱스를 조정합니다.
+            }
+            // 두 개의 동일한 눈을 찾습니다.
+            else if (diceValues[i] != 0 && i < diceValues.Length - 1 && diceValues[i] == diceValues[i + 1])
+            {
+                twoOfAKind = true;
+                i++; // 두 개의 눈을 찾았으므로 인덱스를 조정합니다.
+            }
         }
-        
-        return threeOfKind && pair ? 25 : 0;
+
+        return threeOfAKind && twoOfAKind ? 25 : 0; // 풀하우스인 경우 25를 반환합니다.
     }
+
 
     public int SMS()
     {
         int score = 0;
+        int straight = 0;
         bool smallStraight = false;
 
         // Small Straight 여부 판별
         for (int i = 0; i < diceValues.Length - 1; i++)
         {
             // 연속된 숫자 확인
-            if (diceValues[i] == diceValues[i + 1] - 1)
+            if (diceValues[i] != 0 && diceValues[i] == diceValues[i + 1] - 1)
             {
-                smallStraight = true;
+                Debug.Log(diceValues[i] + " diceValues상태");
+                Debug.Log(diceValues[i + 1] - 1 + " diceValues[i + 1] - 1상태");
+                straight++;
+                if (straight >= 3)
+                {
+                    smallStraight = true;
+                }
             }
-            else if (diceValues[i] == diceValues[i + 1])
+            else if (diceValues[i] != 0 && diceValues[i] == diceValues[i + 1])
             {
                 continue; // 같은 숫자인 경우도 다음 숫자로 이동
             }
@@ -316,59 +325,72 @@ public class RuleScripts : MonoBehaviour
                 break;
             }
         }
-
+        score = smallStraight ? 15 : 0;
         return score;
     }
     public int LGS()
     {
         int score = 0;
-        foreach (int value in diceValues)
-        {
-            if (counts.ContainsKey(value))
-            {
-                counts[value]++;
+        int straight = 0;
+        bool largeStraight = false;
 
+        // Small Straight 여부 판별
+        for (int i = 0; i < diceValues.Length - 1; i++)
+        {
+            // 연속된 숫자 확인
+            if (diceValues[i] != 0 && diceValues[i] == diceValues[i + 1] - 1)
+            {
+                straight++;
+                if (straight >= 4)
+                {
+                    largeStraight = true;
+                }
             }
             else
             {
-                counts[value] = 1;
-                if (counts[value] == 1)
-                {
-                    score = 30;
-                }
+                // 연속되지 않는 경우가 하나라도 있으면 Small Straight가 아님
+                largeStraight = false;
+                break;
             }
         }
+        score = largeStraight ? 30 : 0;
         return score;
     }
     public int Yacht()
     {
+        Dictionary<int, int> countst = new Dictionary<int, int>();
         int score = 0;
-
+        bool found = false;
         foreach (int value in diceValues)
         {
-            if (counts.ContainsKey(value))
-            {
-                counts[value]++;
+            if (countst.ContainsKey(value))
+            {if (counts[value] != counts[0])
+                {
+                    countst[value]++;
+                }
             }
             else
             {
-                counts[value] = 1;
+                countst[value] = 1;
             }
         }
-
-        bool found = false;
-        foreach (var pair in counts)
+        foreach (var pair in countst)
         {
-            if (pair.Value >  5) // 5회 이상 등장하는지 확인
+            if (pair.Value >=  5) // 5회 이상 등장하는지 확인
             {
+                Debug.Log(pair);
                 found = true;
                 break;
+               
             }
         }
-
+        
         score = found ? 50 : 0; // 5개의 주사위 눈금 값과 동일한 값이 있으면 50 반환, 아니면 0 반환
         return score;
     }
-
+    public int TotalScore()
+    {
+        return SubTotalPoint() + Choice() + FourOfAKind() + FullHouse() + SMS() + LGS() + Yacht();
+    }
 
 }

@@ -44,7 +44,7 @@ public class CupShaking : MonoBehaviour
         // Space 키를 누르면 머그컵을 회전시킴
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameManager.gamemanager.Wall.SetActive(false);
+            
             if (rotate == false)
             {
                 if (rollChance > 0)
@@ -101,6 +101,7 @@ public class CupShaking : MonoBehaviour
             }
             else if(rotationTimer >1.0f)
             {
+                GameManager.gamemanager.Wall.SetActive(false);
                 Dice.dice.RollDice();
             }
             // rotationTimer가 0.8에서 0 사이에 있는지 확인합니다.
