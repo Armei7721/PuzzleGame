@@ -5,16 +5,25 @@ using TMPro;
 
 public class TextManager : MonoBehaviour
 {
+    public static TextManager text;
     public bool dicideDice;
     
     public TextMeshProUGUI[] arraytextmeshpro;
     string[] methodNames = { "One", "Two", "Three", "Four", "Five", "Six", "SubTotalPoint" ,"Choice","FourOfAKind","FullHouse","SMS","LGS","Yacht","TotalScore"};
     public TextMeshProUGUI rollChance;
+    public bool[] decide;
+    public bool[] isConfirmed;
     // Start is called before the first frame update
     void Start()
     {
+        text = this;
         InsertText();
-        
+        isConfirmed = new bool[arraytextmeshpro.Length];
+        for (int i = 0; i < isConfirmed.Length; i++)
+        {
+            isConfirmed[i] = false; // 초기에는 모든 점수가 미확정 상태입니다.
+        }
+
     }
 
     // Update is called once per frame
@@ -27,11 +36,16 @@ public class TextManager : MonoBehaviour
     public void Score()
     {
         for (int i = 0; i < arraytextmeshpro.Length; i++)
-        {
-            int score = (int)typeof(RuleScripts).GetMethod(methodNames[i]).Invoke(RuleScripts.rule, null);
-            arraytextmeshpro[i].text = score.ToString();
-        }
+        {if (!isConfirmed[i])
+            {
+                int score = (int)typeof(RuleScripts).GetMethod(methodNames[i]).Invoke(RuleScripts.rule, null);
+                arraytextmeshpro[i].text = score.ToString();
+            }
+            else
+                continue;
+         }
     }
+ 
     public void InsertText()
     {
         GameObject parentObject = GameObject.Find("ScoreText");
@@ -45,7 +59,7 @@ public class TextManager : MonoBehaviour
 
             // 첫 번째 요소는 부모 자신이므로 인덱스를 1부터 시작하여 자식 오브젝트들을 참조합니다.
             for (int i = 0; i < children.Length; i++)
-            {
+            {   
                 arraytextmeshpro[i] = children[i];
             }
         }
@@ -57,5 +71,32 @@ public class TextManager : MonoBehaviour
     public void RollChane()
     {
         rollChance.text = "Reroll Chance : "+CupShaking.rollChance.ToString();
+    }
+
+    public void ChangeDecideStatus(int index)
+    {
+        if (index >= 0 && index < isConfirmed.Length)
+        {
+            if (!isConfirmed[index]) // 점수가 아직 확정되지 않은 경우
+            {
+                isConfirmed[index] = true; // 해당 인덱스의 점수를 확정 상태로 변경합니다.
+                UpdateText(index); // 확정 상태의 텍스트 업데이트
+            }
+            else
+            {
+                Debug.Log("이미 확정된 점수입니다."); // 이미 확정된 점수인 경우 메시지 출력
+            }
+        }
+    }
+
+    public void UpdateText(int index)
+    {
+        // 현재는 간단히 점수를 업데이트하는 로직만 포함하도록 했습니다.
+        // 확정된 점수의 시각적인 변경은 여기에 추가할 수 있습니다.
+        if (index >= 0 && index < arraytextmeshpro.Length)
+        {
+            int score = (int)typeof(RuleScripts).GetMethod(methodNames[index]).Invoke(RuleScripts.rule, null);
+            arraytextmeshpro[index].text = score.ToString();
+        }
     }
 }

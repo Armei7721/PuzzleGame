@@ -34,6 +34,7 @@ public class CupShaking : MonoBehaviour
         mugRb = GetComponent<Rigidbody>(); // 머그컵의 Rigidbody 가져오기
         mugDir = Vector3.zero; // 초기화
         rollChance = 3; // 초기 주사위 굴릴 수 있는 횟수 설정
+        
     }
 
     void Update()

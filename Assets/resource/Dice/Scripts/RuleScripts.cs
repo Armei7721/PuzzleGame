@@ -7,11 +7,13 @@ public class RuleScripts : MonoBehaviour
     public static RuleScripts rule;
     public int kind = 0;
     public int[] diceValues;
+    public bool[] decide;
     Dictionary<int, int> counts = new Dictionary<int, int>();
     // Start is called before the first frame update
     void Start()
     {
         rule = this;
+        
     }
 
     // Update is called once per frame
@@ -306,8 +308,6 @@ public class RuleScripts : MonoBehaviour
             // 연속된 숫자 확인
             if (diceValues[i] != 0 && diceValues[i] == diceValues[i + 1] - 1)
             {
-                Debug.Log(diceValues[i] + " diceValues상태");
-                Debug.Log(diceValues[i + 1] - 1 + " diceValues[i + 1] - 1상태");
                 straight++;
                 if (straight >= 3)
                 {
