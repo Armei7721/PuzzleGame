@@ -13,17 +13,15 @@ public class RuleScripts : MonoBehaviour
     void Start()
     {
         rule = this;
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (GameManager.gamemanager.slots != null)
-        {
-           
-            
+        
+
             DiceSort();
             One();
             Two();
@@ -37,8 +35,8 @@ public class RuleScripts : MonoBehaviour
             SMS();
             LGS();
             Yacht();
-            
-        }
+
+         
 
     }
     public void DiceSort()
@@ -57,11 +55,11 @@ public class RuleScripts : MonoBehaviour
         }
 
         Array.Sort(diceValues);
-        
-        
+
+
 
     }
-   
+
     public int One()
     {
         int score = 0; // score 변수를 0으로 초기화
@@ -203,17 +201,30 @@ public class RuleScripts : MonoBehaviour
     }
     public int SubTotalPoint()
     {
-        int score = 0;
-        if (One() + Two() + Three() + Four() + Five() + Six() >= 63)
+        int totalScore = 0;
+        int sumOneToSix = 0;
+
+        for (int i = 0; i < 6; i++)
         {
-            score = One() + Two() + Three() + Four() + Five() + Six() + 35;
+            int score = (int)typeof(RuleScripts).GetMethod(TextManager.text.methodNames[i]).Invoke(RuleScripts.rule, null);
+            if (TextManager.text.isConfirmed[i])
+            {
+                sumOneToSix = TextManager.text.subtotal; // 각 메서드의 결과를 누적하여 계산
+            }
+        }
+
+        if (sumOneToSix >= 63)
+        {
+            totalScore = sumOneToSix + 35;
         }
         else
         {
-            score = One() + Two() + Three() + Four() + Five() + Six();
+            totalScore = sumOneToSix;
         }
-        return score;
+
+        return totalScore;
     }
+
     public int Choice()
     {
         int score = 0;
@@ -235,40 +246,40 @@ public class RuleScripts : MonoBehaviour
 
     }
 
-        public int FourOfAKind()
+    public int FourOfAKind()
+    {
+
+        // 각 주사위 눈금 값의 개수 카운트
+        foreach (int value in diceValues)
         {
-
-            // 각 주사위 눈금 값의 개수 카운트
-            foreach (int value in diceValues)
+            if (counts.ContainsKey(value))
             {
-                if (counts.ContainsKey(value))
-                {
-                    counts[value]++;
-                }
-                else
-                {
-                    counts[value] = 1;
-                }
+                counts[value]++;
             }
-
-            int score = 0;
-            bool fourOfAKindFound = false;
-
-            // 주사위 눈금 값 중 4개가 같은 경우 점수 계산
-            foreach (var pair in counts)
+            else
             {
-                if (pair.Value >= 4)
-                {   
-                    fourOfAKindFound = true;
-                    score = pair.Key * 4; // 4개의 주사위 눈금 값과 동일한 값으로 점수 계산
-                    break;
-                }
+                counts[value] = 1;
             }
-
-            // 4개의 주사위가 같은 값일 때만 해당하는 점수를 반환
-            return fourOfAKindFound ? score : 0;
-
         }
+
+        int score = 0;
+        bool fourOfAKindFound = false;
+
+        // 주사위 눈금 값 중 4개가 같은 경우 점수 계산
+        foreach (var pair in counts)
+        {
+            if (pair.Value >= 4)
+            {
+                fourOfAKindFound = true;
+                score = pair.Key * 4; // 4개의 주사위 눈금 값과 동일한 값으로 점수 계산
+                break;
+            }
+        }
+
+        // 4개의 주사위가 같은 값일 때만 해당하는 점수를 반환
+        return fourOfAKindFound ? score : 0;
+
+    }
 
     public int FullHouse()
     {
@@ -364,7 +375,8 @@ public class RuleScripts : MonoBehaviour
         foreach (int value in diceValues)
         {
             if (countst.ContainsKey(value))
-            {if (counts[value] != counts[0])
+            {
+                if (counts[value] != counts[0])
                 {
                     countst[value]++;
                 }
@@ -376,15 +388,15 @@ public class RuleScripts : MonoBehaviour
         }
         foreach (var pair in countst)
         {
-            if (pair.Value >=  5) // 5회 이상 등장하는지 확인
+            if (pair.Value >= 5) // 5회 이상 등장하는지 확인
             {
                 Debug.Log(pair);
                 found = true;
                 break;
-               
+
             }
         }
-        
+
         score = found ? 50 : 0; // 5개의 주사위 눈금 값과 동일한 값이 있으면 50 반환, 아니면 0 반환
         return score;
     }

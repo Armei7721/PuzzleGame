@@ -19,6 +19,12 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] conditiontransform;
     public List<GameObject> conditionDice = new List<GameObject>();
+
+    public bool throwPhase ;
+    public bool selectPhase;
+    public bool rerolllPhase;
+    public bool scorePhase;
+    public bool act;
     private void Awake()
     {
         gamemanager = this;
@@ -27,8 +33,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-      
+        throwPhase = true;
+        selectdice = false;
         ConditionDice();
         InsertDice();
         SlutEquip();
@@ -41,6 +47,8 @@ public class GameManager : MonoBehaviour
     {
         ClickDice();
         Escape();
+        StateChange();
+
     }
 
     IEnumerator StartTurns()
@@ -181,6 +189,25 @@ public class GameManager : MonoBehaviour
             }
         }
         return -1; // 빈 슬롯을 찾지 못한 경우 -1 반환
+    }
+    public void StateChange()
+    {
+        if(selectPhase && Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            selectPhase = false;
+            scorePhase = true;
+        }
+        else if(selectPhase && Input.GetKeyDown(KeyCode.RightArrow) && CupShaking.rollChance!=0)
+        {
+            selectPhase = false;
+            throwPhase = true;
+        }
+        else if(scorePhase && Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            selectPhase = true;
+            scorePhase = false;
+        }
+        
     }
 
     private void Escape()

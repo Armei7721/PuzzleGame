@@ -39,13 +39,13 @@ public class CupShaking : MonoBehaviour
 
     void Update()
     {
-       
+        Debug.Log(GameManager.gamemanager.throwPhase);
         //rollChanceText.text = "Roll Chance : " + rollChance.ToString(); // 주사위 굴릴 수 있는 횟수를 UI에 표시
 
         // Space 키를 누르면 머그컵을 회전시킴
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && GameManager.gamemanager.throwPhase)
         {
-            
+            Debug.Log(GameManager.gamemanager.throwPhase+" 내부");
             if (rotate == false)
             {
                 if (rollChance > 0)
@@ -55,11 +55,13 @@ public class CupShaking : MonoBehaviour
                     shakeCount = 0;
                     rollChance--;
                 }
+                GameManager.gamemanager.throwPhase = false;
             }
+           
         }
 
         // S 키를 누르면 머그컵을 흔들어서 주사위 굴릴 수 있는 횟수를 늘림
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) && GameManager.gamemanager.throwPhase)
         {
             if (shake == false )
             {
@@ -100,19 +102,19 @@ public class CupShaking : MonoBehaviour
                 // mugRb(Rigidbody)를 Z축을 중심으로 1초에 145도의 속도로 회전시킵니다.
                 mugRb.rotation = mugRb.rotation * Quaternion.Euler(0f, 0f, -175.0f * Time.deltaTime);
             }
-            else if(rotationTimer >1.0f)
+            else if(rotationTimer >1.5f)
             {
                 GameManager.gamemanager.Wall.SetActive(false);
                 Dice.dice.RollDice();
             }
             // rotationTimer가 0.8에서 0 사이에 있는지 확인합니다.
-            else if (rotationTimer < 0.8f && rotationTimer > 0f)
+            else if (rotationTimer < 1.4f && rotationTimer > 0.6f)
             {
                 // mugRb(Rigidbody)를 Z축을 중심으로 1초에 -145도의 속도로 회전시킵니다.
                 mugRb.rotation = mugRb.rotation * Quaternion.Euler(0f, 0f, 175.0f * Time.deltaTime);
             }
             // rotationTimer가 0 이하에 도달하면
-            if (rotationTimer >3.8f)
+            if (rotationTimer >4f)
             {
                 // 더 이상의 회전을 멈추기 위해 'rotate'를 false로 설정합니다.
                 rotate = false;
