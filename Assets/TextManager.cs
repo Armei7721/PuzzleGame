@@ -22,7 +22,14 @@ public class TextManager : MonoBehaviour
         isConfirmed = new bool[arraytextmeshpro.Length];
         for (int i = 0; i < isConfirmed.Length; i++)
         {
-            isConfirmed[i] = false; // 초기에는 모든 점수가 미확정 상태입니다.
+            if (i==6 && i == 13)
+            {
+                isConfirmed[i] = true; ; // 초기에는 모든 점수가 미확정 상태입니다.
+            }
+            else
+            {
+                isConfirmed[i] = false;
+            }
         }
 
     }
@@ -31,7 +38,7 @@ public class TextManager : MonoBehaviour
     void Update()
     {
         RollChane();
-        
+        TextColor();
         Score();
     }
  
@@ -49,6 +56,20 @@ public class TextManager : MonoBehaviour
          }
     }
  
+    public void TextColor()
+    {
+        for(int i = 0; i < arraytextmeshpro.Length; i++)
+        {
+            if(!isConfirmed[i] &&i!=6 && i!=13)
+            {
+                arraytextmeshpro[i].color = Color.gray;
+            }
+            else
+            {
+                arraytextmeshpro[i].color = Color.black;
+            }
+        }
+    }
     public void InsertText()
     {
         GameObject parentObject = GameObject.Find("ScoreText");
@@ -98,10 +119,16 @@ public class TextManager : MonoBehaviour
     {
         // 현재는 간단히 점수를 업데이트하는 로직만 포함하도록 했습니다.
         // 확정된 점수의 시각적인 변경은 여기에 추가할 수 있습니다.
-        if (index >= 0 && index < arraytextmeshpro.Length && methodNames[6] != methodNames[index] && methodNames[13] != methodNames[index])
+        if (index >= 0 && index < 6 && methodNames[6] != methodNames[index] && methodNames[13] != methodNames[index])
         {
             int score = (int)typeof(RuleScripts).GetMethod(methodNames[index]).Invoke(RuleScripts.rule, null);
             subtotal += score;
+            arraytextmeshpro[index].text = score.ToString();
+        }
+        else if(index >=6 && index <arraytextmeshpro.Length && methodNames[13] != methodNames[index] )
+        {
+            int score = (int)typeof(RuleScripts).GetMethod(methodNames[index]).Invoke(RuleScripts.rule, null);
+            haptotal += score;
             arraytextmeshpro[index].text = score.ToString();
         }
         else

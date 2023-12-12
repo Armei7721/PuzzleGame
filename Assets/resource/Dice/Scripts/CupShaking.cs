@@ -39,7 +39,7 @@ public class CupShaking : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(GameManager.gamemanager.throwPhase);
+    
         //rollChanceText.text = "Roll Chance : " + rollChance.ToString(); // 주사위 굴릴 수 있는 횟수를 UI에 표시
 
         // Space 키를 누르면 머그컵을 회전시킴

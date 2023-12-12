@@ -20,23 +20,23 @@ public class RuleScripts : MonoBehaviour
     void Update()
     {
 
-        
 
-            DiceSort();
-            One();
-            Two();
-            Three();
-            Four();
-            Five();
-            Six();
-            Choice();
-            FourOfAKind();
-            FullHouse();
-            SMS();
-            LGS();
-            Yacht();
 
-         
+        DiceSort();
+        One();
+        Two();
+        Three();
+        Four();
+        Five();
+        Six();
+        Choice();
+        FourOfAKind();
+        FullHouse();
+        SMS();
+        LGS();
+        Yacht();
+
+
 
     }
     public void DiceSort()
@@ -206,10 +206,11 @@ public class RuleScripts : MonoBehaviour
 
         for (int i = 0; i < 6; i++)
         {
-            int score = (int)typeof(RuleScripts).GetMethod(TextManager.text.methodNames[i]).Invoke(RuleScripts.rule, null);
+
             if (TextManager.text.isConfirmed[i])
             {
                 sumOneToSix = TextManager.text.subtotal; // 각 메서드의 결과를 누적하여 계산
+
             }
         }
 
@@ -402,7 +403,19 @@ public class RuleScripts : MonoBehaviour
     }
     public int TotalScore()
     {
-        return SubTotalPoint() + Choice() + FourOfAKind() + FullHouse() + SMS() + LGS() + Yacht();
-    }
+        int totalScore = 0;
 
+
+        for (int i = 6; i < TextManager.text.arraytextmeshpro.Length; i++)
+        {
+
+            if (TextManager.text.isConfirmed[i] || !TextManager.text.isConfirmed[6])
+            {
+                totalScore = TextManager.text.haptotal; // 각 메서드의 결과를 누적하여 계산
+
+            }
+        }
+        return totalScore;
+
+    }
 }

@@ -194,6 +194,7 @@ public class GameManager : MonoBehaviour
     {
         if(selectPhase && Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            Debug.Log(scorePhase);
             selectPhase = false;
             scorePhase = true;
         }
