@@ -25,9 +25,12 @@ public class TextHandler : MonoBehaviour
     }
     public void OnClick()
     {
-        textManager.ChangeDecideStatus(textIndex);
-        GameManager.gamemanager.act = true;
-        Dice.dice.ResetDice();
+            textManager.ChangeDecideStatus(textIndex);
+            GameManager.gamemanager.act = true;
+            Dice.dice.ResetDice();
+        
+          
+        
     }
    
 }

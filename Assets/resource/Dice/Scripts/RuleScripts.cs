@@ -411,7 +411,7 @@ public class RuleScripts : MonoBehaviour
 
             if (TextManager.text.isConfirmed[i] || !TextManager.text.isConfirmed[6])
             {
-                totalScore = TextManager.text.haptotal; // 각 메서드의 결과를 누적하여 계산
+                totalScore = TextManager.text.haptotal+TextManager.text.subtotal; // 각 메서드의 결과를 누적하여 계산
 
             }
         }

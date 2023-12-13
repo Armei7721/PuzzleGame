@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     public bool rerolllPhase;
     public bool scorePhase;
     public bool act;
+    public bool player1;
+    public bool player2;
+
     private void Awake()
     {
         gamemanager = this;
@@ -33,6 +36,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player1 = true;
+        player2 = false;
         throwPhase = true;
         selectdice = false;
         ConditionDice();
@@ -62,7 +67,14 @@ public class GameManager : MonoBehaviour
     IEnumerator PlayerTurn()
     {
         Debug.Log("Player " + (currentPlayerIndex + 1) + "'s turn");
+        if(player1==true)
+        {
 
+        }
+        else if(player2 ==true)
+        {
+
+        }
         // 여기에 해당 플레이어의 턴 동작을 추가
 
         // 예를 들어, 플레이어의 움직임이나 행동 등을 수행할 수 있습니다.
@@ -200,6 +212,8 @@ public class GameManager : MonoBehaviour
         }
         else if(selectPhase && Input.GetKeyDown(KeyCode.RightArrow) && CupShaking.rollChance!=0)
         {
+            Debug.Log(CupShaking.rollChance);
+            Dice.dice.ResetDice();
             selectPhase = false;
             throwPhase = true;
         }

@@ -38,7 +38,7 @@ public class Dice : MonoBehaviour
 	void Update()
 	{
 		Throw();
-		ResetDice();
+		//ResetDice();
 	}
 	public void RollDice()
 	{

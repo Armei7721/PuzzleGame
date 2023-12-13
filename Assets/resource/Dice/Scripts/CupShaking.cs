@@ -98,9 +98,9 @@ public class CupShaking : MonoBehaviour
             // rotationTimer가 2.6에서 1.8 사이에 있는지 확인합니다.
             if (rotationTimer < 3.6f && rotationTimer > 2.8f)
             {
-                animator.SetBool("diceAfter", true);
+                //animator.SetBool("diceAfter", true);
                 // mugRb(Rigidbody)를 Z축을 중심으로 1초에 145도의 속도로 회전시킵니다.
-                mugRb.rotation = mugRb.rotation * Quaternion.Euler(0f, 0f, -175.0f * Time.deltaTime);
+                mugRb.rotation = mugRb.rotation * Quaternion.Euler(0f, 175.0f * Time.deltaTime,  0f);
             }
             else if(rotationTimer >1.5f)
             {
@@ -111,7 +111,7 @@ public class CupShaking : MonoBehaviour
             else if (rotationTimer < 1.4f && rotationTimer > 0.6f)
             {
                 // mugRb(Rigidbody)를 Z축을 중심으로 1초에 -145도의 속도로 회전시킵니다.
-                mugRb.rotation = mugRb.rotation * Quaternion.Euler(0f, 0f, 175.0f * Time.deltaTime);
+                mugRb.rotation = mugRb.rotation * Quaternion.Euler(0f, -175.0f * Time.deltaTime, 0f);
             }
             // rotationTimer가 0 이하에 도달하면
             if (rotationTimer >4f)
