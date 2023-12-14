@@ -207,11 +207,17 @@ public class RuleScripts : MonoBehaviour
         for (int i = 0; i < 6; i++)
         {
 
-            if (TextManager.text.isConfirmed[i])
+            if (TextManager.text.isConfirmed[i] && GameManager.gamemanager.player1)
             {
                 sumOneToSix = TextManager.text.subtotal; // 각 메서드의 결과를 누적하여 계산
 
             }
+            else if(TextManager.text.isConfirmed2[i] && GameManager.gamemanager.player2)
+            {
+                sumOneToSix = TextManager.text.subtotal2; // 각 메서드의 결과를 누적하여 계산
+            }
+
+            
         }
 
         if (sumOneToSix >= 63)
@@ -409,10 +415,14 @@ public class RuleScripts : MonoBehaviour
         for (int i = 6; i < TextManager.text.arraytextmeshpro.Length; i++)
         {
 
-            if (TextManager.text.isConfirmed[i] || !TextManager.text.isConfirmed[6])
+            if (TextManager.text.isConfirmed[i] || !TextManager.text.isConfirmed[6] && GameManager.gamemanager.player1)
             {
-                totalScore = TextManager.text.haptotal+TextManager.text.subtotal; // 각 메서드의 결과를 누적하여 계산
+                totalScore = TextManager.text.haptotal+SubTotalPoint(); // 각 메서드의 결과를 누적하여 계산
 
+            }
+            else if(TextManager.text.isConfirmed2[i] || !TextManager.text.isConfirmed2[6] && GameManager.gamemanager.player2)
+            {
+                totalScore = TextManager.text.haptotal2+ SubTotalPoint(); // 각 메서드의 결과를 누적하여 계산
             }
         }
         return totalScore;

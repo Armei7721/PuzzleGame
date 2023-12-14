@@ -53,9 +53,10 @@ public class GameManager : MonoBehaviour
         ClickDice();
         Escape();
         StateChange();
-
+        Debug.Log(player1+" 플레이어 1의 bool 상태");
+        Debug.Log(player2 + " 플레이어 2의 bool 상태");
     }
-
+    
     IEnumerator StartTurns()
     {
         while (!isGameOver)
