@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     private bool isGameOver = false;
 
     public GameObject[] players; // 플레이어들을 배열로 저장
-
+    public GameObject spUI;
     public static GameObject[] Slut;
     public GameObject[] slots;
     public bool shakedice;
@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SelectPhase();
         ClickDice();
         Escape();
         StateChange();
@@ -84,6 +85,18 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
     }
 
+    void SelectPhase()
+    {
+        if (selectPhase)
+        {
+            spUI.SetActive(true);
+        }
+        else if(!selectPhase)
+        {
+            spUI.SetActive(false);
+
+        }
+    }
     void ChangeTurn()
     {
         currentPlayerIndex = (currentPlayerIndex + 1) % players.Length;

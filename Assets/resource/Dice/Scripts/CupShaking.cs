@@ -40,8 +40,6 @@ public class CupShaking : MonoBehaviour
     void Update()
     {
     
-        //rollChanceText.text = "Roll Chance : " + rollChance.ToString(); // 주사위 굴릴 수 있는 횟수를 UI에 표시
-
         // Space 키를 누르면 머그컵을 회전시킴
         if (Input.GetKeyDown(KeyCode.Space) && GameManager.gamemanager.throwPhase)
         {
@@ -98,7 +96,7 @@ public class CupShaking : MonoBehaviour
             // rotationTimer가 2.6에서 1.8 사이에 있는지 확인합니다.
             if (rotationTimer < 3.6f && rotationTimer > 2.8f)
             {
-                //animator.SetBool("diceAfter", true);
+                animator.SetBool("diceAfter", true);
                 // mugRb(Rigidbody)를 Z축을 중심으로 1초에 145도의 속도로 회전시킵니다.
                 mugRb.rotation = mugRb.rotation * Quaternion.Euler(0f, 175.0f * Time.deltaTime,  0f);
             }

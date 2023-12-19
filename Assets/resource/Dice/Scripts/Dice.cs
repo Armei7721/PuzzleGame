@@ -52,7 +52,7 @@ public class Dice : MonoBehaviour
 
 				if (rb != null)
 				{
-					rb.AddForce(Random.Range(-10000, -12000), 0, Random.Range(-6500, 2500));
+					rb.AddForce(Random.Range(-12000, -14000), 0, Random.Range(-6500, 2500));
 				}
 				else
 				{

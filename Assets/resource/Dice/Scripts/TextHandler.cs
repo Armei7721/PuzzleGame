@@ -6,15 +6,17 @@ public class TextHandler : MonoBehaviour
 {
     public TextManager textManager;
     public Button button;
+   
     public int textIndex; // 각 TextMeshProUGUI의 인덱스를 나타냅니다.]
+    Transform parent;
     public void Start()
     {   
             button = GetComponent<Button>();
-       
+       Transform parent = transform.parent;
     }
     public void Update()
     {
-        if(GameManager.gamemanager.scorePhase)
+        if(GameManager.gamemanager.scorePhase &&GameManager.gamemanager.player1)
         {
             button.interactable = true;
         }
