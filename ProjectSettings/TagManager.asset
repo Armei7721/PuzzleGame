@@ -15,6 +15,7 @@ TagManager:
   - Dice
   - DicePlane
   - DiceNumberCheck
+  - ground
   layers:
   - Default
   - TransparentFX
