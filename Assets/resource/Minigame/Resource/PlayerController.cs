@@ -113,23 +113,29 @@ public class PlayerController : MonoBehaviour
             canAttack = true;
         }
     }
-    public IEnumerator Dig()
+     public IEnumerator Dig()
     {
-        if (Input.GetKeyDown(KeyCode.C) && canAttack &&Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.C) && canAttack && Input.GetKey(KeyCode.DownArrow))
         {
             canAttack = false;
             animator.SetBool("Dig", true);
 
             yield return new WaitForSeconds(0.2f);
             animator.SetBool("Dig", false);
-            Vector3Int playerCellPosition = tilemap.WorldToCell(transform.position); // 플레이어의 위치를 그리드 셀 좌표로 변환
+            Vector3Int playerGridPosition = tilemap.WorldToCell(transform.position + Vector3.down);
+            Vector3Int cellPosition = tilemap.WorldToCell(transform.position + Vector3.down);
+            Vector3 cellCenter = tilemap.GetCellCenterWorld(cellPosition);
+            Debug.DrawRay(cellCenter, Vector3.up * 0.5f, Color.red);
+            TileBase tile = tilemap.GetTile(playerGridPosition);
 
-            if (tilemap.HasTile(playerCellPosition))
+            
+            if (tile != null)
             {
-                tilemap.SetTile(playerCellPosition, null); // 해당 셀의 타일을 제거
+                // 타일맵에서 해당 위치의 타일을 삭제합니다.
+                tilemap.SetTile(playerGridPosition, null);
             }
-            yield return new WaitForSeconds(attackCooldown);
 
+            yield return new WaitForSeconds(attackCooldown);
             canAttack = true;
         }
     }
