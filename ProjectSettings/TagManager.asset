@@ -16,6 +16,8 @@ TagManager:
   - DicePlane
   - DiceNumberCheck
   - ground
+  - Attack
+  - enemy
   layers:
   - Default
   - TransparentFX
