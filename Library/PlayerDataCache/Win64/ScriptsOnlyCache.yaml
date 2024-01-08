@@ -1,11 +1,14 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - Audio
     - CupShaking
     - Dice
     - DiceNumberCheck
     - GameManager
     - RuleScripts
+    - TextHandler
+    - TextHandler2
     - TextManager
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
@@ -50,9 +53,11 @@ ScriptsOnlyBuild:
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
+    - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.Text
   serializedClasses:
     Unity.TextMeshPro:
     - TMPro.FaceInfo_Legacy
@@ -70,15 +75,95 @@ ScriptsOnlyBuild:
     - TMPro.TMP_Style
     - TMPro.VertexGradient
     UnityEngine.CoreModule:
+    - UnityEngine.Events.ArgumentCache
     - UnityEngine.Events.PersistentCallGroup
+    - UnityEngine.Events.PersistentListenerMode
     UnityEngine.TextCoreFontEngineModule:
     - UnityEngine.TextCore.FaceInfo
     - UnityEngine.TextCore.Glyph
     - UnityEngine.TextCore.GlyphMetrics
     - UnityEngine.TextCore.GlyphRect
     UnityEngine.UI:
+    - UnityEngine.UI.AnimationTriggers
+    - UnityEngine.UI.Button/ButtonClickedEvent
+    - UnityEngine.UI.ColorBlock
+    - UnityEngine.UI.FontData
     - UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
-  methodsToPreserve: []
+    - UnityEngine.UI.Navigation
+    - UnityEngine.UI.SpriteState
+  methodsToPreserve:
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler2
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler2
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler2
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler2
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler2
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler2
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler2
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler2
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler2
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler2
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler2
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler2
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler
+    methodName: OnClick
+  - assembly: Assembly-CSharp
+    fullTypeName: TextHandler
+    methodName: OnClick
   sceneClasses:
     Assets/Scenes/Dice.unity:
     - Class: 1
@@ -111,6 +196,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
     - Class: 89
       Script: {instanceID: 0}
     - Class: 91
@@ -124,37 +213,47 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1612}
     - Class: 114
-      Script: {instanceID: 2286}
+      Script: {instanceID: 1620}
+    - Class: 114
+      Script: {instanceID: 1910}
     - Class: 114
       Script: {instanceID: 2290}
     - Class: 114
-      Script: {instanceID: 2772}
+      Script: {instanceID: 2294}
     - Class: 114
-      Script: {instanceID: 2910}
+      Script: {instanceID: 2778}
     - Class: 114
-      Script: {instanceID: 3010}
+      Script: {instanceID: 2916}
     - Class: 114
-      Script: {instanceID: 4418}
+      Script: {instanceID: 3016}
     - Class: 114
-      Script: {instanceID: 4546}
+      Script: {instanceID: 3348}
     - Class: 114
-      Script: {instanceID: 4854}
+      Script: {instanceID: 4426}
     - Class: 114
-      Script: {instanceID: 5460}
+      Script: {instanceID: 4554}
     - Class: 114
-      Script: {instanceID: 5698}
+      Script: {instanceID: 4862}
     - Class: 114
-      Script: {instanceID: 6364}
+      Script: {instanceID: 5468}
     - Class: 114
-      Script: {instanceID: 6560}
+      Script: {instanceID: 5706}
     - Class: 114
-      Script: {instanceID: 6722}
+      Script: {instanceID: 6016}
     - Class: 114
-      Script: {instanceID: 6944}
+      Script: {instanceID: 6374}
     - Class: 114
-      Script: {instanceID: 7438}
+      Script: {instanceID: 6570}
     - Class: 114
-      Script: {instanceID: 8762}
+      Script: {instanceID: 6732}
+    - Class: 114
+      Script: {instanceID: 6954}
+    - Class: 114
+      Script: {instanceID: 7448}
+    - Class: 114
+      Script: {instanceID: 8222}
+    - Class: 114
+      Script: {instanceID: 8774}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -196,6 +295,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Image
+  - hash:
+      serializedVersion: 2
+      Hash: 5846ebf733bc7164c6bd083244c3dcc3
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TextHandler
   - hash:
       serializedVersion: 2
       Hash: 61f2059db36c32396c3d12077855592b
@@ -246,6 +351,12 @@ ScriptsOnlyBuild:
     className: UnityOnCollisionStayMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 5846ebf733bc7164c6bd083244c3dcc3
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TextHandler2
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
@@ -270,7 +381,7 @@ ScriptsOnlyBuild:
     className: TMP_StyleSheet
   - hash:
       serializedVersion: 2
-      Hash: 1cf57e1062f4b8a5071792141f884978
+      Hash: c0926545973ed2c9cf04b0d9916b46f2
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: RuleScripts
@@ -322,6 +433,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.Animation.Runtime.dll
     namespaceName: UnityEngine.U2D.Animation
     className: SkeletonAsset
+  - hash:
+      serializedVersion: 2
+      Hash: d83c64f320f5f4ec2f958aceca1985c8
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: enemyController
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -532,6 +649,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: DiceNumberText
+  - hash:
+      serializedVersion: 2
+      Hash: b1b2cacc05cf8a7dfad3f41f3fa476f2
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerController
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -828,7 +951,7 @@ ScriptsOnlyBuild:
     className: AnimationPlayableAsset
   - hash:
       serializedVersion: 2
-      Hash: c80120c2e2c17a7abaaf0f097c377d97
+      Hash: 7390b90f2256f27bed6443bcb04efe85
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: TextManager
@@ -952,6 +1075,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.State.dll
     namespaceName: Unity.VisualScripting
     className: StateGraphAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 7c4d61ba679beaa5d71821c8c9d31078
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CameraControl
   - hash:
       serializedVersion: 2
       Hash: 4f60ff347d4efee4ef8cc7f627735018
@@ -1092,7 +1221,7 @@ ScriptsOnlyBuild:
     className: PlayableTrack
   - hash:
       serializedVersion: 2
-      Hash: 130c97373716bf6c19e5051d976c4f25
+      Hash: d48e499447ecd4a517a6c6aef9d0b0df
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -1234,6 +1363,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: ScrollRect
+  - hash:
+      serializedVersion: 2
+      Hash: cbeba0be93684d3bcd4b72542d830f58
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Audio
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -1381,4 +1516,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/Dice.unity
-  playerPath: "C:/Users/301-15/\uC0C8 \uD3F4\uB354/Puzzle.exe"
+  playerPath: "C:/Users/301-15/Desktop/\uC0C8 \uD3F4\uB354 (7)/Puzzle.exe"
