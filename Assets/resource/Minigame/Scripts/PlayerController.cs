@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public GameObject[] childlist;
@@ -21,9 +22,25 @@ public class PlayerController : MonoBehaviour
     bool hitting = false;
     bool isHit = false;
     public Tilemap tilemap;
+
+
+    [Header("대쉬관련")]
+    public float dashTime;
+    public float maxDashTime = 0.2f;
+    public bool isDash;
+    public Ghost ghost;
+    private float playerMoveSpeed = 15;
+    public bool canDash = true;
+
+    [Header("플레이어 능력치 관련")]
+    private float max_hp = 100;
+    private float currentHealth;
+    public Slider player_hpBar;
     // Start is called before the first frame update
     void Start()
     {
+        player_hpBar.maxValue = max_hp;
+        currentHealth = max_hp;
         canAttack = true;
         animator = GetComponent<Animator>();
         PRigidBody = GetComponent<Rigidbody2D>();
@@ -33,6 +50,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        player_hpBar.value = currentHealth;
         StartCoroutine(Dig());
         StartCoroutine(Attack());
         StartCoroutine(Special_Attack());
@@ -42,6 +60,7 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
         HitDuring();
+        Ghost();
     }
     //플레이어 움직임 컨트롤
     private void Move()
@@ -293,5 +312,83 @@ public class PlayerController : MonoBehaviour
         {
             isHit = true;
         }
+    }
+    public void Ghost()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && PRigidBody.velocity.x != 0)
+        {
+            ghost.makeGhost = true;
+
+            isDash = true;
+        }
+
+        if (isDash)
+        {
+            // 대시 동작 처리
+            Dash();
+        }
+    }
+    private void Dash()
+    {
+        if (isGround)
+        {
+            
+            dashTime += Time.deltaTime;
+            if (PRigidBody.velocity.x < 0)
+            {
+
+                PRigidBody.velocity = new Vector2(-playerMoveSpeed, PRigidBody.velocity.y);
+
+                canDash = false;
+            }
+            else if (PRigidBody.velocity.x > 0)
+            {
+
+                PRigidBody.velocity = new Vector2(playerMoveSpeed, PRigidBody.velocity.y);
+
+                canDash = false;
+            }
+            if (dashTime >= maxDashTime)
+            {
+                PRigidBody.velocity = new Vector2(0f, 0f);
+                // 대시가 끝났을 때만 다시 대시 가능하도록 설정
+                ghost.makeGhost = false;
+                isDash = false;
+                StartCoroutine(DashCooldown());
+            }
+        }
+        else if (!isGround)
+        {
+            
+            dashTime += Time.deltaTime;
+            float currentVelocityY = 0f;
+            if (PRigidBody.velocity.x < 0)
+            {
+
+                PRigidBody.velocity = new Vector2(-playerMoveSpeed * 5 * Time.deltaTime, currentVelocityY);
+                canDash = false;
+            }
+            else if (PRigidBody.velocity.x > 0)
+            {
+
+                PRigidBody.velocity = new Vector2(playerMoveSpeed * 5 * Time.deltaTime, currentVelocityY);
+                canDash = false;
+            }
+            if (dashTime >= maxDashTime)
+            {
+                // 대시가 끝났을 때만 다시 대시 가능하도록 설정
+                ghost.makeGhost = false;
+                isDash = false;
+                StartCoroutine(DashCooldown());
+            }
+        }
+    }
+    private IEnumerator DashCooldown()
+    {
+        dashTime = 0;
+        // 대시 쿨다운 시간(예: 1초) 만큼 대기
+        yield return new WaitForSeconds(1f);
+
+        canDash = true; // 대시 쿨다운 종료 후 다시 대시 가능 상태로 변경
     }
 }

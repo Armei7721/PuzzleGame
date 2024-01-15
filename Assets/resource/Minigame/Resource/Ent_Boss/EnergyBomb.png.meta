@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4c417a171c1fbe34e95a858bcca377f0
+guid: 7df5671710075234290eb26b403a077d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -67,7 +67,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 8192
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -122,8 +122,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 107
-        height: 103
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,8 +131,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4cca6e031e5111e4d9bf62d201b7aa01
-      internalID: -360312692
+      spriteID: cf0cbd963b89b07468609f2b26c014fd
+      internalID: -1675141869
       vertices: []
       indices: 
       edges: []
@@ -141,10 +141,10 @@ TextureImporter:
       name: EnergyBomb_1
       rect:
         serializedVersion: 2
-        x: 107
+        x: 150
         y: 0
-        width: 107
-        height: 103
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,8 +152,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2c6edddb2ad9b8c47a7b72a81b2f0432
-      internalID: 676450434
+      spriteID: 4b1f24aaaa2d32e4ea18e974e24a0209
+      internalID: 433962646
       vertices: []
       indices: 
       edges: []
@@ -162,10 +162,10 @@ TextureImporter:
       name: EnergyBomb_2
       rect:
         serializedVersion: 2
-        x: 214
+        x: 300
         y: 0
-        width: 107
-        height: 103
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,8 +173,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e1b1d8284410bf44987c4d6e27f34e0
-      internalID: 810985511
+      spriteID: 7be99342259271b4c9c6f581c5836714
+      internalID: 1491176921
       vertices: []
       indices: 
       edges: []
@@ -183,10 +183,10 @@ TextureImporter:
       name: EnergyBomb_3
       rect:
         serializedVersion: 2
-        x: 321
+        x: 450
         y: 0
-        width: 107
-        height: 103
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,8 +194,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8c563c46f9353294f9cf4ce596090093
-      internalID: -9762515
+      spriteID: ed516fceb78ede840b5013966f59d477
+      internalID: 242139235
       vertices: []
       indices: 
       edges: []
@@ -204,10 +204,10 @@ TextureImporter:
       name: EnergyBomb_4
       rect:
         serializedVersion: 2
-        x: 428
+        x: 600
         y: 0
-        width: 107
-        height: 103
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,8 +215,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd5b89520df67b14fa7c16b80ad47115
-      internalID: 295357330
+      spriteID: afde89c5a61b5de44a7eb1e80d204e6a
+      internalID: 284691580
       vertices: []
       indices: 
       edges: []
@@ -225,10 +225,10 @@ TextureImporter:
       name: EnergyBomb_5
       rect:
         serializedVersion: 2
-        x: 535
+        x: 750
         y: 0
-        width: 107
-        height: 103
+        width: 150
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -236,8 +236,176 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a522c3a3697f95a4b8cd8cce8594f163
-      internalID: -353448597
+      spriteID: 08df54d22a4df1547a5c4bf6fa342ae5
+      internalID: -764839594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyBomb_6
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 0
+        width: 150
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41c01bdc74349894aae1daab6ceba555
+      internalID: 633264815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyBomb_7
+      rect:
+        serializedVersion: 2
+        x: 1050
+        y: 0
+        width: 150
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d418086fe6f3ea544a6146f546940a84
+      internalID: 1106550423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyBomb_8
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 150
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40c4e8c6208c26349a1f8cb1f621380a
+      internalID: 695322052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyBomb_9
+      rect:
+        serializedVersion: 2
+        x: 1350
+        y: 0
+        width: 150
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2ade424688a2fa4bab1452653e553eb
+      internalID: -1183443024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyBomb_10
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 0
+        width: 150
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a47927bcae571d4ab4364411f8c7a9a
+      internalID: 72597024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyBomb_11
+      rect:
+        serializedVersion: 2
+        x: 1650
+        y: 0
+        width: 150
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9ab17bb976f12847b6f950ae61c81c3
+      internalID: -685410816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyBomb_12
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 150
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 560ecc3f7a2e53b4eacdcbf861a33299
+      internalID: 843393142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnergyBomb_13
+      rect:
+        serializedVersion: 2
+        x: 1950
+        y: 0
+        width: 150
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e9845a53eeab5f44bb2a89a47d9237c
+      internalID: 499474038
       vertices: []
       indices: 
       edges: []
@@ -253,12 +421,20 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      EnergyBomb_0: -360312692
-      EnergyBomb_1: 676450434
-      EnergyBomb_2: 810985511
-      EnergyBomb_3: -9762515
-      EnergyBomb_4: 295357330
-      EnergyBomb_5: -353448597
+      EnergyBomb_0: -1675141869
+      EnergyBomb_1: 433962646
+      EnergyBomb_10: 72597024
+      EnergyBomb_11: -685410816
+      EnergyBomb_12: 843393142
+      EnergyBomb_13: 499474038
+      EnergyBomb_2: 1491176921
+      EnergyBomb_3: 242139235
+      EnergyBomb_4: 284691580
+      EnergyBomb_5: -764839594
+      EnergyBomb_6: 633264815
+      EnergyBomb_7: 1106550423
+      EnergyBomb_8: 695322052
+      EnergyBomb_9: -1183443024
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

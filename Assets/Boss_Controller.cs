@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Boss_Controller : MonoBehaviour
 {
     Animator animator;
@@ -11,19 +11,27 @@ public class Boss_Controller : MonoBehaviour
     public Transform head;
     public GameObject energyball;
     public Transform player;
+    private Vector3 initialHeadPosition;
     // Start is called before the first frame update
+
+    [Header("보스 능력치 관련")]
+    private float max_hp=100;
+    private float currentHealth;
+    public Slider BS_hpBar;
     void Start()
     {
         animator = GetComponent<Animator>();
         PartsChild();
-        StartCoroutine(EnergyBall());
-        
+        BS_hpBar.maxValue = max_hp;
+        currentHealth = max_hp;
+        initialHeadPosition = head.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        BS_hpBar.value = currentHealth;
+      
     }
     IEnumerator Think()
     {
@@ -39,17 +47,33 @@ public class Boss_Controller : MonoBehaviour
     {
         boss_parts = gameObject.GetComponentsInChildren<Transform>(true);
     }
-    IEnumerator EnergyBall()
+    public IEnumerator EnergyBall()
     {
         int speed = 5;
-        GameObject energyballprefab = Instantiate(energyball, head.TransformPoint(Vector3.zero), Quaternion.identity);
+        GameObject energyballprefab = Instantiate(energyball, initialHeadPosition, Quaternion.identity);
         Vector3 direction = (player.position - transform.position).normalized;
         energyballprefab.GetComponent<Rigidbody2D>().velocity = direction * speed;
         Debug.Log(energyballprefab.transform.position);
         yield return new WaitForSeconds(1f);
-        StartCoroutine(EnergyBall());
-       
+
+
         Destroy(energyballprefab, 5f);
 
+    }
+    public void AnimationSpeeddown()
+    {
+        animator.speed = 0.3f;
+    }
+    public void AniamtionSpeedUp()
+    {
+        animator.speed = 0.6f;
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Attack"))
+        {
+            Debug.Log(BS_hpBar.value);
+            currentHealth -= 10;
+        }
     }
 }

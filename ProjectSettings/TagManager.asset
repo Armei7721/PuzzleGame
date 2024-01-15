@@ -18,6 +18,7 @@ TagManager:
   - ground
   - Attack
   - enemy
+  - Bullect
   layers:
   - Default
   - TransparentFX
