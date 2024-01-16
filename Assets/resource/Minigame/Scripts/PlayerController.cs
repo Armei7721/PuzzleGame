@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using TMPro;
 public class PlayerController : MonoBehaviour
 {
     public GameObject[] childlist;
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private float max_hp = 100;
     private float currentHealth;
     public Slider player_hpBar;
+    public TextMeshProUGUI hp_txt;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,21 +48,25 @@ public class PlayerController : MonoBehaviour
         PRigidBody = GetComponent<Rigidbody2D>();
         Childlist();
     }
-
+    
     // Update is called once per frame
     void Update()
-    {
+    {  
         player_hpBar.value = currentHealth;
-        StartCoroutine(Dig());
-        StartCoroutine(Attack());
-        StartCoroutine(Special_Attack());
+        hp_txt.text = "HP: " + currentHealth.ToString("0") + " / " + max_hp.ToString("0");
         if (!hitting)
         {
             Move();
             Jump();
+            Ghost();
+            StartCoroutine(Dig());
+            StartCoroutine(Attack());
+            StartCoroutine(Special_Attack());
+            
         }
+        Dead();
         HitDuring();
-        Ghost();
+       
     }
     //플레이어 움직임 컨트롤
     private void Move()
@@ -259,6 +265,7 @@ public class PlayerController : MonoBehaviour
                 float knockBackForce = 2.0f;
                 if (hittime < 0.5f)
                 {
+                    PRigidBody.velocity = Vector2.zero;
                     PRigidBody.velocity = new Vector2(knockBackDirection.x * knockBackForce, knockBackForce);
                 }
                 if (hittime >= hitDuration)
@@ -300,19 +307,7 @@ public class PlayerController : MonoBehaviour
             Debug.LogWarning("DicePlane을 찾을 수 없습니다.");
         }
     }
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("ground"))
-        {
-            jumpCount = 0;
-            animator.SetBool("Jump", false);
-            animator.SetBool("isGround", true);
-        }
-        else if (collision.collider.CompareTag("enemy"))
-        {
-            isHit = true;
-        }
-    }
+
     public void Ghost()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && PRigidBody.velocity.x != 0)
@@ -390,5 +385,35 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         canDash = true; // 대시 쿨다운 종료 후 다시 대시 가능 상태로 변경
+    }
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("ground"))
+        {
+            jumpCount = 0;
+            animator.SetBool("Jump", false);
+            animator.SetBool("isGround", true);
+        }
+        else if (collision.collider.CompareTag("enemy"))
+        {
+            isHit = true;
+            currentHealth -= 10;
+        }
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("bullet") &&!isHit)
+        {
+            isHit = true;
+            currentHealth -= 10;
+        }
+    }
+    public void Dead()
+    {
+        if(currentHealth<= 0)
+        {
+            animator.SetTrigger("Death");
+            isDead = true;
+        }
     }
 }

@@ -5,8 +5,6 @@ using UnityEngine.UI;
 public class Boss_Controller : MonoBehaviour
 {
     Animator animator;
-    public Transform[] boss_parts;
-    public GameObject[] Slut;
     public bool paturn;
     public Transform head;
     public GameObject energyball;
@@ -18,6 +16,9 @@ public class Boss_Controller : MonoBehaviour
     private float max_hp=100;
     private float currentHealth;
     public Slider BS_hpBar;
+
+    public Transform parentTransform;
+    public Transform[] children;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -25,8 +26,9 @@ public class Boss_Controller : MonoBehaviour
         BS_hpBar.maxValue = max_hp;
         currentHealth = max_hp;
         initialHeadPosition = head.position;
+        StartCoroutine(EnergyBall());
+       
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -45,7 +47,15 @@ public class Boss_Controller : MonoBehaviour
     }
     public void PartsChild()
     {
-        boss_parts = gameObject.GetComponentsInChildren<Transform>(true);
+        // 부모 오브젝트의 자식들을 가져옴
+        parentTransform = transform;
+        children = new Transform[parentTransform.childCount];
+
+        for (int i = 0; i < parentTransform.childCount; i++)
+        {
+            children[i] = parentTransform.GetChild(i);
+        }
+        
     }
     public IEnumerator EnergyBall()
     {
@@ -53,9 +63,8 @@ public class Boss_Controller : MonoBehaviour
         GameObject energyballprefab = Instantiate(energyball, initialHeadPosition, Quaternion.identity);
         Vector3 direction = (player.position - transform.position).normalized;
         energyballprefab.GetComponent<Rigidbody2D>().velocity = direction * speed;
-        Debug.Log(energyballprefab.transform.position);
         yield return new WaitForSeconds(1f);
-
+        StartCoroutine(EnergyBall());
 
         Destroy(energyballprefab, 5f);
 
