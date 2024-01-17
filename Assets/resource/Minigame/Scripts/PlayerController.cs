@@ -12,9 +12,13 @@ public class PlayerController : MonoBehaviour
     public float special_attackCooldown = 1.5f;
     public Animator animator;
     public Rigidbody2D PRigidBody;
+    public CapsuleCollider2D cacd2d;
     public float speed = 5;
     public int jumpCount = 0;
     public float hittime;
+
+    public GameObject triggerEffectPrefab; // 이펙트 프리팹
+
 
     bool isGround = true;
     bool isDead = false;
@@ -38,9 +42,14 @@ public class PlayerController : MonoBehaviour
     private float currentHealth;
     public Slider player_hpBar;
     public TextMeshProUGUI hp_txt;
+
+    public float fallThroughPlatformDelay = 0.1f; // 플랫폼 아래로 내려가기 위한 딜레이
+    public bool canFallThroughPlatform = false;
+
     // Start is called before the first frame update
     void Start()
     {
+        cacd2d = GetComponent<CapsuleCollider2D>();
         player_hpBar.maxValue = max_hp;
         currentHealth = max_hp;
         canAttack = true;
@@ -54,19 +63,22 @@ public class PlayerController : MonoBehaviour
     {  
         player_hpBar.value = currentHealth;
         hp_txt.text = "HP: " + currentHealth.ToString("0") + " / " + max_hp.ToString("0");
-        if (!hitting)
+        if (!isDead)
         {
-            Move();
-            Jump();
-            Ghost();
-            StartCoroutine(Dig());
-            StartCoroutine(Attack());
-            StartCoroutine(Special_Attack());
-            
+            if (!hitting)
+            {
+                DownJump();
+                Move();
+                Jump();
+                Ghost();
+                StartCoroutine(Dig());
+                StartCoroutine(Attack());
+                StartCoroutine(Special_Attack());
+
+            }
+            Dead();
+            HitDuring();
         }
-        Dead();
-        HitDuring();
-       
     }
     //플레이어 움직임 컨트롤
     private void Move()
@@ -388,7 +400,7 @@ public class PlayerController : MonoBehaviour
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("ground"))
+        if (collision.collider.CompareTag("ground") || collision.collider.CompareTag("scaff"))
         {
             jumpCount = 0;
             animator.SetBool("Jump", false);
@@ -399,13 +411,36 @@ public class PlayerController : MonoBehaviour
             isHit = true;
             currentHealth -= 10;
         }
+        else if (collision.collider.CompareTag("scaff") && collision.contacts[0].normal.y > 0)
+        {
+            canFallThroughPlatform = true;
+
+        }
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("bullet") &&!isHit)
+        
+
+        if (collision.CompareTag("bullet") &&!isHit)
         {
             isHit = true;
             currentHealth -= 10;
+        }
+        
+    }
+    public void OnCollisionStay2D(Collision2D collision)
+    {
+        if(collision.collider.CompareTag("scaff"))
+        {
+
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // 발판과 더 이상 충돌하지 않을 때 플랫폼 아래로 내려가기 허용 해제
+        if (collision.collider.CompareTag("scaff"))
+        {
+            canFallThroughPlatform = false;
         }
     }
     public void Dead()
@@ -415,5 +450,25 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("Death");
             isDead = true;
         }
+    }
+
+    void DownJump()
+    {
+        if (canFallThroughPlatform)
+        {
+            cacd2d.isTrigger = true;
+            fallThroughPlatformDelay -= Time.deltaTime;
+            if (fallThroughPlatformDelay <= 0f)
+            {
+                canFallThroughPlatform = false;
+                fallThroughPlatformDelay = 0.3f;
+                cacd2d.isTrigger = false;
+            }
+        }
+        if(Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            canFallThroughPlatform = true;
+        }
+
     }
 }

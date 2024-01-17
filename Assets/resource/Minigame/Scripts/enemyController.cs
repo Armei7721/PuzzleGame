@@ -14,6 +14,7 @@ public class enemyController : MonoBehaviour
     public bool dead = false;
     
     public Animator animator;
+    public GameObject triggerEffectPrefab; // ¿Ã∆Â∆Æ «¡∏Æ∆’
     // Start is called before the first frame update
     void Start()
     {

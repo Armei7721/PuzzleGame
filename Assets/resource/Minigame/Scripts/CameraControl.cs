@@ -39,7 +39,7 @@ public class CameraControl : MonoBehaviour
         // 카메라를 중간 지점으로 부드럽게 이동
         transform.position = Vector3.Lerp(transform.position, new Vector3(middlePoint.x, middlePoint.y, transform.position.z), Time.deltaTime * cameraSpeed);
         CameraTest();
-        // ShakeCamera();
+        //ShakeCamera();
     }
     void LateUpdate()
     {

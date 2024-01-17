@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 306986705984633810}
   - component: {fileID: 2442583536324350331}
   - component: {fileID: 7545570218557324861}
+  - component: {fileID: 420695308}
   m_Layer: 0
   m_Name: EnergyBomb_Effect
   m_TagString: bullet
@@ -145,3 +146,16 @@ CircleCollider2D:
   m_Offset: {x: -0.029100657, y: -0.08730197}
   serializedVersion: 2
   m_Radius: 1.3992054
+--- !u!114 &420695308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605341871624141466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49511dde3d65bd94182ffabf7d2ed076, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  burst: 0

@@ -19,6 +19,8 @@ TagManager:
   - Attack
   - enemy
   - bullet
+  - scaff
+  - destroy
   layers:
   - Default
   - TransparentFX

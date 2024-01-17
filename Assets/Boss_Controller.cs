@@ -19,6 +19,8 @@ public class Boss_Controller : MonoBehaviour
 
     public Transform parentTransform;
     public Transform[] children;
+
+    public GameObject triggerEffectPrefab; // ¿Ã∆Â∆Æ «¡∏Æ∆’
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -26,7 +28,7 @@ public class Boss_Controller : MonoBehaviour
         BS_hpBar.maxValue = max_hp;
         currentHealth = max_hp;
         initialHeadPosition = head.position;
-        StartCoroutine(EnergyBall());
+       StartCoroutine(EnergyBall());
        
     }
     // Update is called once per frame
@@ -81,7 +83,9 @@ public class Boss_Controller : MonoBehaviour
     {
         if(other.CompareTag("Attack"))
         {
-            Debug.Log(BS_hpBar.value);
+            Vector3 collisionPoint = other.ClosestPoint(transform.position);
+            GameObject effectprefab=Instantiate(triggerEffectPrefab, collisionPoint, Quaternion.identity);
+            Destroy(effectprefab, 2);
             currentHealth -= 10;
         }
     }

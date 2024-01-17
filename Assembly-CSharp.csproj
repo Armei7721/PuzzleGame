@@ -61,6 +61,7 @@
     <Compile Include="Assets\resource\Dice\Scripts\TextHandler2.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\resource\Dice\Scripts\RuleScripts.cs" />
+    <Compile Include="Assets\EnergyBomb_Effect.cs" />
     <Compile Include="Assets\resource\Minigame\Scripts\enemyController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />

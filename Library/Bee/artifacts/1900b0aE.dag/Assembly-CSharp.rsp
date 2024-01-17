@@ -371,6 +371,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Boss_Controller.cs"
 "Assets/Elder_Ent_Energy_Effect.cs"
+"Assets/EnergyBomb_Effect.cs"
 "Assets/Ghost.cs"
 "Assets/resource/Dice/Scripts/Audio.cs"
 "Assets/resource/Dice/Scripts/CupShaking.cs"
