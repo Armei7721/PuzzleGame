@@ -10,6 +10,7 @@ public class Boss_Controller : MonoBehaviour
     public GameObject energyball;
     public Transform player;
     private Vector3 initialHeadPosition;
+    public GameObject leftArm;
     // Start is called before the first frame update
 
     [Header("보스 능력치 관련")]
@@ -23,12 +24,13 @@ public class Boss_Controller : MonoBehaviour
     public GameObject triggerEffectPrefab; // 이펙트 프리팹
     void Start()
     {
-        animator = GetComponent<Animator>();
+        
+         animator = GetComponent<Animator>();
         PartsChild();
         BS_hpBar.maxValue = max_hp;
         currentHealth = max_hp;
         initialHeadPosition = head.position;
-       StartCoroutine(EnergyBall());
+       //StartCoroutine(EnergyBall());
        
     }
     // Update is called once per frame
@@ -81,8 +83,10 @@ public class Boss_Controller : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
+       
         if(other.CompareTag("Attack"))
         {
+            Debug.Log("test");
             Vector3 collisionPoint = other.ClosestPoint(transform.position);
             GameObject effectprefab=Instantiate(triggerEffectPrefab, collisionPoint, Quaternion.identity);
             Destroy(effectprefab, 2);

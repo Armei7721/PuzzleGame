@@ -45,7 +45,8 @@ public class PlayerController : MonoBehaviour
 
     public float fallThroughPlatformDelay = 0.1f; // 플랫폼 아래로 내려가기 위한 딜레이
     public bool canFallThroughPlatform = false;
-
+    public GameObject dig_Effect;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -67,7 +68,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!hitting)
             {
-                DownJump();
+                //DownJump();
                 Move();
                 Jump();
                 Ghost();
@@ -192,6 +193,8 @@ public class PlayerController : MonoBehaviour
             Vector3 cellCenter = tilemap.GetCellCenterWorld(cellPosition);
             TileBase tile = tilemap.GetTile(playerGridPosition);
 
+            GameObject dig_Effect_Prefab = Instantiate(dig_Effect, transform.position, Quaternion.identity);
+            Destroy(dig_Effect_Prefab, 0.5f);
 
             if (tile != null)
             {
@@ -248,7 +251,7 @@ public class PlayerController : MonoBehaviour
         //Jump 버튼을 눌렀을 때 이고 isJump false 일때 발동!
         if (Input.GetButtonDown("Jump") && jumpCount < 2)
         {
-            int jumpForce = 10;
+            int jumpForce = 12;
             jumpCount++;
 
             PRigidBody.velocity = Vector2.zero;
@@ -319,7 +322,6 @@ public class PlayerController : MonoBehaviour
             Debug.LogWarning("DicePlane을 찾을 수 없습니다.");
         }
     }
-
     public void Ghost()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash && PRigidBody.velocity.x != 0)
@@ -400,21 +402,18 @@ public class PlayerController : MonoBehaviour
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("ground") || collision.collider.CompareTag("scaff"))
+        if ((collision.collider.CompareTag("ground") || collision.collider.CompareTag("scaff"))&& collision.contacts[0].normal.y > 0)
         {
             jumpCount = 0;
             animator.SetBool("Jump", false);
             animator.SetBool("isGround", true);
+            
+            
         }
         else if (collision.collider.CompareTag("enemy"))
         {
             isHit = true;
             currentHealth -= 10;
-        }
-        else if (collision.collider.CompareTag("scaff") && collision.contacts[0].normal.y > 0)
-        {
-            canFallThroughPlatform = true;
-
         }
     }
     public void OnTriggerEnter2D(Collider2D collision)
@@ -430,8 +429,9 @@ public class PlayerController : MonoBehaviour
     }
     public void OnCollisionStay2D(Collision2D collision)
     {
-        if(collision.collider.CompareTag("scaff"))
+        if (collision.collider.CompareTag("scaff") && collision.contacts[0].normal.y > 0)
         {
+            StartCoroutine(DownJump());
 
         }
     }
@@ -452,23 +452,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void DownJump()
+    IEnumerator DownJump()
     {
-        if (canFallThroughPlatform)
-        {
-            cacd2d.isTrigger = true;
-            fallThroughPlatformDelay -= Time.deltaTime;
-            if (fallThroughPlatformDelay <= 0f)
-            {
-                canFallThroughPlatform = false;
-                fallThroughPlatformDelay = 0.3f;
-                cacd2d.isTrigger = false;
-            }
-        }
-        if(Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             canFallThroughPlatform = true;
         }
+        if (canFallThroughPlatform)
+        {
+            cacd2d.isTrigger = true;
+
+            yield return new WaitForSeconds(0.5f);
+                canFallThroughPlatform = false;
+                cacd2d.isTrigger = false;
+            
+        }
+        
 
     }
 }

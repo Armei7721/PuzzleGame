@@ -12,12 +12,14 @@ public class enemyController : MonoBehaviour
     public float moveSpeed = 1f;
     public SpriteRenderer spr;
     public bool dead = false;
-    
+    public bool walk = false;
+
     public Animator animator;
     public GameObject triggerEffectPrefab; // ¿Ã∆Â∆Æ «¡∏Æ∆’
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player").GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
         cd = GetComponent<Collider2D>();
         spr = GetComponent<SpriteRenderer>();
@@ -43,8 +45,11 @@ public class enemyController : MonoBehaviour
     }
     public void Move()
     {
-        Vector3 direction = (player.position - transform.position).normalized;
-        rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
+        if (walk)
+        {
+            Vector3 direction = (player.position - transform.position).normalized;
+            rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
+        }
     }
     void Distance()
     {
@@ -54,6 +59,7 @@ public class enemyController : MonoBehaviour
     }
     public void Walk()
     {
+        walk = true;
         rb.velocity = new Vector2(0f, 0f);
         animator.SetBool("Walk", true);
     }
@@ -119,15 +125,20 @@ public class enemyController : MonoBehaviour
     {
         if(collision.CompareTag("Attack"))
         {
+            Vector3 collisionPoint = collision.ClosestPoint(transform.position);
+            GameObject effectprefab = Instantiate(triggerEffectPrefab, collisionPoint, Quaternion.identity);
+            Destroy(effectprefab, 1f);
             StartCoroutine(Dead());
         }
     }
     IEnumerator Dead()
     {
+        walk = false;
         gameObject.layer = 12;
         animator.SetTrigger("Death");
         rb.constraints = RigidbodyConstraints2D.FreezePosition;
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
+
 }

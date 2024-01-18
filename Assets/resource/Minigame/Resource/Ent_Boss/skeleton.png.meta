@@ -666,7 +666,7 @@ TextureImporter:
       name: skeleton_26
       rect:
         serializedVersion: 2
-        x: 422
+        x: 420
         y: 345
         width: 418
         height: 341
@@ -941,7 +941,7 @@ TextureImporter:
         serializedVersion: 2
         x: 1275
         y: 4
-        width: 199
+        width: 400
         height: 313
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -952,69 +952,6 @@ TextureImporter:
       bones: []
       spriteID: 1565f5f0809c9fc469ec8633137d825f
       internalID: 74789738
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skeleton_41
-      rect:
-        serializedVersion: 2
-        x: 1483
-        y: 192
-        width: 76
-        height: 124
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a1cc86131b9a36a4ba97afbc16c5e029
-      internalID: -1801763107
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skeleton_42
-      rect:
-        serializedVersion: 2
-        x: 1549
-        y: 183
-        width: 69
-        height: 125
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b6f3400d55da011419e035a235c039fd
-      internalID: -1661305004
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skeleton_43
-      rect:
-        serializedVersion: 2
-        x: 1608
-        y: 175
-        width: 69
-        height: 103
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9220333685227084ba401ec7a623bd39
-      internalID: -1654731728
       vertices: []
       indices: 
       edges: []
@@ -1036,48 +973,6 @@ TextureImporter:
       bones: []
       spriteID: f3677025c98fc044693f49a7b1dc6195
       internalID: 1889298538
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skeleton_45
-      rect:
-        serializedVersion: 2
-        x: 1487
-        y: 41
-        width: 139
-        height: 124
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 923d3080c2d94e849971b64f8b36358a
-      internalID: -1494158860
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: skeleton_46
-      rect:
-        serializedVersion: 2
-        x: 1537
-        y: 2
-        width: 43
-        height: 40
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 90f01036b4ceb164fbad8c555bc1b5e1
-      internalID: 661615216
       vertices: []
       indices: 
       edges: []
