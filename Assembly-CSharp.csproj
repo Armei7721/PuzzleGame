@@ -61,11 +61,13 @@
     <Compile Include="Assets\resource\Dice\Scripts\TextHandler2.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\resource\Dice\Scripts\RuleScripts.cs" />
-    <Compile Include="Assets\EnergyBomb_Effect.cs" />
+    <Compile Include="Assets\resource\Minigame\Scripts\EnergyBomb_Effect.cs" />
     <Compile Include="Assets\resource\Minigame\Scripts\enemyController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\resource\Dice\Scripts\DiceNumberCheck.cs" />
+    <Compile Include="Assets\resource\Minigame\Scripts\test.cs" />
+    <Compile Include="Assets\resource\Minigame\Scripts\Damage_TextInfo.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
     <Compile Include="Assets\resource\Dice\Scripts\DiceNumberText.cs" />
@@ -82,9 +84,9 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextConsoleSimulator.cs" />
     <Compile Include="Assets\Scenes\SceneChange.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
-    <Compile Include="Assets\Elder_Ent_Energy_Effect.cs" />
+    <Compile Include="Assets\resource\Minigame\Scripts\Elder_Ent_Energy_Effect.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
-    <Compile Include="Assets\Ghost.cs" />
+    <Compile Include="Assets\resource\Minigame\Scripts\Ghost.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\resource\Dice\Scripts\TextManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
@@ -100,11 +102,11 @@
     <Compile Include="Assets\resource\Dice\Scripts\GameManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
-    <Compile Include="Assets\TextController.cs" />
+    <Compile Include="Assets\resource\Minigame\Scripts\TextController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\resource\Dice\Scripts\Audio.cs" />
     <Compile Include="Assets\resource\Dice\Scripts\DiceRoll.cs" />
-    <Compile Include="Assets\Boss_Controller.cs" />
+    <Compile Include="Assets\resource\Minigame\Scripts\Boss_Controller.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
@@ -113,7 +115,6 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\resource\Puzzle\Scripts\DragAndDrop.cs" />
-    <Compile Include="Assets\test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

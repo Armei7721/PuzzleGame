@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("플레이어 능력치 관련")]
     private float max_hp = 100;
+    private float damage;
     private float currentHealth;
     public Slider player_hpBar;
     public TextMeshProUGUI hp_txt;
@@ -61,7 +62,8 @@ public class PlayerController : MonoBehaviour
     
     // Update is called once per frame
     void Update()
-    {  
+    {
+        damage = Random.Range(10f, 15f);
         player_hpBar.value = currentHealth;
         hp_txt.text = "HP: " + currentHealth.ToString("0") + " / " + max_hp.ToString("0");
         if (!isDead)

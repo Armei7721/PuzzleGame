@@ -16,6 +16,7 @@ public class enemyController : MonoBehaviour
 
     public Animator animator;
     public GameObject triggerEffectPrefab; // ¿Ã∆Â∆Æ «¡∏Æ∆’
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -128,6 +129,7 @@ public class enemyController : MonoBehaviour
             Vector3 collisionPoint = collision.ClosestPoint(transform.position);
             GameObject effectprefab = Instantiate(triggerEffectPrefab, collisionPoint, Quaternion.identity);
             Destroy(effectprefab, 1f);
+            Damage_TextInfo.DT.ShowDamagePopup(transform.position, 10);
             StartCoroutine(Dead());
         }
     }
