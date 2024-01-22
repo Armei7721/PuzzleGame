@@ -67,7 +67,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 8192
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -124,15 +124,15 @@ TextureImporter:
         y: 0
         width: 448
         height: 432
-      alignment: 9
-      pivot: {x: 0.4771784, y: 0.52151495}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b676f13b0cbef004baa696ed1a1afbe4
-      internalID: -216520439
+      spriteID: 667372152f66e4b48bc80d2641a5453d
+      internalID: 1061368720
       vertices: []
       indices: 
       edges: []
@@ -145,15 +145,15 @@ TextureImporter:
         y: 0
         width: 448
         height: 432
-      alignment: 9
-      pivot: {x: 0.47407436, y: 0.52688605}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a754e7b98d0c1b439ab2e24da57fb92
-      internalID: 1542464655
+      spriteID: 06f75a3b4e438434eafee018d30ae297
+      internalID: 2084313327
       vertices: []
       indices: 
       edges: []
@@ -166,15 +166,15 @@ TextureImporter:
         y: 0
         width: 448
         height: 432
-      alignment: 9
-      pivot: {x: 0.47981507, y: 0.5232583}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e66cca526fe59a4c882e1feff4d7005
-      internalID: 887199114
+      spriteID: 9494049285fa81e4bb9ab98b0e652c46
+      internalID: -1922299414
       vertices: []
       indices: 
       edges: []
@@ -187,15 +187,15 @@ TextureImporter:
         y: 0
         width: 448
         height: 432
-      alignment: 9
-      pivot: {x: 0.47473472, y: 0.5249536}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e9c5894cf31a467478ba4b60ccf23d79
-      internalID: 1384258230
+      spriteID: 3d1c21d665839ad429fdc7d73cb2a83a
+      internalID: -1413734480
       vertices: []
       indices: 
       edges: []
@@ -208,15 +208,15 @@ TextureImporter:
         y: 0
         width: 448
         height: 432
-      alignment: 9
-      pivot: {x: 0.4768911, y: 0.53062177}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c044c94bd2395e041baba1d47a8e9ebf
-      internalID: 819915259
+      spriteID: e5c455a637452b34e988c84375c30b59
+      internalID: -1673919052
       vertices: []
       indices: 
       edges: []
@@ -229,15 +229,15 @@ TextureImporter:
         y: 0
         width: 448
         height: 432
-      alignment: 9
-      pivot: {x: 0.47844532, y: 0.53176486}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bdf810ad8e14fef4a83afb6b8bacc9ad
-      internalID: 482462517
+      spriteID: 364b48682ed2e19448f26b4e1cc0b39f
+      internalID: -725111648
       vertices: []
       indices: 
       edges: []
@@ -250,15 +250,15 @@ TextureImporter:
         y: 0
         width: 448
         height: 432
-      alignment: 9
-      pivot: {x: 0.4772486, y: 0.5292117}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7aaa400aec3ab114a8ad4e4251c432bd
-      internalID: 1415143658
+      spriteID: 9720b0989b3bc7e4ea07f8c4dda5f778
+      internalID: 843094791
       vertices: []
       indices: 
       edges: []
@@ -271,15 +271,15 @@ TextureImporter:
         y: 0
         width: 448
         height: 432
-      alignment: 9
-      pivot: {x: 0.47983715, y: 0.5297762}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 812ff7f84262ca3408887dfc1cb06f83
-      internalID: 1325874749
+      spriteID: 89670045a61ab964085c7364cacc265a
+      internalID: -1912633970
       vertices: []
       indices: 
       edges: []
@@ -292,15 +292,15 @@ TextureImporter:
         y: 0
         width: 448
         height: 432
-      alignment: 9
-      pivot: {x: 0.48108783, y: 0.5280181}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 37c74295d383287449547aa1f47393a9
-      internalID: -1681408207
+      spriteID: 34c4c76aaa2e10f4baf60fed6b946e82
+      internalID: 330576492
       vertices: []
       indices: 
       edges: []
@@ -313,15 +313,15 @@ TextureImporter:
         y: 0
         width: 448
         height: 432
-      alignment: 9
-      pivot: {x: 0.47820827, y: 0.5271196}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16fce12adb13351438e168cd4651c4d5
-      internalID: -3673069
+      spriteID: 872981aa68fed004e955c3034184e05e
+      internalID: -108232532
       vertices: []
       indices: 
       edges: []
@@ -334,15 +334,36 @@ TextureImporter:
         y: 0
         width: 448
         height: 432
-      alignment: 9
-      pivot: {x: 0.48030636, y: 0.5320926}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d828a31454a45c8418193eceec0e95b1
-      internalID: 1635597079
+      spriteID: 4a546ddfb44313343b42e5ee6e42a29a
+      internalID: -941968442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ElderEnt_EnergyBomb_ChargingTrail(2)_11
+      rect:
+        serializedVersion: 2
+        x: 4928
+        y: 0
+        width: 448
+        height: 432
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3a850c6f6df5e54eb65d113eafe4254
+      internalID: 400717515
       vertices: []
       indices: 
       edges: []
@@ -358,17 +379,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ElderEnt_EnergyBomb_ChargingTrail(2)_0: -216520439
-      ElderEnt_EnergyBomb_ChargingTrail(2)_1: 1542464655
-      ElderEnt_EnergyBomb_ChargingTrail(2)_10: 1635597079
-      ElderEnt_EnergyBomb_ChargingTrail(2)_2: 887199114
-      ElderEnt_EnergyBomb_ChargingTrail(2)_3: 1384258230
-      ElderEnt_EnergyBomb_ChargingTrail(2)_4: 819915259
-      ElderEnt_EnergyBomb_ChargingTrail(2)_5: 482462517
-      ElderEnt_EnergyBomb_ChargingTrail(2)_6: 1415143658
-      ElderEnt_EnergyBomb_ChargingTrail(2)_7: 1325874749
-      ElderEnt_EnergyBomb_ChargingTrail(2)_8: -1681408207
-      ElderEnt_EnergyBomb_ChargingTrail(2)_9: -3673069
+      ElderEnt_EnergyBomb_ChargingTrail(2)_0: 1061368720
+      ElderEnt_EnergyBomb_ChargingTrail(2)_1: 2084313327
+      ElderEnt_EnergyBomb_ChargingTrail(2)_10: -941968442
+      ElderEnt_EnergyBomb_ChargingTrail(2)_11: 400717515
+      ElderEnt_EnergyBomb_ChargingTrail(2)_2: -1922299414
+      ElderEnt_EnergyBomb_ChargingTrail(2)_3: -1413734480
+      ElderEnt_EnergyBomb_ChargingTrail(2)_4: -1673919052
+      ElderEnt_EnergyBomb_ChargingTrail(2)_5: -725111648
+      ElderEnt_EnergyBomb_ChargingTrail(2)_6: 843094791
+      ElderEnt_EnergyBomb_ChargingTrail(2)_7: -1912633970
+      ElderEnt_EnergyBomb_ChargingTrail(2)_8: 330576492
+      ElderEnt_EnergyBomb_ChargingTrail(2)_9: -108232532
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

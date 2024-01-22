@@ -13,7 +13,7 @@ public class Boss_Controller : MonoBehaviour
     // Start is called before the first frame update
 
     [Header("보스 능력치 관련")]
-    private float max_hp=100;
+    private float max_hp=1;
     private float currentHealth;
     public Slider BS_hpBar;
 
@@ -24,32 +24,119 @@ public class Boss_Controller : MonoBehaviour
     public Collider2D[] left_Arm;
     public Collider2D[] right_Arm;
 
+    public bool isDie = false;
     public GameObject triggerEffectPrefab; // 이펙트 프리팹
     void Start()
     {
         
-         animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         PartsChild();
         BS_hpBar.maxValue = max_hp;
         currentHealth = max_hp;
         initialHeadPosition = head.position;
-       //StartCoroutine(EnergyBall());
-       
+        //StartCoroutine(EnergyBall());
+        StartCoroutine(Think());
     }
     // Update is called once per frame
     void Update()
     {
         BS_hpBar.value = currentHealth;
-      
+        Dead();
     }
-    IEnumerator Think()
+    public IEnumerator Think()
     {
-        yield return new WaitForSeconds(0.5f);
+        Debug.Log("발동");
+        left_Arm[0].enabled = true;
+        right_Arm[0].enabled = true;
+        yield return new WaitForSeconds(5f);
+
+        int randAction = Random.Range(0, 3);
+
+        if (!isDie)
+        {
+            switch (randAction)
+            {
+
+                case 0:
+                    Debug.Log("case 0 발동");
+                    left_Arm[0].enabled = false;
+                    right_Arm[0].enabled = false;
+                    StartCoroutine(Sweep());
+
+                    break;
+                case 1:
+                    Debug.Log("case 1 발동");
+                    left_Arm[0].enabled = false;
+                    right_Arm[0].enabled = false;
+                    StartCoroutine(Mount());
+
+                    break;
+                case 2:
+                    Debug.Log("case 2 발동");
+                    left_Arm[0].enabled = false;
+                    right_Arm[0].enabled = false;
+                    StartCoroutine(Magic());
+                    break;
+            }
+        }
+        else
+        {
+            StartCoroutine(Think());
+        }
+
+    }
+    public IEnumerator Sweep()
+    {
+        animator.SetTrigger("Sweep");  
+        left_Arm[3].enabled = true;
+        right_Arm[3].enabled = true;
+        parentleft_Arm.tag = "enemy";
+        parentright_Arm.tag = "enemy";
+
+        // 대기 시간
+        yield return new WaitForSeconds(0.1f); // 원하는 대기 시간으로 조정
+
+        // 애니메이션이 끝날 때까지 대기
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Boss_Ent_Sweep") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+        {
+            yield return null;
+        }
+
+        // 애니메이션이 끝났을 때 실행할 코드
+        StartCoroutine(Think());
+        left_Arm[3].enabled = false;
+        right_Arm[3].enabled = false;
+        parentleft_Arm.tag = "Idle";
+        parentright_Arm.tag = "Idle";
     }
 
+    public IEnumerator Magic()
+    {
+        animator.SetTrigger("Magic");
+        left_Arm[2].enabled = true;
+        right_Arm[2].enabled = true;
+        // 대기 시간
+        yield return new WaitForSeconds(0.1f); // 원하는 대기 시간으로 조정
+
+        // 애니메이션이 끝날 때까지 대기
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Boss_Ent_Sweep") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+        {
+            yield return null;
+        }
+
+        // 애니메이션이 끝났을 때 실행할 코드
+        StartCoroutine(Think());
+        left_Arm[2].enabled = false;
+        right_Arm[2].enabled = false;
+        parentleft_Arm.tag = "Idle";
+        parentright_Arm.tag = "Idle";
+    }
     public IEnumerator Mount()
     {
-
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("YourAnimationName") && !animator.IsInTransition(0))
+        {
+            StartCoroutine(Think());
+        }
         yield return new WaitForSeconds(0.5f);
     }
     public void PartsChild()
@@ -62,13 +149,25 @@ public class Boss_Controller : MonoBehaviour
         {
             children[i] = parentTransform.GetChild(i);
         }
-        // 부모 오브젝트의 자식들을 가져옴
-        Transform parentleft_Arm = transform;
-        Collider2D[] left_Arm = new Collider2D[parentleft_Arm.childCount];
+        
+        //팔의 콜라이더를 참조하는 부문
+        Collider2D[] left_Arm_colliders = parentleft_Arm.GetComponents<Collider2D>();
+        Collider2D[] right_Arm_colliders = parentright_Arm.GetComponents<Collider2D>();
 
-        for (int i = 0; i < 4; i++)
+        // left_Arm 배열 초기화
+        left_Arm = new Collider2D[left_Arm_colliders.Length];
+        right_Arm = new Collider2D[right_Arm_colliders.Length];
+
+        // 가져온 Collider2D 배열을 left_Arm 배열에 할당
+        for (int i = 0; i < left_Arm_colliders.Length; i++)
         {
-            left_Arm[i] = parentleft_Arm.GetComponent<Collider2D>();
+            left_Arm[i] = left_Arm_colliders[i];
+            left_Arm[i].enabled = false;          
+        }
+        for (int i = 0; i < right_Arm_colliders.Length; i++)
+        {
+            right_Arm[i] = right_Arm_colliders[i];
+            right_Arm[i].enabled = false;
         }
 
     }
@@ -85,6 +184,14 @@ public class Boss_Controller : MonoBehaviour
         Destroy(energyballprefab, 5f);
 
     }
+    public void Dead()
+    {
+        if(currentHealth<0 && !isDie)
+        {
+            isDie = true;
+            animator.SetTrigger("Dead");
+        }
+    }
     public void AnimationSpeeddown()
     {
         animator.speed = 0.3f;
@@ -98,11 +205,11 @@ public class Boss_Controller : MonoBehaviour
        
         if(other.CompareTag("Attack"))
         {
-            Debug.Log("test");
             Vector3 collisionPoint = other.ClosestPoint(transform.position);
             GameObject effectprefab=Instantiate(triggerEffectPrefab, collisionPoint, Quaternion.identity);
             Destroy(effectprefab, 2);
             currentHealth -= 10;
         }
     }
+
 }

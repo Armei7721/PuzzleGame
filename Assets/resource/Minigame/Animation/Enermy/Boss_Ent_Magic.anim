@@ -349,7 +349,7 @@ AnimationClip:
     - time: 1.6666666
       value: {fileID: 1815176163, guid: b7fc6ee6bfeddc547a9cef5f6ca61d83, type: 3}
     - time: 2
-      value: {fileID: 1563496829, guid: b7fc6ee6bfeddc547a9cef5f6ca61d83, type: 3}
+      value: {fileID: 1537934466, guid: b7fc6ee6bfeddc547a9cef5f6ca61d83, type: 3}
     - time: 2.0666666
       value: {fileID: 1537934466, guid: b7fc6ee6bfeddc547a9cef5f6ca61d83, type: 3}
     - time: 2.2
@@ -383,6 +383,30 @@ AnimationClip:
       value: {fileID: 124506560, guid: d353223369e64eb4095834e684338fff, type: 3}
     - time: 1.7
       value: {fileID: 1398055829, guid: d353223369e64eb4095834e684338fff, type: 3}
+    - time: 1.7333333
+      value: {fileID: 1061368720, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - time: 1.7666667
+      value: {fileID: 2084313327, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - time: 1.8
+      value: {fileID: -1922299414, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - time: 1.8333334
+      value: {fileID: -1413734480, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - time: 1.8666667
+      value: {fileID: -1673919052, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - time: 1.9
+      value: {fileID: -725111648, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - time: 1.9333333
+      value: {fileID: 843094791, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - time: 1.9666667
+      value: {fileID: -1912633970, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - time: 2
+      value: {fileID: 330576492, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - time: 2.0333333
+      value: {fileID: -108232532, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - time: 2.0666666
+      value: {fileID: -941968442, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - time: 2.1
+      value: {fileID: 400717515, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
     attribute: m_Sprite
     path: Head/Magic_Effect
     classID: 212
@@ -501,7 +525,7 @@ AnimationClip:
     - {fileID: 1537934466, guid: b7fc6ee6bfeddc547a9cef5f6ca61d83, type: 3}
     - {fileID: 1537934466, guid: b7fc6ee6bfeddc547a9cef5f6ca61d83, type: 3}
     - {fileID: 1815176163, guid: b7fc6ee6bfeddc547a9cef5f6ca61d83, type: 3}
-    - {fileID: 1563496829, guid: b7fc6ee6bfeddc547a9cef5f6ca61d83, type: 3}
+    - {fileID: 1537934466, guid: b7fc6ee6bfeddc547a9cef5f6ca61d83, type: 3}
     - {fileID: 1537934466, guid: b7fc6ee6bfeddc547a9cef5f6ca61d83, type: 3}
     - {fileID: 1537934466, guid: b7fc6ee6bfeddc547a9cef5f6ca61d83, type: 3}
     - {fileID: 0}
@@ -516,6 +540,18 @@ AnimationClip:
     - {fileID: -441694746, guid: d353223369e64eb4095834e684338fff, type: 3}
     - {fileID: 124506560, guid: d353223369e64eb4095834e684338fff, type: 3}
     - {fileID: 1398055829, guid: d353223369e64eb4095834e684338fff, type: 3}
+    - {fileID: 1061368720, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - {fileID: 2084313327, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - {fileID: -1922299414, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - {fileID: -1413734480, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - {fileID: -1673919052, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - {fileID: -725111648, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - {fileID: 843094791, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - {fileID: -1912633970, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - {fileID: 330576492, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - {fileID: -108232532, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - {fileID: -941968442, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
+    - {fileID: 400717515, guid: 40bfd2abee04bcf47a34998687a2b909, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -526,7 +562,7 @@ AnimationClip:
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 1
+    m_LoopTime: 0
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0

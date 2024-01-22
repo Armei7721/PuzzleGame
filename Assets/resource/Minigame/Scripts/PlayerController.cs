@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
     
     // Update is called once per frame
     void Update()
-    {
+    {   
         damage = Random.Range(10f, 15f);
         player_hpBar.value = currentHealth;
         hp_txt.text = "HP: " + currentHealth.ToString("0") + " / " + max_hp.ToString("0");
@@ -81,6 +81,14 @@ public class PlayerController : MonoBehaviour
             }
             Dead();
             HitDuring();
+        }
+        Hpcontroller();
+    }
+    public void Hpcontroller()
+    {
+        if(currentHealth<0)
+        {
+            currentHealth = 0;
         }
     }
     //플레이어 움직임 컨트롤
@@ -267,10 +275,9 @@ public class PlayerController : MonoBehaviour
     }
     public void HitDuring()
     {
-        if (!isDead)
-        {
+       
             // 피격 상태일 때의 처리
-            if (isHit)
+            if (isHit && currentHealth>0)
             {
                 float hitDuration = 1;
                 gameObject.layer = 12;
@@ -301,7 +308,6 @@ public class PlayerController : MonoBehaviour
                 return; // 피격 상태일 때는 이동 및 공격을 하지 않음
             }
             isHit = false;
-        }
     }
     public void Childlist()
     {
@@ -404,30 +410,39 @@ public class PlayerController : MonoBehaviour
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.collider.CompareTag("ground") || collision.collider.CompareTag("scaff"))&& collision.contacts[0].normal.y > 0)
+        if (!isDead)
         {
-            jumpCount = 0;
-            animator.SetBool("Jump", false);
-            animator.SetBool("isGround", true);
-            
-            
-        }
-        else if (collision.collider.CompareTag("enemy"))
-        {
-            isHit = true;
-            currentHealth -= 10;
+            if ((collision.collider.CompareTag("ground") || collision.collider.CompareTag("scaff")) && collision.contacts[0].normal.y > 0)
+            {
+                jumpCount = 0;
+                animator.SetBool("Jump", false);
+                animator.SetBool("isGround", true);
+
+
+            }
+            else if (collision.collider.CompareTag("enemy"))
+            {
+                isHit = true;
+                currentHealth -= 10;
+            }
         }
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        
 
-        if (collision.CompareTag("bullet") &&!isHit)
+        if (!isDead)
         {
-            isHit = true;
-            currentHealth -= 10;
+            if (collision.CompareTag("bullet") && !isHit)
+            {
+                isHit = true;
+                currentHealth -= 10;
+            }
+            else if (collision.CompareTag("enemy"))
+            {
+                isHit = true;
+                currentHealth -= 10;
+            }
         }
-        
     }
     public void OnCollisionStay2D(Collision2D collision)
     {
@@ -451,6 +466,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger("Death");
             isDead = true;
+            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
         }
     }
 
