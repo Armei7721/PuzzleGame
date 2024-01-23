@@ -26,6 +26,7 @@ public class Boss_Controller : MonoBehaviour
 
     public bool isDie = false;
     public GameObject triggerEffectPrefab; // 이펙트 프리팹
+    public GameObject sandstorm;
     void Start()
     {
         
@@ -40,6 +41,7 @@ public class Boss_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Current Animation Speed: " + animator.speed);
         BS_hpBar.value = currentHealth;
         Dead();
     }
@@ -116,10 +118,10 @@ public class Boss_Controller : MonoBehaviour
         left_Arm[2].enabled = true;
         right_Arm[2].enabled = true;
         // 대기 시간
-        yield return new WaitForSeconds(0.1f); // 원하는 대기 시간으로 조정
+       
 
         // 애니메이션이 끝날 때까지 대기
-        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Boss_Ent_Sweep") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Boss_Ent_Magic") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
         {
             yield return null;
         }
@@ -133,12 +135,26 @@ public class Boss_Controller : MonoBehaviour
     }
     public IEnumerator Mount()
     {
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("YourAnimationName") && !animator.IsInTransition(0))
+        animator.SetTrigger("Mount");
+        left_Arm[1].enabled = true;
+        right_Arm[1].enabled = true;
+        // 대기 시간
+        yield return new WaitForSeconds(0.1f); // 원하는 대기 시간으로 조정
+
+        // 애니메이션이 끝날 때까지 대기
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Boss_Ent_Mount") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
         {
-            StartCoroutine(Think());
+            yield return null;
         }
-        yield return new WaitForSeconds(0.5f);
+
+        // 애니메이션이 끝났을 때 실행할 코드
+        StartCoroutine(Think());
+        left_Arm[1].enabled = false;
+        right_Arm[1].enabled = false;
+        parentleft_Arm.tag = "Idle";
+        parentright_Arm.tag = "Idle";
     }
+  
     public void PartsChild()
     {
         // 부모 오브젝트의 자식들을 가져옴
@@ -171,7 +187,15 @@ public class Boss_Controller : MonoBehaviour
         }
 
     }
+    public void SandStormEffect()
+    {
+        GameObject SandStormprefab = Instantiate(sandstorm, (parentleft_Arm.transform.position+parentright_Arm.transform.position)/2, Quaternion.identity);
+        if (SandStormprefab.GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("SandStorm_Effect"))
+        {
+            Destroy(SandStormprefab);
+        }
 
+    }
     public IEnumerator EnergyBall()
     {
         int speed = 5;
@@ -179,8 +203,6 @@ public class Boss_Controller : MonoBehaviour
         Vector3 direction = (player.position - transform.position).normalized;
         energyballprefab.GetComponent<Rigidbody2D>().velocity = direction * speed;
         yield return new WaitForSeconds(1f);
-        StartCoroutine(EnergyBall());
-
         Destroy(energyballprefab, 5f);
 
     }
@@ -198,12 +220,12 @@ public class Boss_Controller : MonoBehaviour
     }
     public void AniamtionSpeedUp()
     {
-        animator.speed = 0.6f;
+        animator.speed = 1f;
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
        
-        if(other.CompareTag("Attack"))
+        if(other.CompareTag("Attack") && !isDie)
         {
             Vector3 collisionPoint = other.ClosestPoint(transform.position);
             GameObject effectprefab=Instantiate(triggerEffectPrefab, collisionPoint, Quaternion.identity);

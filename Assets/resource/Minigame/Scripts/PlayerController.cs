@@ -47,7 +47,8 @@ public class PlayerController : MonoBehaviour
     public float fallThroughPlatformDelay = 0.1f; // 플랫폼 아래로 내려가기 위한 딜레이
     public bool canFallThroughPlatform = false;
     public GameObject dig_Effect;
-    
+    private bool isUltimateActive = false;
+    public GameObject[] allGameObjects;
     // Start is called before the first frame update
     void Start()
     {
@@ -74,10 +75,11 @@ public class PlayerController : MonoBehaviour
                 Move();
                 Jump();
                 Ghost();
+                StartCoroutine(ExSkill());
                 StartCoroutine(Dig());
                 StartCoroutine(Attack());
                 StartCoroutine(Special_Attack());
-
+                
             }
             Dead();
             HitDuring();
@@ -308,6 +310,67 @@ public class PlayerController : MonoBehaviour
                 return; // 피격 상태일 때는 이동 및 공격을 하지 않음
             }
             isHit = false;
+    }
+    public IEnumerator ExSkill()
+    {
+       
+        if (Input.GetKeyDown(KeyCode.V)&& !isUltimateActive){
+           
+            PRigidBody.velocity = (Vector2.up * 10f);
+            // 필살기 사용 중 플래그 설정
+            isUltimateActive = true;
+            animator.SetTrigger("ExSkill");
+            // 플레이어 이외의 모든 게임 오브젝트를 찾아 정지 또는 비활성화
+            allGameObjects = GameObject.FindObjectsOfType<GameObject>();
+            foreach (GameObject gameObject in allGameObjects)
+            {
+                // 플레이어를 제외한 모든 게임 오브젝트를 정지 또는 비활성화
+                if (gameObject == GameObject.Find("Boss_Ent"))
+                {
+                    Animator animator = gameObject.GetComponent<Animator>();
+                    if (animator != null)
+                    {
+                        animator.speed = 0;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    //ghost.makeGhost = false;
+                    // 정지 또는 비활성화 로직을 추가해야 합니다.
+                    // 예를 들어, Rigidbody의 경우는 rigidbody.velocity = Vector3.zero; 로 정지할 수 있습니다.
+                    // 또는 게임 오브젝트를 비활성화하는 경우는 gameObject.SetActive(false); 로 비활성화할 수 있습니다.
+
+                }
+            }
+            ghost.makeGhost = true;
+            // 필살기 지속 시간 동안 게임 로직 수행 (예: 특수 효과, 애니메이션 등)
+            if (gameObject.GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("ShovelKnight_ex"))
+            {
+                
+                yield return null;
+            }
+            // 필살기 종료 시 플래그 해제
+            isUltimateActive = false;
+
+            // 모든 게임 오브젝트를 다시 활성화
+            foreach (GameObject gameObject in allGameObjects)
+            {
+                if (gameObject != this.gameObject)
+                {
+                    Animator animator = gameObject.GetComponent<Animator>();
+                    if (animator != null)
+                    {
+                        animator.speed = 0;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    // 게임 오브젝트를 활성화하는 로직을 추가해야 합니다.
+                }
+            }
+        }
     }
     public void Childlist()
     {
