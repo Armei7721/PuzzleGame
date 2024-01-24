@@ -41,13 +41,13 @@ public class Boss_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Current Animation Speed: " + animator.speed);
+       
         BS_hpBar.value = currentHealth;
         Dead();
     }
     public IEnumerator Think()
     {
-        Debug.Log("발동");
+        
         left_Arm[0].enabled = true;
         right_Arm[0].enabled = true;
         yield return new WaitForSeconds(5f);
@@ -60,21 +60,21 @@ public class Boss_Controller : MonoBehaviour
             {
 
                 case 0:
-                    Debug.Log("case 0 발동");
+                   
                     left_Arm[0].enabled = false;
                     right_Arm[0].enabled = false;
                     StartCoroutine(Sweep());
 
                     break;
                 case 1:
-                    Debug.Log("case 1 발동");
+                   
                     left_Arm[0].enabled = false;
                     right_Arm[0].enabled = false;
                     StartCoroutine(Mount());
 
                     break;
                 case 2:
-                    Debug.Log("case 2 발동");
+                    
                     left_Arm[0].enabled = false;
                     right_Arm[0].enabled = false;
                     StartCoroutine(Magic());

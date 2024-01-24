@@ -47,11 +47,17 @@ public class PlayerController : MonoBehaviour
     public float fallThroughPlatformDelay = 0.1f; // 플랫폼 아래로 내려가기 위한 딜레이
     public bool canFallThroughPlatform = false;
     public GameObject dig_Effect;
-    private bool isUltimateActive = false;
-    public GameObject[] allGameObjects;
+    public bool isUltimateActive = false;
+    public GameObject allGameObjects;
+    public GameObject shovelknight_Ex_Spin;
+    public GameObject shovelknight_Ex_Spin_Effect;
+    public float spawnDistanceRange = 5f;
+    float aniSpeed;
+    public GameObject shovelKnight_Ex_SpinPrefab;
     // Start is called before the first frame update
     void Start()
     {
+        allGameObjects = GameObject.Find("Boss_Ent");
         cacd2d = GetComponent<CapsuleCollider2D>();
         player_hpBar.maxValue = max_hp;
         currentHealth = max_hp;
@@ -315,62 +321,88 @@ public class PlayerController : MonoBehaviour
     {
        
         if (Input.GetKeyDown(KeyCode.V)&& !isUltimateActive){
-           
+       
             PRigidBody.velocity = (Vector2.up * 10f);
             // 필살기 사용 중 플래그 설정
             isUltimateActive = true;
             animator.SetTrigger("ExSkill");
             // 플레이어 이외의 모든 게임 오브젝트를 찾아 정지 또는 비활성화
-            allGameObjects = GameObject.FindObjectsOfType<GameObject>();
-            foreach (GameObject gameObject in allGameObjects)
-            {
-                // 플레이어를 제외한 모든 게임 오브젝트를 정지 또는 비활성화
-                if (gameObject == GameObject.Find("Boss_Ent"))
+            
+            ghost.makeGhost = true;
+            
+            // 플레이어를 제외한 모든 게임 오브젝트를 정지 또는 비활성화
+            if (allGameObjects == GameObject.Find("Boss_Ent"))
                 {
-                    Animator animator = gameObject.GetComponent<Animator>();
+                    
+                    Animator animator =allGameObjects.GetComponent<Animator>();
                     if (animator != null)
                     {
+                        aniSpeed = animator.speed;
                         animator.speed = 0;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                    //ghost.makeGhost = false;
+                    
+                    }             
                     // 정지 또는 비활성화 로직을 추가해야 합니다.
                     // 예를 들어, Rigidbody의 경우는 rigidbody.velocity = Vector3.zero; 로 정지할 수 있습니다.
                     // 또는 게임 오브젝트를 비활성화하는 경우는 gameObject.SetActive(false); 로 비활성화할 수 있습니다.
 
                 }
-            }
-            ghost.makeGhost = true;
-            // 필살기 지속 시간 동안 게임 로직 수행 (예: 특수 효과, 애니메이션 등)
-            if (gameObject.GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("ShovelKnight_ex"))
+
+            GameObject skill = new GameObject("Skill1");
+            for (int i = 0; i < 10; i++)
             {
-                
+                SpawnPrefabRandomPosition();
+                shovelKnight_Ex_SpinPrefab.transform.parent = skill.transform;
+            }
+
+
+            // 필살기 지속 시간 동안 게임 로직 수행 (예: 특수 효과, 애니메이션 등)
+            while (animator.GetCurrentAnimatorStateInfo(0).IsName("ShovelKnight_ex") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
+            {
                 yield return null;
             }
-            // 필살기 종료 시 플래그 해제
-            isUltimateActive = false;
 
+            // 필살기 종료 시 플래그 해제
+            //isUltimateActive = false;
+            ghost.makeGhost = false;
+            Destroy(skill);
             // 모든 게임 오브젝트를 다시 활성화
-            foreach (GameObject gameObject in allGameObjects)
+
+ 
+            if (allGameObjects == GameObject.Find("Boss_Ent"))
             {
-                if (gameObject != this.gameObject)
+
+                Animator animator = allGameObjects.GetComponent<Animator>();
+                if (animator != null)
                 {
-                    Animator animator = gameObject.GetComponent<Animator>();
-                    if (animator != null)
-                    {
-                        animator.speed = 0;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                    // 게임 오브젝트를 활성화하는 로직을 추가해야 합니다.
+                    animator.speed = aniSpeed;
                 }
+                // 정지 또는 비활성화 로직을 추가해야 합니다.
+                // 예를 들어, Rigidbody의 경우는 rigidbody.velocity = Vector3.zero; 로 정지할 수 있습니다.
+                // 또는 게임 오브젝트를 비활성화하는 경우는 gameObject.SetActive(false); 로 비활성화할 수 있습니다.
+
             }
+
+
         }
+    }
+    void SpawnPrefabRandomPosition()
+    {
+        // 현재 카메라의 위치와 방향을 가져옴
+        Camera mainCamera = Camera.main;
+        Vector3 cameraPosition = mainCamera.transform.position;
+        Vector3 cameraForward = mainCamera.transform.forward;
+
+        // 카메라 앞쪽으로 일정한 거리만큼 떨어진 위치 계산
+        Vector3 spawnPosition = cameraPosition + cameraForward * Random.Range(0f, spawnDistanceRange);
+
+        // 랜덤한 위치로부터 x, y, z 각각에 대해 랜덤한 값을 더해줌
+        spawnPosition += new Vector3(Random.Range(-spawnDistanceRange, spawnDistanceRange),
+                                     Random.Range(-spawnDistanceRange, spawnDistanceRange),
+                                     Random.Range(-spawnDistanceRange, spawnDistanceRange));
+
+        // 프리팹을 해당 위치에 생성
+        shovelKnight_Ex_SpinPrefab = Instantiate(shovelknight_Ex_Spin, spawnPosition, Quaternion.identity);
+
     }
     public void Childlist()
     {

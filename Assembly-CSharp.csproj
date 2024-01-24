@@ -101,6 +101,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
     <Compile Include="Assets\GameManager_1.cs" />
     <Compile Include="Assets\resource\Dice\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Shovelknight_ex_Spin.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\resource\Minigame\Scripts\TextController.cs" />

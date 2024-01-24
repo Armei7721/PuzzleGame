@@ -395,6 +395,7 @@
 "Assets/resource/Puzzle/Scripts/HintScript.cs"
 "Assets/resource/Puzzle/Scripts/PieceScript.cs"
 "Assets/Scenes/SceneChange.cs"
+"Assets/Shovelknight_ex_Spin.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01_UGUI.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark02.cs"

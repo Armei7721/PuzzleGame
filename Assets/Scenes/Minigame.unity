@@ -7633,7 +7633,11 @@ MonoBehaviour:
   fallThroughPlatformDelay: 0.1
   canFallThroughPlatform: 0
   dig_Effect: {fileID: 796247664448355298, guid: cd0e751f268df4b46ac34244c54ce56b, type: 3}
-  allGameObjects: []
+  allGameObjects: {fileID: 0}
+  shovelknight_Ex_Spin: {fileID: 3591594154629839974, guid: 11b6895f2cb487e4bb2ad244bf5972ed, type: 3}
+  shovelknight_Ex_Spin_Effect: {fileID: 7908525806288800138, guid: 422c9967e88e8dd4a9f48415c160b943, type: 3}
+  spawnDistanceRange: 5
+  shovelKnight_Ex_SpinPrefab: {fileID: 0}
 --- !u!212 &1752537408
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7674,7 +7678,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1099970771
   m_SortingLayer: 3
-  m_SortingOrder: 6
+  m_SortingOrder: 7
   m_Sprite: {fileID: -1219657851, guid: 9afba11c4a901124498284a18260a822, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
