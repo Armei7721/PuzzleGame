@@ -6,14 +6,17 @@ public class Shovelknight_ex_Spin : MonoBehaviour
 {
     GameObject Player;
     Rigidbody2D rb;
+   
     // Start is called before the first frame update
     void Start()
     {
         Player = GameObject.Find("Player");
-        Vector3 direction = Player.transform.position - transform.position;
-        Vector3 normalizedDirection = direction.normalized;
+        Vector2 direction = Player.transform.position - transform.position;
+        Vector2 normalizedDirection = direction.normalized;
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(normalizedDirection.x*Random.Range(3,5), rb.velocity.y);
+        rb.velocity = new Vector2(normalizedDirection.x*5, rb.velocity.y);
+
+
     }
 
     // Update is called once per frame

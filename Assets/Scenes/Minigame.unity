@@ -375,6 +375,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &268448311
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8834743986413134328, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+      propertyPath: m_Name
+      value: skeleton A
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834743986413134332, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834743986413134332, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834743986413134332, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834743986413134332, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834743986413134332, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834743986413134332, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834743986413134332, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834743986413134332, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834743986413134332, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834743986413134332, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834743986413134332, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
 --- !u!1 &274038473
 GameObject:
   m_ObjectHideFlags: 0
@@ -2179,9 +2236,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 300
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 300
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3399,7 +3456,7 @@ GameObject:
   - component: {fileID: 1254938400}
   - component: {fileID: 1254938399}
   - component: {fileID: 1254938401}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Ground
   m_TagString: ground
   m_Icon: {fileID: 0}
@@ -7309,6 +7366,7 @@ MonoBehaviour:
   head: {fileID: 1781453035}
   energyball: {fileID: 605341871624141466, guid: 4288fb9118afd1e47bbb31daf371cba4, type: 3}
   player: {fileID: 1752537409}
+  currentHealth: 0
   BS_hpBar: {fileID: 789780407}
   parentTransform: {fileID: 0}
   children: []
@@ -7319,6 +7377,8 @@ MonoBehaviour:
   isDie: 0
   triggerEffectPrefab: {fileID: 9097556701924095866, guid: bf6ea4ef183d29a4491d94f11c3f97f4, type: 3}
   sandstorm: {fileID: 7952523502007786619, guid: 2f33f59dfbe853944a7e4305774c5f7f, type: 3}
+  skeleton: {fileID: 8834743986413134328, guid: 6e6e669a53ea27c4db869da39f0c934d, type: 3}
+  tcollider: {fileID: 1254938401}
 --- !u!50 &1638943300
 Rigidbody2D:
   serializedVersion: 4
@@ -7633,6 +7693,7 @@ MonoBehaviour:
   fallThroughPlatformDelay: 0.1
   canFallThroughPlatform: 0
   dig_Effect: {fileID: 796247664448355298, guid: cd0e751f268df4b46ac34244c54ce56b, type: 3}
+  isUltimateActive: 0
   allGameObjects: {fileID: 0}
   shovelknight_Ex_Spin: {fileID: 3591594154629839974, guid: 11b6895f2cb487e4bb2ad244bf5972ed, type: 3}
   shovelknight_Ex_Spin_Effect: {fileID: 7908525806288800138, guid: 422c9967e88e8dd4a9f48415c160b943, type: 3}

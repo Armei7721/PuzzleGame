@@ -20,12 +20,13 @@ public class PlayerController : MonoBehaviour
     public GameObject triggerEffectPrefab; // 이펙트 프리팹
 
 
-    bool isGround = true;
+    bool isGround;
     bool isDead = false;
     bool attack = false;
     bool baldong = false;
     bool hitting = false;
     bool isHit = false;
+    
     public Tilemap tilemap;
 
 
@@ -73,7 +74,7 @@ public class PlayerController : MonoBehaviour
         damage = Random.Range(10f, 15f);
         player_hpBar.value = currentHealth;
         hp_txt.text = "HP: " + currentHealth.ToString("0") + " / " + max_hp.ToString("0");
-        if (!isDead)
+        if (!isDead && !isUltimateActive)
         {
             if (!hitting)
             {
@@ -319,8 +320,10 @@ public class PlayerController : MonoBehaviour
     }
     public IEnumerator ExSkill()
     {
-       
-        if (Input.GetKeyDown(KeyCode.V)&& !isUltimateActive){
+        Collider2D playerCollider = GetComponent<Collider2D>();
+        float rayLength = playerCollider.bounds.extents.y + 0.1f; // 레이의 길이 설정
+        RaycastHit2D hit = Physics2D.Raycast(playerCollider.bounds.center, Vector2.down, playerCollider.bounds.extents.y + 0.1f, LayerMask.GetMask("Ground"));
+        if (Input.GetKeyDown(KeyCode.V)&& !isUltimateActive && isGround &&hit.collider!=null ){
        
             PRigidBody.velocity = (Vector2.up * 10f);
             // 필살기 사용 중 플래그 설정
@@ -348,26 +351,26 @@ public class PlayerController : MonoBehaviour
                 }
 
             GameObject skill = new GameObject("Skill1");
+            GameObject shovelknight_Ex_Spin_Effect_Prefab = Instantiate(shovelknight_Ex_Spin_Effect, transform.position, Quaternion.identity);
+            shovelknight_Ex_Spin_Effect_Prefab.transform.parent = skill.transform;
+ 
             for (int i = 0; i < 10; i++)
             {
                 SpawnPrefabRandomPosition();
                 shovelKnight_Ex_SpinPrefab.transform.parent = skill.transform;
             }
-
-
+            yield return new WaitForSeconds(0.5f);
+            float animationLength = animator.GetCurrentAnimatorStateInfo(0).length;
+            Debug.Log(animationLength);
             // 필살기 지속 시간 동안 게임 로직 수행 (예: 특수 효과, 애니메이션 등)
-            while (animator.GetCurrentAnimatorStateInfo(0).IsName("ShovelKnight_ex") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
-            {
-                yield return null;
-            }
+            yield return new WaitForSeconds(animationLength);
+            
 
             // 필살기 종료 시 플래그 해제
-            //isUltimateActive = false;
+            isUltimateActive = false;
             ghost.makeGhost = false;
             Destroy(skill);
             // 모든 게임 오브젝트를 다시 활성화
-
- 
             if (allGameObjects == GameObject.Find("Boss_Ent"))
             {
 
@@ -375,13 +378,14 @@ public class PlayerController : MonoBehaviour
                 if (animator != null)
                 {
                     animator.speed = aniSpeed;
+                    Boss_Controller.BS.currentHealth -= 100;
                 }
                 // 정지 또는 비활성화 로직을 추가해야 합니다.
                 // 예를 들어, Rigidbody의 경우는 rigidbody.velocity = Vector3.zero; 로 정지할 수 있습니다.
                 // 또는 게임 오브젝트를 비활성화하는 경우는 gameObject.SetActive(false); 로 비활성화할 수 있습니다.
 
             }
-
+            
 
         }
     }
@@ -397,8 +401,7 @@ public class PlayerController : MonoBehaviour
 
         // 랜덤한 위치로부터 x, y, z 각각에 대해 랜덤한 값을 더해줌
         spawnPosition += new Vector3(Random.Range(-spawnDistanceRange, spawnDistanceRange),
-                                     Random.Range(-spawnDistanceRange, spawnDistanceRange),
-                                     Random.Range(-spawnDistanceRange, spawnDistanceRange));
+                                     Random.Range(-spawnDistanceRange, spawnDistanceRange),0f);
 
         // 프리팹을 해당 위치에 생성
         shovelKnight_Ex_SpinPrefab = Instantiate(shovelknight_Ex_Spin, spawnPosition, Quaternion.identity);
@@ -441,10 +444,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     private void Dash()
-    {
-        if (isGround)
-        {
-            
+    {   
             dashTime += Time.deltaTime;
             if (PRigidBody.velocity.x < 0)
             {
@@ -468,32 +468,7 @@ public class PlayerController : MonoBehaviour
                 isDash = false;
                 StartCoroutine(DashCooldown());
             }
-        }
-        else if (!isGround)
-        {
-            
-            dashTime += Time.deltaTime;
-            float currentVelocityY = 0f;
-            if (PRigidBody.velocity.x < 0)
-            {
-
-                PRigidBody.velocity = new Vector2(-playerMoveSpeed * 5 * Time.deltaTime, currentVelocityY);
-                canDash = false;
-            }
-            else if (PRigidBody.velocity.x > 0)
-            {
-
-                PRigidBody.velocity = new Vector2(playerMoveSpeed * 5 * Time.deltaTime, currentVelocityY);
-                canDash = false;
-            }
-            if (dashTime >= maxDashTime)
-            {
-                // 대시가 끝났을 때만 다시 대시 가능하도록 설정
-                ghost.makeGhost = false;
-                isDash = false;
-                StartCoroutine(DashCooldown());
-            }
-        }
+        
     }
     private IEnumerator DashCooldown()
     {
@@ -544,8 +519,13 @@ public class PlayerController : MonoBehaviour
         if (collision.collider.CompareTag("scaff") && collision.contacts[0].normal.y > 0)
         {
             StartCoroutine(DownJump());
-
+            isGround = true;
         }
+        else if (collision.collider.CompareTag("ground") && collision.contacts[0].normal.y > 0)
+        {
+            isGround = true;
+        }
+        else { isGround = false; }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {

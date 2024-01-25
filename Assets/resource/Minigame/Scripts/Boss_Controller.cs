@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;
 public class Boss_Controller : MonoBehaviour
 {
+    public static Boss_Controller BS;
     Animator animator;
     public bool paturn;
     public Transform head;
@@ -13,8 +15,8 @@ public class Boss_Controller : MonoBehaviour
     // Start is called before the first frame update
 
     [Header("보스 능력치 관련")]
-    private float max_hp=1;
-    private float currentHealth;
+    private float max_hp=300;
+    public float currentHealth;
     public Slider BS_hpBar;
 
     public Transform parentTransform;
@@ -27,9 +29,13 @@ public class Boss_Controller : MonoBehaviour
     public bool isDie = false;
     public GameObject triggerEffectPrefab; // 이펙트 프리팹
     public GameObject sandstorm;
+
+    public GameObject skeleton;
+    public TilemapCollider2D tcollider;
     void Start()
     {
-        
+        StartCoroutine(SummonEnemy());
+        BS = this;
         animator = GetComponent<Animator>();
         PartsChild();
         BS_hpBar.maxValue = max_hp;
@@ -195,6 +201,16 @@ public class Boss_Controller : MonoBehaviour
             Destroy(SandStormprefab);
         }
 
+    }
+    public IEnumerator SummonEnemy()
+    {   tcollider = tcollider.GetComponent<TilemapCollider2D>();
+        Vector2 colliderCenter = (Vector2)transform.position + tcollider.offset;
+
+        // 박스 콜라이더의 윗변 중앙 위치
+        Vector2 colliderTopCenter = colliderCenter + new Vector2(0f, tcollider.bounds.size.y * 0.5f);
+        GameObject skeleton_Prefab = Instantiate(skeleton,colliderTopCenter,Quaternion.identity );
+        yield return new WaitForSeconds(5f);
+        StartCoroutine(SummonEnemy());
     }
     public IEnumerator EnergyBall()
     {
