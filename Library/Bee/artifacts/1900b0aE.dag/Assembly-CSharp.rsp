@@ -396,7 +396,6 @@
 "Assets/resource/Dice/Scripts/TextManager.cs"
 "Assets/resource/Minigame/Scripts/Boss_Controller.cs"
 "Assets/resource/Minigame/Scripts/CameraControl.cs"
-"Assets/resource/Minigame/Scripts/Damage_TextInfo.cs"
 "Assets/resource/Minigame/Scripts/Elder_Ent_Energy_Effect.cs"
 "Assets/resource/Minigame/Scripts/enemyController.cs"
 "Assets/resource/Minigame/Scripts/EnergyBomb_Effect.cs"

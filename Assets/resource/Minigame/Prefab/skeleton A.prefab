@@ -127,8 +127,11 @@ MonoBehaviour:
   moveSpeed: 1
   spr: {fileID: 0}
   dead: 0
+  walk: 0
   animator: {fileID: 0}
   triggerEffectPrefab: {fileID: 9097556701924095866, guid: bf6ea4ef183d29a4491d94f11c3f97f4, type: 3}
+  popUpdamagePrefab: {fileID: 4448283337981780596, guid: 4c74b6761489cd34693261a6821cd8e4, type: 3}
+  popUPText: {fileID: 5355602571866182791, guid: 4c74b6761489cd34693261a6821cd8e4, type: 3}
 --- !u!95 &8834743986413134274
 Animator:
   serializedVersion: 5

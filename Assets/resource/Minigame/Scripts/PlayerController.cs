@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
     public GameObject[] childlist;
     public bool canAttack;
     public float attackCooldown = 0.6f;
@@ -40,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("플레이어 능력치 관련")]
     private float max_hp = 100;
-    private float damage;
+    public int damage;
     private float currentHealth;
     public Slider player_hpBar;
     public TextMeshProUGUI hp_txt;
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        instance = this;
         allGameObjects = GameObject.Find("Boss_Ent");
         cacd2d = GetComponent<CapsuleCollider2D>();
         player_hpBar.maxValue = max_hp;
@@ -71,7 +73,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-        damage = Random.Range(10f, 15f);
+        damage = Random.Range(10, 15);
         player_hpBar.value = currentHealth;
         hp_txt.text = "HP: " + currentHealth.ToString("0") + " / " + max_hp.ToString("0");
         if (!isDead && !isUltimateActive)
@@ -497,7 +499,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    public void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision )
     {
 
         if (!isDead)
@@ -507,7 +509,7 @@ public class PlayerController : MonoBehaviour
                 isHit = true;
                 currentHealth -= 10;
             }
-            else if (collision.CompareTag("enemy"))
+            else if (collision.CompareTag("enemy") && !isHit)
             {
                 isHit = true;
                 currentHealth -= 10;

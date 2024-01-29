@@ -202,13 +202,18 @@ public class Boss_Controller : MonoBehaviour
         }
 
     }
-    public IEnumerator SummonEnemy()
-    {   tcollider = tcollider.GetComponent<TilemapCollider2D>();
-        Vector2 colliderCenter = (Vector2)transform.position + tcollider.offset;
+    IEnumerator SummonEnemy()
+    {   
+        tcollider = GameObject.Find("Ground").GetComponent<TilemapCollider2D>();
+        Vector2 colliderCenter = new Vector3(tcollider.bounds.center.x* Random.Range(0.2f, 0.8f), tcollider.bounds.center.y);
 
         // 박스 콜라이더의 윗변 중앙 위치
-        Vector2 colliderTopCenter = colliderCenter + new Vector2(0f, tcollider.bounds.size.y * 0.5f);
-        GameObject skeleton_Prefab = Instantiate(skeleton,colliderTopCenter,Quaternion.identity );
+        Vector2 colliderTopCenter = colliderCenter + new Vector2(0f, tcollider.bounds.size.y * 0.8f);
+
+        // 적을 타일맵 콜라이더의 윗변 중앙 위치에 소환합니다.
+        GameObject skeleton_Prefab = Instantiate(skeleton, colliderTopCenter, Quaternion.identity);
+
+        // 5초 후에 다시 같은 코루틴을 호출하여 적을 소환합니다.
         yield return new WaitForSeconds(5f);
         StartCoroutine(SummonEnemy());
     }
@@ -245,6 +250,7 @@ public class Boss_Controller : MonoBehaviour
         {
             Vector3 collisionPoint = other.ClosestPoint(transform.position);
             GameObject effectprefab=Instantiate(triggerEffectPrefab, collisionPoint, Quaternion.identity);
+            TextController.tc.ShowDamageText(collisionPoint, PlayerController.instance.damage);
             Destroy(effectprefab, 2);
             currentHealth -= 10;
         }

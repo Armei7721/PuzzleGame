@@ -126,10 +126,12 @@ public class enemyController : MonoBehaviour
     {
         if(collision.CompareTag("Attack"))
         {
-            Vector3 collisionPoint = collision.ClosestPoint(transform.position);
-            GameObject effectprefab = Instantiate(triggerEffectPrefab, collisionPoint, Quaternion.identity);
-            Destroy(effectprefab, 1f);
-            Damage_TextInfo.DT.ShowDamagePopup(transform.position, 10);
+            // 충돌 지점 정보 얻기
+            Vector3 contactPoint = collision.ClosestPoint(transform.position);
+            // 충돌 지점의 좌표
+            GameObject Effect=Instantiate(triggerEffectPrefab, contactPoint, Quaternion.identity);
+            TextController.tc.ShowDamageText(transform.position, PlayerController.instance.damage);
+            Destroy(Effect, 2f);
             StartCoroutine(Dead());
         }
     }
