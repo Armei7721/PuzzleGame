@@ -13,6 +13,7 @@ public class EnergyBomb_Effect : MonoBehaviour
         burst = false;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        Destroy(gameObject, 10f);
     }
 
     // Update is called once per frame
@@ -26,9 +27,13 @@ public class EnergyBomb_Effect : MonoBehaviour
         if(collision.CompareTag("ground"))
         {
             burst = true;
+            CameraControl.cc.shake=true;
             animator.SetBool("Burst",burst);
             rb.velocity = Vector2.zero;
             gameObject.tag = "destroy";
+            float ani_length = animator.GetCurrentAnimatorStateInfo(0).length+1;
+            Destroy(gameObject, ani_length);
+            
         }
     }
 }

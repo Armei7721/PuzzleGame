@@ -282,7 +282,7 @@ AnimationClip:
     - time: 0
       value: {fileID: -1093899875, guid: dce99167e0e8bf840aef1531875b1359, type: 3}
     - time: 0.5
-      value: {fileID: -67052795, guid: dce99167e0e8bf840aef1531875b1359, type: 3}
+      value: {fileID: -1520810549, guid: dce99167e0e8bf840aef1531875b1359, type: 3}
     - time: 1.125
       value: {fileID: -1093899875, guid: dce99167e0e8bf840aef1531875b1359, type: 3}
     attribute: m_Sprite
@@ -358,7 +358,7 @@ AnimationClip:
       isPPtrCurve: 1
     pptrCurveMapping:
     - {fileID: -1093899875, guid: dce99167e0e8bf840aef1531875b1359, type: 3}
-    - {fileID: -67052795, guid: dce99167e0e8bf840aef1531875b1359, type: 3}
+    - {fileID: -1520810549, guid: dce99167e0e8bf840aef1531875b1359, type: 3}
     - {fileID: -1093899875, guid: dce99167e0e8bf840aef1531875b1359, type: 3}
     - {fileID: -1093899875, guid: dce99167e0e8bf840aef1531875b1359, type: 3}
     - {fileID: -67052795, guid: dce99167e0e8bf840aef1531875b1359, type: 3}
@@ -1229,6 +1229,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.625
     functionName: SandStormEffect
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.625
+    functionName: CameraShake
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

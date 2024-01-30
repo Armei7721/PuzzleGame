@@ -29,19 +29,20 @@ public class Boss_Controller : MonoBehaviour
     public bool isDie = false;
     public GameObject triggerEffectPrefab; // 이펙트 프리팹
     public GameObject sandstorm;
+    public GameObject stonewind;
 
     public GameObject skeleton;
     public TilemapCollider2D tcollider;
     void Start()
     {
-        StartCoroutine(SummonEnemy());
+        //StartCoroutine(SummonEnemy());
         BS = this;
         animator = GetComponent<Animator>();
         PartsChild();
         BS_hpBar.maxValue = max_hp;
         currentHealth = max_hp;
         initialHeadPosition = head.position;
-        //StartCoroutine(EnergyBall());
+       
         StartCoroutine(Think());
     }
     // Update is called once per frame
@@ -58,7 +59,7 @@ public class Boss_Controller : MonoBehaviour
         right_Arm[0].enabled = true;
         yield return new WaitForSeconds(5f);
 
-        int randAction = Random.Range(0, 3);
+        int randAction = Random.Range(0, 4);
 
         if (!isDie)
         {
@@ -85,6 +86,12 @@ public class Boss_Controller : MonoBehaviour
                     right_Arm[0].enabled = false;
                     StartCoroutine(Magic());
                     break;
+                case 3:
+
+                    left_Arm[0].enabled = false;
+                    right_Arm[0].enabled = false;
+                    StartCoroutine(StoneWind());
+                    break;
             }
         }
         else
@@ -105,10 +112,10 @@ public class Boss_Controller : MonoBehaviour
         yield return new WaitForSeconds(0.1f); // 원하는 대기 시간으로 조정
 
         // 애니메이션이 끝날 때까지 대기
-        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Boss_Ent_Sweep") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
-        {
-            yield return null;
-        }
+        float ani_length = animator.GetCurrentAnimatorStateInfo(0).length;
+        // 애니메이션이 끝날 때까지 대기
+        yield return new WaitForSeconds(ani_length);
+
 
         // 애니메이션이 끝났을 때 실행할 코드
         StartCoroutine(Think());
@@ -123,35 +130,37 @@ public class Boss_Controller : MonoBehaviour
         animator.SetTrigger("Magic");
         left_Arm[2].enabled = true;
         right_Arm[2].enabled = true;
+        yield return new WaitForSeconds(0.1f); // 원하는 대기 시간으로 조정
         // 대기 시간
-       
+        float sampleRate = animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate; // 애니메이션의 프레임 레이트
+        float lengthInFrames = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length * sampleRate; // 애니메이션의 총 프레임 수
 
+        float ani_length = animator.GetCurrentAnimatorStateInfo(0).length;
         // 애니메이션이 끝날 때까지 대기
-        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Boss_Ent_Magic") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
-        {
-            yield return null;
-        }
-
+        yield return new WaitForSeconds(lengthInFrames / sampleRate);
+        Debug.Log(" sampleRate  :" + sampleRate);
+        Debug.Log("lengthInFrames :" + lengthInFrames);
+        Debug.Log("lengthInFrames / sampleRate : " + lengthInFrames / sampleRate);
         // 애니메이션이 끝났을 때 실행할 코드
-        StartCoroutine(Think());
+
         left_Arm[2].enabled = false;
         right_Arm[2].enabled = false;
         parentleft_Arm.tag = "Idle";
         parentright_Arm.tag = "Idle";
+        StartCoroutine(Think());
+      
     }
     public IEnumerator Mount()
     {
         animator.SetTrigger("Mount");
         left_Arm[1].enabled = true;
         right_Arm[1].enabled = true;
-        // 대기 시간
-        yield return new WaitForSeconds(0.1f); // 원하는 대기 시간으로 조정
 
         // 애니메이션이 끝날 때까지 대기
-        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Boss_Ent_Mount") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1)
-        {
-            yield return null;
-        }
+        float ani_length = animator.GetCurrentAnimatorStateInfo(0).length;
+        // 애니메이션이 끝날 때까지 대기
+        yield return new WaitForSeconds(ani_length);
+
 
         // 애니메이션이 끝났을 때 실행할 코드
         StartCoroutine(Think());
@@ -193,23 +202,26 @@ public class Boss_Controller : MonoBehaviour
         }
 
     }
-    public void SandStormEffect()
+    public IEnumerator SandStormEffect()
     {
+      
         GameObject SandStormprefab = Instantiate(sandstorm, (parentleft_Arm.transform.position+parentright_Arm.transform.position)/2, Quaternion.identity);
-        if (SandStormprefab.GetComponent<Animator>().GetAnimatorTransitionInfo(0).IsName("SandStorm_Effect"))
-        {
-            Destroy(SandStormprefab);
-        }
+        float sandstormani = SandStormprefab.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(sandstormani);
+        
+        Destroy(SandStormprefab);
+        
 
     }
     IEnumerator SummonEnemy()
     {   
         tcollider = GameObject.Find("Ground").GetComponent<TilemapCollider2D>();
-        Vector2 colliderCenter = new Vector3(tcollider.bounds.center.x* Random.Range(0.2f, 0.8f), tcollider.bounds.center.y);
+        Vector2 colliderCenter = new Vector3(tcollider.bounds.center.x+ Random.Range(-2f, 2f), tcollider.bounds.center.y);
 
         // 박스 콜라이더의 윗변 중앙 위치
         Vector2 colliderTopCenter = colliderCenter + new Vector2(0f, tcollider.bounds.size.y * 0.8f);
-
+        Debug.Log("colliderCenter 위치 :" + colliderCenter);
+        Debug.Log("colliderTopCenter 위치 :" + colliderTopCenter);
         // 적을 타일맵 콜라이더의 윗변 중앙 위치에 소환합니다.
         GameObject skeleton_Prefab = Instantiate(skeleton, colliderTopCenter, Quaternion.identity);
 
@@ -217,14 +229,29 @@ public class Boss_Controller : MonoBehaviour
         yield return new WaitForSeconds(5f);
         StartCoroutine(SummonEnemy());
     }
-    public IEnumerator EnergyBall()
+    public void EnergyBall()
     {
         int speed = 5;
         GameObject energyballprefab = Instantiate(energyball, initialHeadPosition, Quaternion.identity);
         Vector3 direction = (player.position - transform.position).normalized;
         energyballprefab.GetComponent<Rigidbody2D>().velocity = direction * speed;
-        yield return new WaitForSeconds(1f);
-        Destroy(energyballprefab, 5f);
+    
+
+    }
+    public IEnumerator StoneWind()
+    {
+        Vector3 swposiiton = new Vector3(-9.5f, -1f, 0f);
+        Vector3 swposiiton2 = new Vector3(9.5f, -1f, 0f);
+        GameObject StoneWindprefab = Instantiate(stonewind,swposiiton,Quaternion.identity);
+        GameObject StoneWindprefab2 = Instantiate(stonewind,swposiiton2,Quaternion.identity);
+        yield return new WaitForSeconds(20f);
+        Destroy(StoneWindprefab);
+        Destroy(StoneWindprefab2);
+        StartCoroutine(Think());
+    }
+    public void CameraShake()
+    {
+        CameraControl.cc.shake= true;
 
     }
     public void Dead()
@@ -240,7 +267,7 @@ public class Boss_Controller : MonoBehaviour
         animator.speed = 0.3f;
     }
     public void AniamtionSpeedUp()
-    {
+    { 
         animator.speed = 1f;
     }
     private void OnTriggerEnter2D(Collider2D other)

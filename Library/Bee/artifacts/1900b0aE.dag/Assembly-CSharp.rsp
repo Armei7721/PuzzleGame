@@ -383,6 +383,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/GameManager_1.cs"
+"Assets/intansSkelleton.cs"
 "Assets/resource/Dice/Scripts/Audio.cs"
 "Assets/resource/Dice/Scripts/CupShaking.cs"
 "Assets/resource/Dice/Scripts/Dice.cs"
@@ -408,6 +409,7 @@
 "Assets/resource/Puzzle/Scripts/PieceScript.cs"
 "Assets/Scenes/SceneChange.cs"
 "Assets/Shovelknight_ex_Spin.cs"
+"Assets/StoneWind_Effect.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01_UGUI.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark02.cs"
@@ -442,6 +444,7 @@
 "Assets/TextMesh Pro/Examples & Extras/Scripts/VertexShakeB.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/VertexZoom.cs"
 "Assets/TextMesh Pro/Examples & Extras/Scripts/WarpTextExample.cs"
+"Assets/UI_Manager.cs"
 -langversion:9.0
 
 /deterministic

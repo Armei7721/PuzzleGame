@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         PRigidBody = GetComponent<Rigidbody2D>();
         Childlist();
+      
     }
     
     // Update is called once per frame
@@ -164,7 +165,8 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
             attack = false; ;
             animator.SetBool("Attack", attack);
-            yield return new WaitForSeconds(attackCooldown);
+            float attackCooltime = animator.GetCurrentAnimatorStateInfo(0).length;
+            yield return new WaitForSeconds(attackCooltime);
 
             canAttack = true;
         }
@@ -199,14 +201,15 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Special_Attack", true);
             yield return new WaitForSeconds(0.2f);
             animator.SetBool("Special_Attack", false);
-            yield return new WaitForSeconds(attackCooldown);
+            float attackCooltime = animator.GetCurrentAnimatorStateInfo(0).length;
+            yield return new WaitForSeconds(attackCooltime);
 
             canAttack = true;
         }
     }
     public IEnumerator Dig()
     {
-        if (Input.GetKeyDown(KeyCode.C) && canAttack && Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.C) &&  Input.GetKey(KeyCode.DownArrow))
         {
            
             Vector3Int playerGridPosition = tilemap.WorldToCell(transform.position + Vector3.down);
@@ -214,25 +217,27 @@ public class PlayerController : MonoBehaviour
             Vector3 cellCenter = tilemap.GetCellCenterWorld(cellPosition);
             TileBase tile = tilemap.GetTile(playerGridPosition);
 
-            GameObject dig_Effect_Prefab = Instantiate(dig_Effect, transform.position, Quaternion.identity);
-            Destroy(dig_Effect_Prefab, 0.5f);
-
+           
             if (tile != null)
             {
+                GameObject dig_Effect_Prefab = Instantiate(dig_Effect, transform.position, Quaternion.identity);
+                Destroy(dig_Effect_Prefab, 0.5f);
+               
                 canAttack = false;
                 animator.SetBool("Dig", true);
                 // 타일맵에서 해당 위치의 타일을 삭제합니다.
                 
                 yield return new WaitForSeconds(0.2f);
-                
+                transform.position = cellCenter;
                 animator.SetBool("Dig", false);
                 tilemap.SetTile(playerGridPosition, null);
+            
             }
 
             yield return new WaitForSeconds(attackCooldown);
             canAttack = true;
         }
-        if (Input.GetKeyDown(KeyCode.C) && canAttack && (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow)))
+        else if (Input.GetKeyDown(KeyCode.C) &&  (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow)))
         {
             Vector3 playerdirection = PRigidBody.velocity.x > 0 ? Vector2.right : Vector2.left;
 
@@ -251,15 +256,52 @@ public class PlayerController : MonoBehaviour
                 yield return new WaitForSeconds(0.2f);
                 animator.SetBool("Dig", false);
                 tilemap.SetTile(playerGridPosition, null);
+                transform.position = cellCenter;
                 yield return new WaitForSeconds(attackCooldown);
                 canAttack = true;
                 // 타일맵에서 해당 위치의 타일을 삭제합니다.
+
                 
-            
+
             }
 
             
         }
+        else if (Input.GetKeyDown(KeyCode.C) && (Input.GetKey(KeyCode.UpArrow)))
+        {
+            canAttack = false;
+           
+
+            // 현재 플레이어의 그리드 위치 가져오기
+            Vector3Int playerGridPosition = tilemap.WorldToCell(transform.position);
+
+            // 플레이어가 있는 열(column)의 위쪽에 있는 행(row)에 대해 반복
+            for (int row = playerGridPosition.y + 1; row < tilemap.cellBounds.yMax; row++)
+            {
+                Vector3Int cellPosition = new Vector3Int(playerGridPosition.x, row, playerGridPosition.z);
+                TileBase tile = tilemap.GetTile(cellPosition);
+
+                if (tile != null)
+                {
+                    animator.SetBool("Dig_Up", true);
+                    PRigidBody.velocity = Vector2.up * 10;
+                    // 타일이 존재하면 파괴
+                    tilemap.SetTile(cellPosition, null);
+                    yield return new WaitForSeconds(0.2f);
+                }
+               
+
+            
+            }
+           
+           
+            animator.SetBool("Dig_Up", false);
+
+            yield return new WaitForSeconds(attackCooldown);
+            canAttack = true;
+        }
+
+
     }
     private void Jump()
     {
