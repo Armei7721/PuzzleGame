@@ -22,7 +22,9 @@ public class CameraControl : MonoBehaviour
     public Transform playerTransform;
     public Transform bossTransform;
     public float cameraSpeed = 5.0f;
-    public float maxDistance = 10.0f;
+    public float maxDistancex = 10.0f;
+    public float maxDistancey = 4.0f;
+
     public bool shake = false;
     void Start()
     {
@@ -74,13 +76,13 @@ public class CameraControl : MonoBehaviour
     }
     void CameraTest()
     {
-        float distance = Vector3.Distance(playerTransform.position, bossTransform.position);
+        float distanceX = Mathf.Abs(playerTransform.position.x - bossTransform.position.x);
+        float distanceY = Mathf.Abs(playerTransform.position.y - bossTransform.position.y);
 
-        if (distance > maxDistance)
+        if (distanceX > maxDistancex || distanceY >maxDistancey)
         {
             // 플레이어와 보스 간의 중간 지점 계산
-            Vector3 middlePoint = (playerTransform.position + bossTransform.position) / 2.0f;
-
+            Vector3 middlePoint = new Vector3((playerTransform.position.x + bossTransform.position.x) / 2.0f, (playerTransform.position.y + bossTransform.position.y)/4f, -10f);
             // 카메라를 중간 지점으로 부드럽게 이동
             transform.position = Vector3.Lerp(transform.position, new Vector3(middlePoint.x, middlePoint.y, transform.position.z), Time.deltaTime * cameraSpeed);
         }

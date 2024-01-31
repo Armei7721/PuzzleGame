@@ -14,7 +14,7 @@ public class StoneWind_Effect : MonoBehaviour
         Vector2 direction = Player.transform.position - transform.position;
         Vector2 normalizedDirection = direction.normalized;
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(normalizedDirection.x, rb.velocity.y);
+        rb.velocity = new Vector2(normalizedDirection.x*2, rb.velocity.y);
 
 
     }

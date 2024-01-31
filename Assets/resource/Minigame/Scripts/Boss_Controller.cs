@@ -33,6 +33,15 @@ public class Boss_Controller : MonoBehaviour
 
     public GameObject skeleton;
     public TilemapCollider2D tcollider;
+    public Vector3 collisionPoint;
+    public Vector3 collisionPoint2;
+
+    public GameObject left_dust;
+    public GameObject right_dust;
+
+    public GameObject skeletonPrefab;
+    int randomX;
+    Vector3 offset;
     void Start()
     {
         //StartCoroutine(SummonEnemy());
@@ -42,8 +51,8 @@ public class Boss_Controller : MonoBehaviour
         BS_hpBar.maxValue = max_hp;
         currentHealth = max_hp;
         initialHeadPosition = head.position;
-       
-        StartCoroutine(Think());
+        StartCoroutine(StoneWind());
+        // StartCoroutine(Think());
     }
     // Update is called once per frame
     void Update()
@@ -91,6 +100,11 @@ public class Boss_Controller : MonoBehaviour
                     left_Arm[0].enabled = false;
                     right_Arm[0].enabled = false;
                     StartCoroutine(StoneWind());
+                    break;
+                case 4:
+                    left_Arm[0].enabled = false;
+                    right_Arm[0].enabled = false;
+                    StartCoroutine(SummonEnemy());
                     break;
             }
         }
@@ -169,6 +183,7 @@ public class Boss_Controller : MonoBehaviour
         parentleft_Arm.tag = "Idle";
         parentright_Arm.tag = "Idle";
     }
+
   
     public void PartsChild()
     {
@@ -214,20 +229,18 @@ public class Boss_Controller : MonoBehaviour
 
     }
     IEnumerator SummonEnemy()
-    {   
-        tcollider = GameObject.Find("Ground").GetComponent<TilemapCollider2D>();
-        Vector2 colliderCenter = new Vector3(tcollider.bounds.center.x+ Random.Range(-2f, 2f), tcollider.bounds.center.y);
+    {
+        randomX = Random.Range(-5, 5);
+        offset = new Vector3(randomX, 0, 0);
+        GameObject skeleton = Instantiate(skeletonPrefab);
 
-        // 박스 콜라이더의 윗변 중앙 위치
-        Vector2 colliderTopCenter = colliderCenter + new Vector2(0f, tcollider.bounds.size.y * 0.8f);
-        Debug.Log("colliderCenter 위치 :" + colliderCenter);
-        Debug.Log("colliderTopCenter 위치 :" + colliderTopCenter);
-        // 적을 타일맵 콜라이더의 윗변 중앙 위치에 소환합니다.
-        GameObject skeleton_Prefab = Instantiate(skeleton, colliderTopCenter, Quaternion.identity);
-
-        // 5초 후에 다시 같은 코루틴을 호출하여 적을 소환합니다.
-        yield return new WaitForSeconds(5f);
-        StartCoroutine(SummonEnemy());
+        // 플레이어의 Y축 위치를 가져와서 스켈레톤의 Y축 위치를 설정
+        Transform position_save = player;
+        for (int i = 0; i < 5; i++)
+        {
+            skeleton.transform.position = new Vector3(position_save.transform.position.x + offset.x, -2.5f, position_save.transform.position.z);
+        }
+        yield return new WaitForSeconds(3f);
     }
     public void EnergyBall()
     {
@@ -240,14 +253,24 @@ public class Boss_Controller : MonoBehaviour
     }
     public IEnumerator StoneWind()
     {
+        animator.SetTrigger("StoneWind");
+        left_Arm[1].enabled = true;
+        right_Arm[1].enabled = true;
+        float sampleRate = animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate; // 애니메이션의 프레임 레이트
+        float lengthInFrames = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length * sampleRate; // 애니메이션의 총 프레임 수
+        yield return new WaitForSeconds(lengthInFrames+10f);
+        StartCoroutine(Think());
+    }
+    public IEnumerator StoneWindEffect()
+    {
         Vector3 swposiiton = new Vector3(-9.5f, -1f, 0f);
         Vector3 swposiiton2 = new Vector3(9.5f, -1f, 0f);
-        GameObject StoneWindprefab = Instantiate(stonewind,swposiiton,Quaternion.identity);
-        GameObject StoneWindprefab2 = Instantiate(stonewind,swposiiton2,Quaternion.identity);
-        yield return new WaitForSeconds(20f);
+        GameObject StoneWindprefab = Instantiate(stonewind, swposiiton, Quaternion.identity);
+        GameObject StoneWindprefab2 = Instantiate(stonewind, swposiiton2, Quaternion.identity);
+        yield return new WaitForSeconds(10f);
         Destroy(StoneWindprefab);
         Destroy(StoneWindprefab2);
-        StartCoroutine(Think());
+        animator.speed = 1;
     }
     public void CameraShake()
     {
@@ -262,6 +285,10 @@ public class Boss_Controller : MonoBehaviour
             animator.SetTrigger("Dead");
         }
     }
+    public void AnimationSpeedZero()
+    {
+        animator.speed = 0;
+    }
     public void AnimationSpeeddown()
     {
         animator.speed = 0.3f;
@@ -270,16 +297,45 @@ public class Boss_Controller : MonoBehaviour
     { 
         animator.speed = 1f;
     }
+    public void Left_DustStormSwitch()
+    {
+        if (left_dust.activeSelf)
+        {
+            left_dust.SetActive(false);
+        }
+        else if (!left_dust.activeSelf)
+        {
+            left_dust.SetActive(true);
+        }
+    }
+    public void Right_DustStormSwitch()
+    {
+        if (right_dust.activeSelf)
+        {
+            right_dust.SetActive(false);
+        }
+        else if (!right_dust.activeSelf)
+        {
+            right_dust.SetActive(true);
+        }
+    }
+   
+
     private void OnTriggerEnter2D(Collider2D other)
     {
        
         if(other.CompareTag("Attack") && !isDie)
         {
-            Vector3 collisionPoint = other.ClosestPoint(transform.position);
+            collisionPoint = other.ClosestPoint(transform.position);
             GameObject effectprefab=Instantiate(triggerEffectPrefab, collisionPoint, Quaternion.identity);
             TextController.tc.ShowDamageText(collisionPoint, PlayerController.instance.damage);
             Destroy(effectprefab, 2);
             currentHealth -= 10;
+        }
+        else if(other.CompareTag("ground") && !isDie)
+        {
+            collisionPoint2 = other.ClosestPoint(transform.position);
+            Debug.Log(collisionPoint2);
         }
     }
 
