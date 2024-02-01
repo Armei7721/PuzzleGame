@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8834743986413134328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.12, y: -2.12, z: 0}
+  m_LocalPosition: {x: 3, y: -2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -130,8 +130,6 @@ MonoBehaviour:
   walk: 0
   animator: {fileID: 0}
   triggerEffectPrefab: {fileID: 9097556701924095866, guid: bf6ea4ef183d29a4491d94f11c3f97f4, type: 3}
-  popUpdamagePrefab: {fileID: 4448283337981780596, guid: 4c74b6761489cd34693261a6821cd8e4, type: 3}
-  popUPText: {fileID: 5355602571866182791, guid: 4c74b6761489cd34693261a6821cd8e4, type: 3}
 --- !u!95 &8834743986413134274
 Animator:
   serializedVersion: 5

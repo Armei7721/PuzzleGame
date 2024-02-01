@@ -40,19 +40,20 @@ public class Boss_Controller : MonoBehaviour
     public GameObject right_dust;
 
     public GameObject skeletonPrefab;
+    public GameObject skeletonmagic;
     int randomX;
     Vector3 offset;
     void Start()
     {
-        //StartCoroutine(SummonEnemy());
+        
         BS = this;
         animator = GetComponent<Animator>();
         PartsChild();
         BS_hpBar.maxValue = max_hp;
         currentHealth = max_hp;
         initialHeadPosition = head.position;
-        StartCoroutine(StoneWind());
-        // StartCoroutine(Think());
+        
+        StartCoroutine(Think());
     }
     // Update is called once per frame
     void Update()
@@ -169,7 +170,15 @@ public class Boss_Controller : MonoBehaviour
         animator.SetTrigger("Mount");
         left_Arm[1].enabled = true;
         right_Arm[1].enabled = true;
-
+        
+        float aniframe = animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate;
+        float lengthInFrames = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length; // 애니메이션의 총 프레임 수
+        Debug.Log(lengthInFrames);
+        if (aniframe == 25 && PlayerController.instance.isGround)
+        {
+            PlayerController.instance.HitDuring();
+            PlayerController.instance.currentHealth = -20;
+        }
         // 애니메이션이 끝날 때까지 대기
         float ani_length = animator.GetCurrentAnimatorStateInfo(0).length;
         // 애니메이션이 끝날 때까지 대기
@@ -183,8 +192,46 @@ public class Boss_Controller : MonoBehaviour
         parentleft_Arm.tag = "Idle";
         parentright_Arm.tag = "Idle";
     }
+    public IEnumerator StoneWind()
+    {
+        animator.SetTrigger("StoneWind");
+        left_Arm[1].enabled = true;
+        right_Arm[1].enabled = true;
+        float sampleRate = animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate; // 애니메이션의 프레임 레이트
+        float lengthInFrames = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length * sampleRate; // 애니메이션의 총 프레임 수
+        yield return new WaitForSeconds(lengthInFrames + 10f);
+        StartCoroutine(Think());
+    }
+    IEnumerator SummonEnemy()
+    {
+        GameObject skeletonmagic_prefab = Instantiate(skeletonmagic, head.transform.position, Quaternion.identity);
+        float sampleRate = skeletonmagic_prefab.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.frameRate; // 애니메이션의 프레임 레이트
+        float lengthInFrames = skeletonmagic_prefab.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length * sampleRate; // 애니메이션의 총 프레임 수
+        animator.SetTrigger("Summon");
+        randomX = Random.Range(-15, 15);
+        offset = new Vector3(randomX, 0, 0);
+        
+        yield return new WaitForSeconds(lengthInFrames/2);
+        // player가 null이 아니라면 스켈레톤 생성
+        if (player != null)
+        {
+            Transform position_save = player;
 
-  
+            for (int i = 0; i < 4; i++)
+            {
+                // x 좌표에 랜덤값을 적용하여 스켈레톤 생성
+                float randomXOffset = Random.Range(-10f, 10f);
+                Vector3 skeletonposition = new Vector3(position_save.transform.position.x + randomXOffset, -2.5f, position_save.transform.position.z);
+                GameObject skeleton = Instantiate(skeletonPrefab, skeletonposition, Quaternion.identity);
+            }
+
+        }
+
+        yield return new WaitForSeconds(3f);
+        Destroy(skeletonmagic_prefab);
+
+    }
+
     public void PartsChild()
     {
         // 부모 오브젝트의 자식들을 가져옴
@@ -228,20 +275,8 @@ public class Boss_Controller : MonoBehaviour
         
 
     }
-    IEnumerator SummonEnemy()
-    {
-        randomX = Random.Range(-5, 5);
-        offset = new Vector3(randomX, 0, 0);
-        GameObject skeleton = Instantiate(skeletonPrefab);
+    
 
-        // 플레이어의 Y축 위치를 가져와서 스켈레톤의 Y축 위치를 설정
-        Transform position_save = player;
-        for (int i = 0; i < 5; i++)
-        {
-            skeleton.transform.position = new Vector3(position_save.transform.position.x + offset.x, -2.5f, position_save.transform.position.z);
-        }
-        yield return new WaitForSeconds(3f);
-    }
     public void EnergyBall()
     {
         int speed = 5;
@@ -251,16 +286,7 @@ public class Boss_Controller : MonoBehaviour
     
 
     }
-    public IEnumerator StoneWind()
-    {
-        animator.SetTrigger("StoneWind");
-        left_Arm[1].enabled = true;
-        right_Arm[1].enabled = true;
-        float sampleRate = animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate; // 애니메이션의 프레임 레이트
-        float lengthInFrames = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length * sampleRate; // 애니메이션의 총 프레임 수
-        yield return new WaitForSeconds(lengthInFrames+10f);
-        StartCoroutine(Think());
-    }
+ 
     public IEnumerator StoneWindEffect()
     {
         Vector3 swposiiton = new Vector3(-9.5f, -1f, 0f);

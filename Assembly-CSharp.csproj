@@ -58,7 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\resource\Dice\Scripts\TextHandler.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
-    <Compile Include="Assets\UI_Manager.cs" />
+    <Compile Include="Assets\resource\Minigame\Scripts\UI_Manager.cs" />
     <Compile Include="Assets\resource\Dice\Scripts\TextHandler2.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\resource\Dice\Scripts\RuleScripts.cs" />
@@ -92,18 +92,18 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\resource\Puzzle\Scripts\HintScript.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
-    <Compile Include="Assets\intansSkelleton.cs" />
+    <Compile Include="Assets\resource\Minigame\Scripts\intansSkelleton.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\resource\Minigame\Scripts\CameraControl.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
     <Compile Include="Assets\resource\Dice\Scripts\Dice.cs" />
-    <Compile Include="Assets\StoneWind_Effect.cs" />
+    <Compile Include="Assets\resource\Minigame\Scripts\StoneWind_Effect.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
-    <Compile Include="Assets\GameManager_1.cs" />
+    <Compile Include="Assets\resource\Minigame\Scripts\GameManager_1.cs" />
     <Compile Include="Assets\resource\Dice\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Shovelknight_ex_Spin.cs" />
+    <Compile Include="Assets\resource\Minigame\Scripts\Shovelknight_ex_Spin.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\resource\Minigame\Scripts\TextController.cs" />

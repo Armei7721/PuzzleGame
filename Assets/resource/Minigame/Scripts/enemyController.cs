@@ -27,10 +27,7 @@ public class enemyController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         // 기다리고자 하는 시간(예: 3초)
-        float delayTime = 3f;
-
-        // 적 캐릭터 생성 후 몇 초 동안 대기
-        StartCoroutine(WaitAndStartMovement(delayTime));
+        StartCoroutine(Walk());
     }
 
     // Update is called once per frame
@@ -38,6 +35,7 @@ public class enemyController : MonoBehaviour
     {
         if (!dead)
         {
+            
             Distance();
             ColliderCheck();
             LookAtPlayer();
@@ -58,19 +56,16 @@ public class enemyController : MonoBehaviour
         distanceY = Vector2.Distance(new Vector2(0f, player.position.y), new Vector2(0f, transform.position.y)); ;
         distanceX = Vector2.Distance(new Vector2( player.position.x,0f), new Vector2(transform.position.x,0f)); ;
     }
-    public void Walk()
+    public IEnumerator Walk()
     {
-        walk = true;
-        rb.velocity = new Vector2(0f, 0f);
-        animator.SetBool("Walk", true);
-    }
-    IEnumerator WaitAndStartMovement(float delay)
-    {
-        // 대기
-        yield return new WaitForSeconds(delay);
-
-        // 움직임 시작
-        dead = false;
+        
+            gameObject.tag = "Idle";
+            float anilengh = animator.GetCurrentAnimatorStateInfo(0).length;
+            yield return new WaitForSeconds(anilengh);
+            walk = true;
+            animator.SetBool("Walk", true);
+            gameObject.tag = "enemy";
+        
     }
     void ColliderCheck()
     {

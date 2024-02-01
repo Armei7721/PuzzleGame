@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     public GameObject triggerEffectPrefab; // 이펙트 프리팹
 
 
-    bool isGround;
+    public bool isGround;
     bool isDead = false;
     bool attack = false;
     bool baldong = false;
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     [Header("플레이어 능력치 관련")]
     private float max_hp = 100;
     public int damage;
-    private float currentHealth;
+    public float currentHealth;
     public Slider player_hpBar;
     public TextMeshProUGUI hp_txt;
 
