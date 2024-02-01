@@ -156,7 +156,20 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator Attack()
     {
-        if (Input.GetKeyDown(KeyCode.Z) && canAttack)
+        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow)&&!isGround)  
+        {
+            animator.SetTrigger("Attack_Down");
+            if (!isGround)
+            {
+                childlist[2].SetActive(true);
+            }
+            else
+            {
+                childlist[2].SetActive(false);
+            }
+            
+        }
+        else if (Input.GetKeyDown(KeyCode.Z) && canAttack)
         {
             canAttack = false;
             attack = true;
@@ -170,6 +183,8 @@ public class PlayerController : MonoBehaviour
 
             canAttack = true;
         }
+        
+
     }
     public void ColliderControl()
     {
@@ -202,14 +217,14 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
             animator.SetBool("Special_Attack", false);
             float attackCooltime = animator.GetCurrentAnimatorStateInfo(0).length;
-            yield return new WaitForSeconds(attackCooltime);
+            yield return new WaitForSeconds(0.3f);
 
             canAttack = true;
         }
     }
     public IEnumerator Dig()
     {
-        if (Input.GetKeyDown(KeyCode.C) &&  Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.C) &&  Input.GetKey(KeyCode.DownArrow)&& canAttack)
         {
            
             Vector3Int playerGridPosition = tilemap.WorldToCell(transform.position + Vector3.down);
@@ -233,11 +248,10 @@ public class PlayerController : MonoBehaviour
                 tilemap.SetTile(playerGridPosition, null);
             
             }
-
-            yield return new WaitForSeconds(attackCooldown);
+            yield return new WaitForSeconds(0.3f);
             canAttack = true;
         }
-        else if (Input.GetKeyDown(KeyCode.C) &&  (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow)))
+        else if (Input.GetKeyDown(KeyCode.C) &&  (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow))&&canAttack)
         {
             Vector3 playerdirection = PRigidBody.velocity.x > 0 ? Vector2.right : Vector2.left;
 
@@ -251,13 +265,14 @@ public class PlayerController : MonoBehaviour
             if (tile != null)
             {
                 canAttack = false;
-                animator.SetBool("Dig", true);
-
+                animator.SetBool("Dig_Direction", true);
+                GameObject dig_Effect_Prefab = Instantiate(dig_Effect, transform.position, Quaternion.identity);
+                Destroy(dig_Effect_Prefab, 0.5f);
                 yield return new WaitForSeconds(0.2f);
-                animator.SetBool("Dig", false);
+                animator.SetBool("Dig_Direction", false);
                 tilemap.SetTile(playerGridPosition, null);
                 transform.position = cellCenter;
-                yield return new WaitForSeconds(attackCooldown);
+                yield return new WaitForSeconds(0.3f);
                 canAttack = true;
                 // 타일맵에서 해당 위치의 타일을 삭제합니다.
 
@@ -267,7 +282,7 @@ public class PlayerController : MonoBehaviour
 
             
         }
-        else if (Input.GetKeyDown(KeyCode.C) && (Input.GetKey(KeyCode.UpArrow)))
+        else if (Input.GetKeyDown(KeyCode.C) && (Input.GetKey(KeyCode.UpArrow))&&canAttack)
         {
             canAttack = false;
            
@@ -283,6 +298,8 @@ public class PlayerController : MonoBehaviour
 
                 if (tile != null)
                 {
+                    GameObject dig_Effect_Prefab = Instantiate(dig_Effect, transform.position, Quaternion.identity);
+                    Destroy(dig_Effect_Prefab, 0.5f);
                     animator.SetBool("Dig_Up", true);
                     PRigidBody.velocity = Vector2.up * 10;
                     // 타일이 존재하면 파괴
@@ -316,7 +333,7 @@ public class PlayerController : MonoBehaviour
         {
             int jumpForce = 12;
             jumpCount++;
-
+            isGround = false;
             PRigidBody.velocity = Vector2.zero;
             //플레이어의 리지드 바디에  Vector2.up 방향으로 jumpForce 힘만큼 힘을 준다.
             PRigidBody.velocity = (Vector2.up * jumpForce);

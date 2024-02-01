@@ -15,7 +15,7 @@ public class Boss_Controller : MonoBehaviour
     // Start is called before the first frame update
 
     [Header("보스 능력치 관련")]
-    private float max_hp=300;
+    private float max_hp=1000;
     public float currentHealth;
     public Slider BS_hpBar;
 
@@ -43,6 +43,17 @@ public class Boss_Controller : MonoBehaviour
     public GameObject skeletonmagic;
     int randomX;
     Vector3 offset;
+
+    private enum State
+    {   Idle,
+        Sweep,
+        Mount,
+        Magic,
+        StoneWind,
+        SummonEnemy
+
+    }
+    private State currentState = State.Idle;
     void Start()
     {
         
@@ -67,7 +78,7 @@ public class Boss_Controller : MonoBehaviour
         
         left_Arm[0].enabled = true;
         right_Arm[0].enabled = true;
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
         int randAction = Random.Range(0, 4);
 
@@ -117,6 +128,7 @@ public class Boss_Controller : MonoBehaviour
     }
     public IEnumerator Sweep()
     {
+        currentState = State.Sweep;
         animator.SetTrigger("Sweep");  
         left_Arm[3].enabled = true;
         right_Arm[3].enabled = true;
@@ -142,6 +154,7 @@ public class Boss_Controller : MonoBehaviour
 
     public IEnumerator Magic()
     {
+        currentState = State.Magic;
         animator.SetTrigger("Magic");
         left_Arm[2].enabled = true;
         right_Arm[2].enabled = true;
@@ -167,6 +180,7 @@ public class Boss_Controller : MonoBehaviour
     }
     public IEnumerator Mount()
     {
+        currentState = State.Mount;
         animator.SetTrigger("Mount");
         left_Arm[1].enabled = true;
         right_Arm[1].enabled = true;
@@ -194,6 +208,7 @@ public class Boss_Controller : MonoBehaviour
     }
     public IEnumerator StoneWind()
     {
+        currentState = State.StoneWind;
         animator.SetTrigger("StoneWind");
         left_Arm[1].enabled = true;
         right_Arm[1].enabled = true;
@@ -204,14 +219,11 @@ public class Boss_Controller : MonoBehaviour
     }
     IEnumerator SummonEnemy()
     {
-        GameObject skeletonmagic_prefab = Instantiate(skeletonmagic, head.transform.position, Quaternion.identity);
-        float sampleRate = skeletonmagic_prefab.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.frameRate; // 애니메이션의 프레임 레이트
-        float lengthInFrames = skeletonmagic_prefab.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.length * sampleRate; // 애니메이션의 총 프레임 수
+        currentState = State.SummonEnemy;
         animator.SetTrigger("Summon");
         randomX = Random.Range(-15, 15);
         offset = new Vector3(randomX, 0, 0);
         
-        yield return new WaitForSeconds(lengthInFrames/2);
         // player가 null이 아니라면 스켈레톤 생성
         if (player != null)
         {
@@ -228,7 +240,7 @@ public class Boss_Controller : MonoBehaviour
         }
 
         yield return new WaitForSeconds(3f);
-        Destroy(skeletonmagic_prefab);
+
 
     }
 
