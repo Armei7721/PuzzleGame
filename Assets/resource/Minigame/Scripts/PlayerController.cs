@@ -539,6 +539,34 @@ public class PlayerController : MonoBehaviour
 
         canDash = true; // 대시 쿨다운 종료 후 다시 대시 가능 상태로 변경
     }
+    public void Dead()
+    {
+        if (currentHealth <= 0)
+        {
+            animator.SetTrigger("Death");
+            isDead = true;
+            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
+        }
+    }
+
+    IEnumerator DownJump()
+    {
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            canFallThroughPlatform = true;
+        }
+        if (canFallThroughPlatform)
+        {
+            cacd2d.isTrigger = true;
+
+            yield return new WaitForSeconds(0.5f);
+            canFallThroughPlatform = false;
+            cacd2d.isTrigger = false;
+
+        }
+
+
+    }
     public void OnCollisionEnter2D(Collision2D collision)
     {
         if (!isDead)
@@ -573,6 +601,10 @@ public class PlayerController : MonoBehaviour
                 isHit = true;
                 currentHealth -= 10;
             }
+            else if (collision.CompareTag("Encounter"))
+            {
+               
+            }
         }
     }
     public void OnCollisionStay2D(Collision2D collision)
@@ -596,32 +628,5 @@ public class PlayerController : MonoBehaviour
             canFallThroughPlatform = false;
         }
     }
-    public void Dead()
-    {
-        if(currentHealth<= 0)
-        {
-            animator.SetTrigger("Death");
-            isDead = true;
-            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
-        }
-    }
-
-    IEnumerator DownJump()
-    {
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            canFallThroughPlatform = true;
-        }
-        if (canFallThroughPlatform)
-        {
-            cacd2d.isTrigger = true;
-
-            yield return new WaitForSeconds(0.5f);
-                canFallThroughPlatform = false;
-                cacd2d.isTrigger = false;
-            
-        }
-        
-
-    }
+   
 }

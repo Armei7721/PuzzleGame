@@ -64,7 +64,7 @@ public class Boss_Controller : MonoBehaviour
         currentHealth = max_hp;
         initialHeadPosition = head.position;
         
-        StartCoroutine(Think());
+      //  StartCoroutine(Think());
     }
     // Update is called once per frame
     void Update()
@@ -312,8 +312,15 @@ public class Boss_Controller : MonoBehaviour
     }
     public void CameraShake()
     {
-        CameraControl.cc.shake= true;
+        if (!CameraControl.cc.shake)
+        {
+            CameraControl.cc.shake = true;
+        }
+        else
+        {
+            CameraControl.cc.shake = true;
 
+        }
     }
     public void Dead()
     {

@@ -5,18 +5,17 @@ using UnityEngine;
 public class GameManager_1 : MonoBehaviour
 {
     public GameObject[] boss_child;
-    public SpriteRenderer[] spriteRenderers;
+    private string[][] originalSortingLayers;
+
+    public bool bossEnCounter;
     // Start is called before the first frame update
     void Start()
     {
         Childlist();
+        SaveOriginalSortingLayers();
+        ChangeSortingLayer("MiddleGround");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void Childlist()
     {
         GameObject parentObject = GameObject.Find("Boss_Ent");
@@ -31,18 +30,49 @@ public class GameManager_1 : MonoBehaviour
             for (int i = 1; i < children.Length; i++)
             {
                 boss_child[i - 1] = children[i].gameObject;
-                spriteRenderers = boss_child[i].GetComponents<SpriteRenderer>();
-
-                //// 모든 SpriteRenderer의 Sorting Layer를 변경합니다.
-                //foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-                //{
-                //    spriteRenderer.sortingLayerName = "Default";
-                //}
             }
         }
-        else
+    }
+
+    void SaveOriginalSortingLayers()
+    {
+        originalSortingLayers = new string[boss_child.Length][];
+
+        for (int i = 0; i < boss_child.Length; i++)
         {
-            return;
+            SpriteRenderer[] childSpriteRenderers = boss_child[i].GetComponentsInChildren<SpriteRenderer>();
+            originalSortingLayers[i] = new string[childSpriteRenderers.Length];
+
+            for (int j = 0; j < childSpriteRenderers.Length; j++)
+            {
+                originalSortingLayers[i][j] = childSpriteRenderers[j].sortingLayerName;
+            }
+        }
+    }
+
+    void ChangeSortingLayer(string newSortingLayer)
+    {
+        for (int i = 0; i < boss_child.Length; i++)
+        {
+            SpriteRenderer[] childSpriteRenderers = boss_child[i].GetComponentsInChildren<SpriteRenderer>();
+
+            foreach (SpriteRenderer spriteRenderer in childSpriteRenderers)
+            {
+                spriteRenderer.sortingLayerName = newSortingLayer;
+            }
+        }
+    }
+
+    void RestoreOriginalSortingLayers()
+    {
+        for (int i = 0; i < boss_child.Length; i++)
+        {
+            SpriteRenderer[] childSpriteRenderers = boss_child[i].GetComponentsInChildren<SpriteRenderer>();
+
+            for (int j = 0; j < childSpriteRenderers.Length; j++)
+            {
+                childSpriteRenderers[j].sortingLayerName = originalSortingLayers[i][j];
+            }
         }
     }
 }
