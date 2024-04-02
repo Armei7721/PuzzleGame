@@ -54,6 +54,7 @@ public class CupShaking : MonoBehaviour
                     rollChance--;
                 }
                 GameManager.gamemanager.throwPhase = false;
+                
             }
            
         }

@@ -256,7 +256,7 @@ public class RuleScripts : MonoBehaviour
     public int FourOfAKind()
     {
 
-        // 각 주사위 눈금 값의 개수 카운트
+        Dictionary<int, int> counts = new Dictionary<int, int>();
         foreach (int value in diceValues)
         {
             if (counts.ContainsKey(value))
@@ -282,7 +282,6 @@ public class RuleScripts : MonoBehaviour
                 break;
             }
         }
-
         // 4개의 주사위가 같은 값일 때만 해당하는 점수를 반환
         return fourOfAKindFound ? score : 0;
 
@@ -290,26 +289,38 @@ public class RuleScripts : MonoBehaviour
 
     public int FullHouse()
     {
-        bool threeOfAKind = false;
-        bool twoOfAKind = false;
+        Dictionary<int, int> counts = new Dictionary<int, int>();
 
-        // 순회하면서 풀하우스인지 확인합니다.
-        for (int i = 0; i < diceValues.Length - 2; i++)
+        // 주사위 눈의 등장 횟수를 계산하여 Dictionary에 저장
+        foreach (int value in diceValues)
         {
-            // 세 개의 동일한 눈을 찾습니다.
-            if (diceValues[i] != 0 && diceValues[i] == diceValues[i + 1] && diceValues[i + 1] == diceValues[i + 2])
+            if (value != 0)
             {
-                threeOfAKind = true;
-                i += 2; // 이미 세 개의 눈을 찾았으므로 인덱스를 조정합니다.
-            }
-            // 두 개의 동일한 눈을 찾습니다.
-            else if (diceValues[i] != 0 && i < diceValues.Length - 1 && diceValues[i] == diceValues[i + 1])
-            {
-                twoOfAKind = true;
-                i++; // 두 개의 눈을 찾았으므로 인덱스를 조정합니다.
+                if (counts.ContainsKey(value))
+                {
+                    counts[value]++;
+                }
+                else
+                {
+                    counts[value] = 1;
+                }
             }
         }
 
+        // 세 개의 같은 숫자와 두 개의 같은 숫자가 있는지 확인
+        bool threeOfAKind = false;
+        bool twoOfAKind = false;
+        foreach (var pair in counts)
+        {
+            if (pair.Value == 3)
+            {
+                threeOfAKind = true;
+            }
+            else if (pair.Value == 2)
+            {
+                twoOfAKind = true;
+            }
+        }
         return threeOfAKind && twoOfAKind ? 25 : 0; // 풀하우스인 경우 25를 반환합니다.
     }
 

@@ -37,7 +37,7 @@ public class Dice : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		Throw();
+		//StartCoroutine(Throw());
 		//ResetDice();
 	}
 	public void RollDice()
@@ -60,57 +60,47 @@ public class Dice : MonoBehaviour
 				}
 			}
 		}
+		StartCoroutine(Throw());
 	}
-	public void Throw()
+	public IEnumerator Throw()
 	{
-		if (rb.IsSleeping() && !hasLanded && thrown)
+		if (!hasLanded && thrown)
 		{
-
-			timer += Time.deltaTime;
 			hasLanded = true;
-
 		}
+
 		if (rb.IsSleeping() && hasLanded && thrown && !SetDice)
 		{
-			
-			timer += Time.deltaTime;
-			if (timer >= 2.0f)
-			{
-				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
-				for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
-				{
-					GameObject diceObject = GameManager.gamemanager.conditionDice[i];
-					Rigidbody rb = diceObject.GetComponent<Rigidbody>();
 
+			yield return new WaitForSeconds(3f);
+			transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
+			foreach (GameObject diceObject in GameManager.gamemanager.conditionDice)
+				{
+					Rigidbody rb = diceObject.GetComponent<Rigidbody>();
 					if (rb != null)
 					{
 						rb.isKinematic = true;
 					}
-				}
-				if (timer >= 3.0f)
-				{
-					for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
+
+					if (GameManager.gamemanager.conditionDice.Contains(gameObject))
 					{
-						if (GameManager.gamemanager.conditionDice.Contains(gameObject) != false)
+						int index = GameManager.gamemanager.conditionDice.IndexOf(gameObject);
+						diceObject.transform.position = Vector3.Lerp(diceObject.transform.position, GameManager.gamemanager.conditiontransform[index].transform.position, 0.6f);
+						if (!GameManager.gamemanager.scorePhase)
 						{
-							GameManager.gamemanager.conditionDice[i].transform.position = Vector3.Lerp(GameManager.gamemanager.conditionDice[i].transform.position, GameManager.gamemanager.conditiontransform[i].transform.position, 0.6f);
-							if(!GameManager.gamemanager.scorePhase)
-                            {
-								GameManager.gamemanager.selectPhase = true;
-							}
-						}
-						else
-						{
-							continue;
+							GameManager.gamemanager.selectPhase = true;
 						}
 					}
-
 				}
-			}
+
+				SetDice = true;
+			
 		}
+
+		yield return null;
 	}
-	
-    public void ClickDice()
+
+	public void ClickDice()
     {
 
         MouseDownPos = Input.mousePosition;
@@ -163,30 +153,32 @@ public class Dice : MonoBehaviour
 	{
 		if (GameManager.gamemanager.selectPhase && Input.GetKeyDown(KeyCode.RightArrow)) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
 		{
-
-			if (SetDice == false)
+			for (int j = 0; j<GameManager.gamemanager.diceObjects.Length; j++)
 			{
-				for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
+				if (GameManager.gamemanager.diceObjects[j].GetComponent<Dice>().SetDice == false)
 				{
-					GameObject diceObject = GameManager.gamemanager.conditionDice[i];
-					Rigidbody rb = diceObject.GetComponent<Rigidbody>();
-
-					if (rb != null)
+					for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
 					{
-						rb.isKinematic = false;
+						GameObject diceObject = GameManager.gamemanager.conditionDice[i];
+						Rigidbody rb = diceObject.GetComponent<Rigidbody>();
+
+						if (rb != null)
+						{
+							rb.isKinematic = false;
+						}
+						diceObject.GetComponent<Dice>().transform.position = initPosition;
+						diceObject.GetComponent<Dice>().timer = 0;
 					}
-					diceObject.GetComponent<Dice>().transform.position = initPosition;
-					diceObject.GetComponent<Dice>().timer = 0;
+					GameManager.gamemanager.selectdice = false;
+					GameManager.gamemanager.Wall.SetActive(true);
+					GameManager.gamemanager.throwPhase = true;
+					GameManager.gamemanager.scorePhase = false;
+					GameManager.gamemanager.selectPhase = false;
+					thrown = false;
+					hasLanded = false;
+					
+
 				}
-				GameManager.gamemanager.selectdice = false;
-				GameManager.gamemanager.Wall.SetActive(true);
-				GameManager.gamemanager.throwPhase = true;
-				GameManager.gamemanager.scorePhase = false;
-				GameManager.gamemanager.selectPhase = false;
-				thrown = false;
-				hasLanded = false;
-				diceValue = 0;
-				
 			}
 		}
 		else if(GameManager.gamemanager.scorePhase && GameManager.gamemanager.act)

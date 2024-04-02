@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public bool shakedice;
     public bool selectdice;
 
+    public GameObject[] diceObjects;
     public GameObject[] conditiontransform;
     public List<GameObject> conditionDice = new List<GameObject>();
 
@@ -54,8 +55,6 @@ public class GameManager : MonoBehaviour
         ClickDice();
         Escape();
         StateChange();
-        Debug.Log(player1+" 플레이어 1의 bool 상태");
-        Debug.Log(player2 + " 플레이어 2의 bool 상태");
     }
     
     IEnumerator StartTurns()
@@ -139,7 +138,7 @@ public class GameManager : MonoBehaviour
     void InsertDice()
     {
         // "Dice" 태그가 지정된 모든 게임 오브젝트를 찾습니다.
-        GameObject[] diceObjects = GameObject.FindGameObjectsWithTag("Dice");
+        diceObjects = GameObject.FindGameObjectsWithTag("Dice");
         foreach (GameObject diceObject in diceObjects)
         {
             // 각 게임 오브젝트에서 Dice 스크립트를 찾습니다.
