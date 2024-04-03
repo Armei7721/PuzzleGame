@@ -1,6 +1,6 @@
-	using System.Collections;
-	using System.Collections.Generic;
-	using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Dice : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class Dice : MonoBehaviour
 
 	public int diceValue; // 주사위의 눈을 담을 변수
 	public Vector3 MouseDownPos;  // 마우스 클릭 위치
-	
+
 
 	public static bool resetPosition;  // 점수판에 점수를 넣었을때 주사위 위치 전체 초기화
 	public bool SetDice = false;
@@ -31,13 +31,13 @@ public class Dice : MonoBehaviour
 		initPosition = transform.position;
 		thrown = false;
 		resetPosition = false;
-		
+
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		//StartCoroutine(Throw());
+		Throw();
 		//ResetDice();
 	}
 	public void RollDice()
@@ -52,7 +52,7 @@ public class Dice : MonoBehaviour
 
 				if (rb != null)
 				{
-					rb.AddForce(Random.Range(-12000, -14000), 0, Random.Range(-6500, 2500));
+					rb.AddForce(Random.Range(-10000, -12000), 0, Random.Range(-6500, 2500));
 				}
 				else
 				{
@@ -60,74 +60,84 @@ public class Dice : MonoBehaviour
 				}
 			}
 		}
-		StartCoroutine(Throw());
 	}
-	public IEnumerator Throw()
+	public void Throw()
 	{
-		if (!hasLanded && thrown)
+		if (rb.IsSleeping() && !hasLanded && thrown)
 		{
-			hasLanded = true;
-		}
 
+			timer += Time.deltaTime;
+			hasLanded = true;
+
+		}
 		if (rb.IsSleeping() && hasLanded && thrown && !SetDice)
 		{
 
-			yield return new WaitForSeconds(3f);
-			transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
-			foreach (GameObject diceObject in GameManager.gamemanager.conditionDice)
+			timer += Time.deltaTime;
+			if (timer >= 2.0f)
+			{
+				transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
+				for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
 				{
+					GameObject diceObject = GameManager.gamemanager.conditionDice[i];
 					Rigidbody rb = diceObject.GetComponent<Rigidbody>();
+
 					if (rb != null)
 					{
 						rb.isKinematic = true;
 					}
-
-					if (GameManager.gamemanager.conditionDice.Contains(gameObject))
+				}
+				if (timer >= 3.0f)
+				{
+					for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
 					{
-						int index = GameManager.gamemanager.conditionDice.IndexOf(gameObject);
-						diceObject.transform.position = Vector3.Lerp(diceObject.transform.position, GameManager.gamemanager.conditiontransform[index].transform.position, 0.6f);
-						if (!GameManager.gamemanager.scorePhase)
+						if (GameManager.gamemanager.conditionDice.Contains(gameObject) != false)
 						{
-							GameManager.gamemanager.selectPhase = true;
+							GameManager.gamemanager.conditionDice[i].transform.position = Vector3.Lerp(GameManager.gamemanager.conditionDice[i].transform.position, GameManager.gamemanager.conditiontransform[i].transform.position, 0.6f);
+							if (!GameManager.gamemanager.scorePhase)
+							{
+								GameManager.gamemanager.selectPhase = true;
+							}
+						}
+						else
+						{
+							continue;
 						}
 					}
+
 				}
-
-				SetDice = true;
-			
+			}
 		}
-
-		yield return null;
 	}
 
 	public void ClickDice()
-    {
+	{
 
-        MouseDownPos = Input.mousePosition;
-        Ray ray = Camera.main.ScreenPointToRay(MouseDownPos);
-        RaycastHit hit;
+		MouseDownPos = Input.mousePosition;
+		Ray ray = Camera.main.ScreenPointToRay(MouseDownPos);
+		RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
-        {
-            GameObject hitObject = hit.transform.gameObject;
-            if (hitObject.CompareTag("Dice"))
-            {
-                Dice diceScript = hitObject.GetComponent<Dice>();
-                if (diceScript != null && !diceScript.isSelected)
-                {
-                    SelectDice = hitObject;
-                    if (SelectDice.GetComponent<Dice>().SetDice == false)
-                    {
-                        SelectDice.GetComponent<Dice>().SetDice = true;
-                        if (GameManager.gamemanager.conditionDice.Contains(SelectDice.gameObject))
-                        {
-                            GameManager.gamemanager.conditionDice.Remove(SelectDice.gameObject);
+		if (Physics.Raycast(ray, out hit))
+		{
+			GameObject hitObject = hit.transform.gameObject;
+			if (hitObject.CompareTag("Dice"))
+			{
+				Dice diceScript = hitObject.GetComponent<Dice>();
+				if (diceScript != null && !diceScript.isSelected)
+				{
+					SelectDice = hitObject;
+					if (SelectDice.GetComponent<Dice>().SetDice == false)
+					{
+						SelectDice.GetComponent<Dice>().SetDice = true;
+						if (GameManager.gamemanager.conditionDice.Contains(SelectDice.gameObject))
+						{
+							GameManager.gamemanager.conditionDice.Remove(SelectDice.gameObject);
 							GameManager.gamemanager.PlaceDiceInSlot(SelectDice.gameObject);
 							PutSlot(hit);
-                        }
-                    }
-                    else if (SelectDice.GetComponent<Dice>().SetDice == true )
-                    {
+						}
+					}
+					else if (SelectDice.GetComponent<Dice>().SetDice == true)
+					{
 						for (int i = 0; i < GameManager.gamemanager.slots.Length; i++)
 						{
 							if (GameManager.gamemanager.slots[i] == SelectDice.gameObject)
@@ -136,53 +146,51 @@ public class Dice : MonoBehaviour
 							}
 						}
 						PopSlot(hit);
-                    }
+					}
 
-                }
+				}
 
 
-            }
-            else if (hitObject == null)
-            {
-                return;
-            }
-        }
+			}
+			else if (hitObject == null)
+			{
+				return;
+			}
+		}
 	}
 
-    public void ResetDice()
+	public void ResetDice()
 	{
 		if (GameManager.gamemanager.selectPhase && Input.GetKeyDown(KeyCode.RightArrow)) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
 		{
-			for (int j = 0; j<GameManager.gamemanager.diceObjects.Length; j++)
+
+			if (SetDice == false)
 			{
-				if (GameManager.gamemanager.diceObjects[j].GetComponent<Dice>().SetDice == false)
+				for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
 				{
-					for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
+					GameObject diceObject = GameManager.gamemanager.conditionDice[i];
+					Rigidbody rb = diceObject.GetComponent<Rigidbody>();
+
+					if (rb != null)
 					{
-						GameObject diceObject = GameManager.gamemanager.conditionDice[i];
-						Rigidbody rb = diceObject.GetComponent<Rigidbody>();
-
-						if (rb != null)
-						{
-							rb.isKinematic = false;
-						}
-						diceObject.GetComponent<Dice>().transform.position = initPosition;
-						diceObject.GetComponent<Dice>().timer = 0;
+						rb.isKinematic = false;
 					}
-					GameManager.gamemanager.selectdice = false;
-					GameManager.gamemanager.Wall.SetActive(true);
-					GameManager.gamemanager.throwPhase = true;
-					GameManager.gamemanager.scorePhase = false;
-					GameManager.gamemanager.selectPhase = false;
-					thrown = false;
-					hasLanded = false;
-					
-
+					diceObject.GetComponent<Dice>().transform.position = initPosition;
+					diceObject.GetComponent<Dice>().timer = 0;
 				}
+				GameManager.gamemanager.selectdice = false;
+				GameManager.gamemanager.Wall.SetActive(true);
+				GameManager.gamemanager.throwPhase = true;
+				GameManager.gamemanager.scorePhase = false;
+				GameManager.gamemanager.selectPhase = false;
+				thrown = false;
+				hasLanded = false;
+				diceValue = 0;
+
 			}
 		}
-		else if(GameManager.gamemanager.scorePhase && GameManager.gamemanager.act)
-        {
+		else if (GameManager.gamemanager.scorePhase && GameManager.gamemanager.act)
+		{
 
 			AllReset();
 			GameManager.gamemanager.act = false;
@@ -190,32 +198,32 @@ public class Dice : MonoBehaviour
 	}
 
 
-    public void PutSlot(RaycastHit hit)
-    {
+	public void PutSlot(RaycastHit hit)
+	{
 
-        for (int i = 0; i < GameManager.Slut.Length; i++)
-        {
-            if (GameManager.gamemanager.slots==null)
-            {
-                SelectDice.transform.position = GameManager.Slut[i].transform.position;
-                break;
-            }
+		for (int i = 0; i < GameManager.Slut.Length; i++)
+		{
+			if (GameManager.gamemanager.slots == null)
+			{
+				SelectDice.transform.position = GameManager.Slut[i].transform.position;
+				break;
+			}
 
-        }
-    }
-    public void PopSlot(RaycastHit hit)
-    {
-        for (int i = 0; i < GameManager.Slut.Length; i++)
-        {
-			if (GameManager.gamemanager.slots !=null)
-            {
+		}
+	}
+	public void PopSlot(RaycastHit hit)
+	{
+		for (int i = 0; i < GameManager.Slut.Length; i++)
+		{
+			if (GameManager.gamemanager.slots != null)
+			{
 				GameManager.gamemanager.conditionDice.Add(SelectDice.gameObject);
 				SelectDice.GetComponent<Dice>().SetDice = false;
 				break;
-            }
-        }
+			}
+		}
 
-    }
+	}
 	public void SetDiceValue(int value)
 	{
 		diceValue = value;
@@ -226,9 +234,10 @@ public class Dice : MonoBehaviour
 	{
 		return diceValue;
 	}
-	
+
 	public void AllReset()
-    {	for (int i = 0; i < GameManager.gamemanager.slots.Length; i++)
+	{
+		for (int i = 0; i < GameManager.gamemanager.slots.Length; i++)
 		{
 			if (GameManager.gamemanager.slots[i] != null)
 			{
@@ -249,16 +258,16 @@ public class Dice : MonoBehaviour
 			diceObject.GetComponent<Dice>().SetDice = false;
 			diceObject.GetComponent<Dice>().timer = 0;
 		}
-			CupShaking.rollChance = 3;
-			GameManager.gamemanager.selectdice = false;
-			GameManager.gamemanager.Wall.SetActive(true);
-			GameManager.gamemanager.throwPhase = true;
-			GameManager.gamemanager.scorePhase = false;
-			GameManager.gamemanager.selectPhase = false;
-			thrown = false;
-			hasLanded = false;
-			
-			diceValue = 0;
-		
+		CupShaking.rollChance = 3;
+		GameManager.gamemanager.selectdice = false;
+		GameManager.gamemanager.Wall.SetActive(true);
+		GameManager.gamemanager.throwPhase = true;
+		GameManager.gamemanager.scorePhase = false;
+		GameManager.gamemanager.selectPhase = false;
+		thrown = false;
+		hasLanded = false;
+
+		diceValue = 0;
+
 	}
 }
