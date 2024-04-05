@@ -1238,6 +1238,7 @@ MonoBehaviour:
   - {fileID: 0}
   shakedice: 0
   selectdice: 0
+  diceObjects: []
   conditiontransform: []
   conditionDice: []
   throwPhase: 0

@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
         ClickDice();
         Escape();
         StateChange();
+        
     }
     
     IEnumerator StartTurns()
@@ -110,7 +111,15 @@ public class GameManager : MonoBehaviour
     bool CheckForGameOver()
     {
         // 게임 종료 조건을 여기에 추가
-        // 예를 들어, 모든 플레이어의 체력이 다 소진되면 게임 종료
+        for (int i = 0; i < TextManager.text.isConfirmed.Length; i++)
+        {
+            if (TextManager.text.isConfirmed[i]==true && TextManager.text.isConfirmed[i]==true)
+            {
+                return true;
+            }
+            
+            // 예를 들어, 모든 플레이어의 체력이 다 소진되면 게임 종료
+        }
         return false;
     }
 

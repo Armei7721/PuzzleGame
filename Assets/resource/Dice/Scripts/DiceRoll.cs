@@ -14,23 +14,26 @@ public class DiceRoll : MonoBehaviour
 
     void Update()
     {
+       // Diceroll();
+    }
+    private void FixedUpdate()
+    {
         Diceroll();
     }
-
     public void Diceroll()
     {
         diceVelocity = rb.velocity;
 
-        if(Input.GetMouseButton(0))
-        {
+        
+        
             float dirX = Random.Range(0, 500);
             float dirY = Random.Range(0, 500);
             float dirZ = Random.Range(0, 500);
-            transform.position = new Vector3(0, 2, 0);
-            transform.rotation = Quaternion.identity;
+            
+            transform.Rotate(dirX*Time.deltaTime,dirY * Time.deltaTime, dirZ * Time.deltaTime);
             rb.AddForce(transform.up * 10);
             rb.AddTorque(dirX, dirY, dirZ);
-        }
+        
     }
     
 }
