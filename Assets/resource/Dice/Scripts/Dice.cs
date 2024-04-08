@@ -38,7 +38,6 @@ public class Dice : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("dicerotate 상태 " + dicerotate);
         Throw();
     }
     public void RollDice()
@@ -77,13 +76,11 @@ public class Dice : MonoBehaviour
                 break;
             }
         }
-
         // 모든 다이스가 멈추면서 아직 던진 상태이고, 아직 땅에 떨어지지 않은 경우
         if (allDiceStopped && !hasLanded && thrown)
         {
             hasLanded = true;
         }
-
         // 모든 다이스가 멈추면서 땅에 떨어진 경우이고, 아직 처리되지 않은 경우
         if (allDiceStopped && hasLanded && thrown && !SetDice)
         {
@@ -106,20 +103,20 @@ public class Dice : MonoBehaviour
                         if (GameManager.gamemanager.conditionDice.Contains(gameObject))
                         {
                             diceObject.transform.position = Vector3.Lerp(diceObject.transform.position, GameManager.gamemanager.conditiontransform[i].transform.position, 0.6f);
-                            if (!GameManager.gamemanager.scorePhase)
-                            {
-                                GameManager.gamemanager.selectPhase = true;
-                            }
+                           
+                           GameManager.gamemanager.currentPhase = GameManager.Phase.selectPhase;
+                           
                         }
                     }
                 }
             }
         }
     }
+    // 주사위의 
     public IEnumerator rotation()
     {
         if (!dicerotate)
-        {
+        {   // 
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
             yield return new WaitForSeconds(1f);
             dicerotate = true;
@@ -194,47 +191,7 @@ public class Dice : MonoBehaviour
         }
     }
 
-    public void ResetDice()
-    {
-        if (GameManager.gamemanager.selectPhase && Input.GetKeyDown(KeyCode.RightArrow)) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
-        {
-            for (int j = 0; j < GameManager.gamemanager.diceObjects.Length; j++)
-            {
-                if (GameManager.gamemanager.diceObjects[j].GetComponent<Dice>().SetDice == false)
-                {
-                    for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
-                    {
-                        GameObject diceObject = GameManager.gamemanager.conditionDice[i];
-                        Rigidbody rb = diceObject.GetComponent<Rigidbody>();
-
-                        if (rb != null)
-                        {
-                            rb.isKinematic = false;
-                        }
-                        diceObject.GetComponent<Dice>().transform.position = initPosition;
-                        diceObject.GetComponent<Dice>().timer = 0;
-                    }
-                    GameManager.gamemanager.selectdice = false;
-                    GameManager.gamemanager.Wall.SetActive(true);
-                    GameManager.gamemanager.throwPhase = true;
-                    GameManager.gamemanager.scorePhase = false;
-                    GameManager.gamemanager.selectPhase = false;
-                    rotationreset();
-                    thrown = false;
-                    hasLanded = false;
-
-
-                }
-            }
-        }
-        else if (GameManager.gamemanager.scorePhase && GameManager.gamemanager.act)
-        {
-
-            AllReset();
-            GameManager.gamemanager.act = false;
-        }
-    }
-
+   
 
     public void PutSlot(RaycastHit hit)
     {
@@ -272,6 +229,47 @@ public class Dice : MonoBehaviour
     {
         return diceValue;
     }
+    public void ResetDice()
+    {
+        if (GameManager.gamemanager.currentPhase == GameManager.Phase.selectPhase && Input.GetKeyDown(KeyCode.RightArrow) && CupShaking.rollChance != 0) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
+        {
+            for (int j = 0; j < GameManager.gamemanager.diceObjects.Length; j++)
+            {
+                if (GameManager.gamemanager.diceObjects[j].GetComponent<Dice>().SetDice == false)
+                {
+                    for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
+                    {
+                        GameObject diceObject = GameManager.gamemanager.conditionDice[i];
+                        Rigidbody rb = diceObject.GetComponent<Rigidbody>();
+
+                        if (rb != null)
+                        {
+                            rb.isKinematic = false;
+                        }
+                        diceObject.GetComponent<Dice>().transform.position = initPosition;
+                        diceObject.GetComponent<Dice>().timer = 0;
+                        GameManager.gamemanager.currentPhase = GameManager.Phase.throwPhase;
+
+                    }
+                    GameManager.gamemanager.selectdice = false;
+                    GameManager.gamemanager.Wall.SetActive(true);
+                   
+                    rotationreset();
+                    thrown = false;
+                    hasLanded = false;
+
+                }
+            }
+
+
+        }
+        else if (GameManager.gamemanager.currentPhase == GameManager.Phase.scorePhase && GameManager.gamemanager.act)
+        {
+
+            AllReset();
+            GameManager.gamemanager.act = false;
+        }
+    }
 
     public void AllReset()
     {
@@ -299,9 +297,7 @@ public class Dice : MonoBehaviour
         CupShaking.rollChance = 3;
         GameManager.gamemanager.selectdice = false;
         GameManager.gamemanager.Wall.SetActive(true);
-        GameManager.gamemanager.throwPhase = true;
-        GameManager.gamemanager.scorePhase = false;
-        GameManager.gamemanager.selectPhase = false;
+        GameManager.gamemanager.currentPhase = GameManager.Phase.throwPhase;
         thrown = false;
         hasLanded = false;
         rotationreset();

@@ -25,13 +25,16 @@ public class TextManager : MonoBehaviour
     public int haptotal;
     public int haptotal2;
     public float timer=0;
+
+    public Button helpbutton;
+    public GameObject diceRule;
     // Start is called before the first frame update
     void Start()
     {
         text = this;
         InsertText();
         BoolConfirmed();
-       
+        helpbutton.onClick.AddListener(Helpbuttonactivate);
     }
    
     void BoolConfirmed()
@@ -59,6 +62,10 @@ public class TextManager : MonoBehaviour
         TextColor();
         Score();
         PlayerTurnText();
+        if (diceRule.activeSelf && Input.GetMouseButton(0))
+        {
+            diceRule.SetActive(!diceRule.activeSelf);
+        }
     }
     void PlayerTurnText()
     {
@@ -270,5 +277,9 @@ public class TextManager : MonoBehaviour
             else
                 return;
         }
+    }
+    public void Helpbuttonactivate()
+    {
+        diceRule.SetActive(!diceRule.activeSelf);
     }
 }

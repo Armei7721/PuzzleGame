@@ -16,7 +16,7 @@ public class TextHandler : MonoBehaviour
     }
     public void Update()
     {
-        if(GameManager.gamemanager.scorePhase &&GameManager.gamemanager.player1)
+        if(GameManager.gamemanager.currentPhase == GameManager.Phase.scorePhase && GameManager.gamemanager.player1)
         {
             button.interactable = true;
         }
@@ -27,7 +27,7 @@ public class TextHandler : MonoBehaviour
     }
     public void OnClick()
     {
-        StartCoroutine(textManager.ChangeDecideStatus(textIndex));
+            StartCoroutine(textManager.ChangeDecideStatus(textIndex));
          
             GameManager.gamemanager.act = true;
             Dice.dice.ResetDice();

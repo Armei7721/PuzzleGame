@@ -387,7 +387,6 @@
 "Assets/resource/Dice/Scripts/Dice.cs"
 "Assets/resource/Dice/Scripts/DiceNumberCheck.cs"
 "Assets/resource/Dice/Scripts/DiceNumberText.cs"
-"Assets/resource/Dice/Scripts/DiceRoll.cs"
 "Assets/resource/Dice/Scripts/GameManager.cs"
 "Assets/resource/Dice/Scripts/RuleScripts.cs"
 "Assets/resource/Dice/Scripts/TextHandler.cs"
