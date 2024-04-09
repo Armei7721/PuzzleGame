@@ -89,7 +89,7 @@ public class Dice : MonoBehaviour
             // 2초가 경과했을 때
             if (timer >= 2.0f)
             {
-
+                
                 StartCoroutine(rotation());
                 DiceKinmatic();
                 // 3초가 경과했을 때
@@ -144,23 +144,26 @@ public class Dice : MonoBehaviour
     }
     public void ClickDice()
     {
-
+        // 마우스 위치를 얻습니다.
         MouseDownPos = Input.mousePosition;
         Ray ray = Camera.main.ScreenPointToRay(MouseDownPos);
         RaycastHit hit;
-
+        // Ray가 물체에 부딪혔는지 확인.
         if (Physics.Raycast(ray, out hit))
-        {
+        {   // 부딪힌 물체를 hitObject에 담습니다..
             GameObject hitObject = hit.transform.gameObject;
             if (hitObject.CompareTag("Dice"))
             {
                 Dice diceScript = hitObject.GetComponent<Dice>();
+
+                // Dice 스크립트가 존재하고 주사위가 이미 선택되지 않았는지 확인.
                 if (diceScript != null && !diceScript.isSelected)
                 {
                     SelectDice = hitObject;
                     if (SelectDice.GetComponent<Dice>().SetDice == false)
                     {
                         SelectDice.GetComponent<Dice>().SetDice = true;
+                        // 주사위를 conditionDice 목록에서 제거하고 슬롯에 배치하고 슬롯을 업데이트.
                         if (GameManager.gamemanager.conditionDice.Contains(SelectDice.gameObject))
                         {
                             GameManager.gamemanager.conditionDice.Remove(SelectDice.gameObject);
@@ -169,7 +172,7 @@ public class Dice : MonoBehaviour
                         }
                     }
                     else if (SelectDice.GetComponent<Dice>().SetDice == true)
-                    {
+                    {   // 주사위를 슬롯 배열에서 찾아 제거하고 슬롯을 업데이트.
                         for (int i = 0; i < GameManager.gamemanager.slots.Length; i++)
                         {
                             if (GameManager.gamemanager.slots[i] == SelectDice.gameObject)
@@ -179,10 +182,7 @@ public class Dice : MonoBehaviour
                         }
                         PopSlot(hit);
                     }
-
                 }
-
-
             }
             else if (hitObject == null)
             {
@@ -195,15 +195,14 @@ public class Dice : MonoBehaviour
 
     public void PutSlot(RaycastHit hit)
     {
-
         for (int i = 0; i < GameManager.Slut.Length; i++)
         {
             if (GameManager.gamemanager.slots == null)
             {
-                SelectDice.transform.position = GameManager.Slut[i].transform.position;
+                SelectDice.transform.position = 
+                GameManager.Slut[i].transform.position;
                 break;
             }
-
         }
     }
     public void PopSlot(RaycastHit hit)
@@ -217,31 +216,30 @@ public class Dice : MonoBehaviour
                 break;
             }
         }
-
     }
     public void SetDiceValue(int value)
     {
         diceValue = value;
     }
-
     // 눈 값 반환 함수
     public int GetDiceValue()
     {
         return diceValue;
     }
     public void ResetDice()
-    {
-        if (GameManager.gamemanager.currentPhase == GameManager.Phase.selectPhase && Input.GetKeyDown(KeyCode.RightArrow) && CupShaking.rollChance != 0) // R을 눌렀을때 슬롯에 없다면? 처음위치(다시굴리기)로 이동
+    {   // 현재 단계가 선택 단계이고 오른쪽 화살표 키를 누르고 굴릴 기회가 있는 경우
+        if (GameManager.gamemanager.currentPhase == GameManager.Phase.selectPhase
+            && Input.GetKeyDown(KeyCode.RightArrow) && CupShaking.rollChance != 0) 
         {
+            
             for (int j = 0; j < GameManager.gamemanager.diceObjects.Length; j++)
-            {
+            {   // 각 주사위의 Setdice 상태를 확인후 false이면
                 if (GameManager.gamemanager.diceObjects[j].GetComponent<Dice>().SetDice == false)
                 {
                     for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
-                    {
+                    {   // isKinematic가 false가 되며 주사위를 던지기 전 컵안의 위치로 변경
                         GameObject diceObject = GameManager.gamemanager.conditionDice[i];
                         Rigidbody rb = diceObject.GetComponent<Rigidbody>();
-
                         if (rb != null)
                         {
                             rb.isKinematic = false;
@@ -249,7 +247,6 @@ public class Dice : MonoBehaviour
                         diceObject.GetComponent<Dice>().transform.position = initPosition;
                         diceObject.GetComponent<Dice>().timer = 0;
                         GameManager.gamemanager.currentPhase = GameManager.Phase.throwPhase;
-
                     }
                     GameManager.gamemanager.selectdice = false;
                     GameManager.gamemanager.Wall.SetActive(true);
@@ -260,8 +257,6 @@ public class Dice : MonoBehaviour
 
                 }
             }
-
-
         }
         else if (GameManager.gamemanager.currentPhase == GameManager.Phase.scorePhase && GameManager.gamemanager.act)
         {
@@ -273,21 +268,16 @@ public class Dice : MonoBehaviour
 
     public void AllReset()
     {
-        for (int i = 0; i < GameManager.gamemanager.slots.Length; i++)
-        {
-            if (GameManager.gamemanager.slots[i] != null)
-            {
+        for (int i = 0; i < GameManager.gamemanager.slots.Length; i++){
+            if (GameManager.gamemanager.slots[i] != null){
                 GameManager.gamemanager.conditionDice.Add(GameManager.gamemanager.slots[i]);
                 GameManager.gamemanager.slots[i] = null;
             }
         }
-        for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++)
-        {
+        for (int i = 0; i < GameManager.gamemanager.conditionDice.Count; i++){
             GameObject diceObject = GameManager.gamemanager.conditionDice[i];
             Rigidbody rb = diceObject.GetComponent<Rigidbody>();
-
-            if (rb != null)
-            {
+            if (rb != null){
                 rb.isKinematic = false;
             }
             diceObject.GetComponent<Dice>().transform.position = initPosition;
@@ -302,6 +292,5 @@ public class Dice : MonoBehaviour
         hasLanded = false;
         rotationreset();
         diceValue = 0;
-
     }
 }

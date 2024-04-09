@@ -70,16 +70,13 @@ public class TextManager : MonoBehaviour
     void PlayerTurnText()
     {
         timer += Time.deltaTime;
-
         float blinkDuration = 2.0f; // 블링크 주기를 정의합니다 (예: 1초)
         Color tc = new Color(0f, 0f, 0f, 0.9f);
         Color tc2 = new Color(0f, 0f, 0f, 0.4f);
         Color tc3 = new Color(255f, 255f, 255f, 0.9f);
         Color tc4 = new Color(255f, 255f, 255f, 0.4f);
-
         // 주기적으로 텍스트 블링크 효과를 주기 위해 타이머 값을 이용합니다.
-        if (timer % (blinkDuration * 2) < blinkDuration)
-        {
+        if (timer % (blinkDuration * 2) < blinkDuration){
             float t = Mathf.PingPong(timer, blinkDuration) / blinkDuration;
             // 첫 번째 절반 (색상 변경)
 
@@ -105,12 +102,9 @@ public class TextManager : MonoBehaviour
 
     public void Score()
     {
-        if (GameManager.gamemanager.player1)
-        {
-            for (int i = 0; i < arraytextmeshpro.Length; i++)
-            {
-                if (!isConfirmed[i])
-                {
+        if (GameManager.gamemanager.player1){
+            for (int i = 0; i < arraytextmeshpro.Length; i++){
+                if (!isConfirmed[i]){
                     int score = (int)typeof(RuleScripts).GetMethod(methodNames[i]).Invoke(RuleScripts.rule, null);
                     arraytextmeshpro[i].text = score.ToString();
                 }
@@ -118,12 +112,9 @@ public class TextManager : MonoBehaviour
                     continue;
             }
         }
-        else if (GameManager.gamemanager.player2)
-        {
-            for (int i = 0; i < arraytextmeshpro.Length; i++)
-            {
-                if (!isConfirmed2[i])
-                {
+        else if (GameManager.gamemanager.player2){
+            for (int i = 0; i < arraytextmeshpro.Length; i++){
+                if (!isConfirmed2[i]){
                     int score = (int)typeof(RuleScripts).GetMethod(methodNames2[i]).Invoke(RuleScripts.rule, null);
                     arraytextmeshpro2[i].text = score.ToString();
                 }
@@ -179,7 +170,6 @@ public class TextManager : MonoBehaviour
                 arraytextmeshpro[i] = children[i];
                 arraytextmeshpro2[i] = children2[i];
             }
-
         }
         else
         {
@@ -205,7 +195,6 @@ public class TextManager : MonoBehaviour
             {
                 Debug.Log("이미 확정된 점수입니다."); // 이미 확정된 점수인 경우 메시지 출력
             }
-
         }
         else if (index >= 0 && index < isConfirmed2.Length && GameManager.gamemanager.player2)
         {

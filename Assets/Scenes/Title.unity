@@ -257,7 +257,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Yatch Dice
+  m_text: Yacht Dice
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fc1af6455f8ecf84b9e2d210e1465427, type: 2}
   m_sharedMaterial: {fileID: -2944371460853918669, guid: fc1af6455f8ecf84b9e2d210e1465427, type: 2}

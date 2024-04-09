@@ -6,17 +6,17 @@ public class TextHandler2 : MonoBehaviour
 {
     public TextManager textManager;
     public Button button;
-   
+
     public int textIndex; // 각 TextMeshProUGUI의 인덱스를 나타냅니다.]
     Transform parent;
     public void Start()
-    {   
-            button = GetComponent<Button>();
-       Transform parent = transform.parent;
+    {
+        button = GetComponent<Button>();
+        Transform parent = transform.parent;
     }
     public void Update()
     {
-        if(GameManager.gamemanager.currentPhase == GameManager.Phase.scorePhase && GameManager.gamemanager.player2)
+        if (GameManager.gamemanager.currentPhase == GameManager.Phase.scorePhase && GameManager.gamemanager.player2)
         {
             button.interactable = true;
         }
@@ -27,11 +27,10 @@ public class TextHandler2 : MonoBehaviour
     }
     public void OnClick()
     {
-            StartCoroutine(textManager.ChangeDecideStatus(textIndex));
-         
-            GameManager.gamemanager.act = true;
-            Dice.dice.ResetDice();
+        StartCoroutine(textManager.ChangeDecideStatus(textIndex));
+
+        GameManager.gamemanager.act = true;
+        Dice.dice.ResetDice();
 
     }
-   
 }

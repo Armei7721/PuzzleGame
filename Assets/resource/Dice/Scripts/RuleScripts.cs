@@ -13,15 +13,11 @@ public class RuleScripts : MonoBehaviour
     void Start()
     {
         rule = this;
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
-
-
         DiceSort();
         One();
         Two();
@@ -35,35 +31,23 @@ public class RuleScripts : MonoBehaviour
         SMS();
         LGS();
         Yacht();
-
-
-
     }
     public void DiceSort()
     {
-
-        for (int i = 0; i < GameManager.gamemanager.slots.Length; i++)
-        {
-            if (GameManager.gamemanager.slots[i] != null)
-            {
+        for (int i = 0; i < GameManager.gamemanager.slots.Length; i++){
+            if (GameManager.gamemanager.slots[i] != null){
                 diceValues[i] = GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
             }
-            else
-            {
+            else{
                 diceValues[i] = 0; // 슬롯이 비어있는 경우 0 또는 다른 기본값 설정
             }
         }
-
         Array.Sort(diceValues);
-
-
-
     }
 
     public int One()
     {
         int score = 0; // score 변수를 0으로 초기화
-
         foreach (int value in diceValues)
         {
             if (value == 1)
@@ -81,14 +65,10 @@ public class RuleScripts : MonoBehaviour
             }
         }
         return score;
-
-
     }
     public int Two()
     {
-
         int score = 0; // score 변수를 0으로 초기화
-
         foreach (int value in diceValues)
         {
             if (value == 2)
@@ -106,13 +86,10 @@ public class RuleScripts : MonoBehaviour
             }
         }
         return score;
-
     }
     public int Three()
     {
-
         int score = 0; // score 변수를 0으로 초기화
-
         foreach (int value in diceValues)
         {
             if (value == 3)
@@ -133,9 +110,7 @@ public class RuleScripts : MonoBehaviour
     }
     public int Four()
     {
-
         int score = 0; // score 변수를 0으로 초기화
-
         foreach (int value in diceValues)
         {
             if (value == 4)
@@ -203,23 +178,16 @@ public class RuleScripts : MonoBehaviour
     {
         int totalScore = 0;
         int sumOneToSix = 0;
-
         for (int i = 0; i < 6; i++)
         {
-
-            if (TextManager.text.isConfirmed[i] && GameManager.gamemanager.player1)
-            {
+            if (TextManager.text.isConfirmed[i] && GameManager.gamemanager.player1){
                 sumOneToSix = TextManager.text.subtotal; // 각 메서드의 결과를 누적하여 계산
 
             }
-            else if(TextManager.text.isConfirmed2[i] && GameManager.gamemanager.player2)
-            {
+            else if(TextManager.text.isConfirmed2[i] && GameManager.gamemanager.player2){
                 sumOneToSix = TextManager.text.subtotal2; // 각 메서드의 결과를 누적하여 계산
-            }
-
-            
+            }          
         }
-
         if (sumOneToSix >= 63)
         {
             totalScore = sumOneToSix + 35;
