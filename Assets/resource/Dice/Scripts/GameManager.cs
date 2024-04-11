@@ -217,7 +217,8 @@ public class GameManager : MonoBehaviour
                 {
                     currentPhase = Phase.scorePhase;
                 }
-                else if(Input.GetKeyDown(KeyCode.RightArrow)&& CupShaking.rollChance!=0)
+                else if(Input.GetKeyDown(KeyCode.RightArrow)
+                        && CupShaking.rollChance!=0)
                 {
                     Dice.dice.ResetDice();
                     currentPhase = Phase.throwPhase;

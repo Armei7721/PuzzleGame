@@ -152,6 +152,7 @@ public class TextManager : MonoBehaviour
             }
         }
     }
+    // 점수 입력 배열 초기화
     public void InsertText()
     {
         GameObject parentObject = GameObject.Find("ScoreText");
@@ -162,7 +163,7 @@ public class TextManager : MonoBehaviour
             TextMeshProUGUI[] children = parentObject.GetComponentsInChildren<TextMeshProUGUI>(true);
             TextMeshProUGUI[] children2 = parentObject2.GetComponentsInChildren<TextMeshProUGUI>(true);
 
-            arraytextmeshpro = new TextMeshProUGUI[children.Length];
+            arraytextmeshpro = new TextMeshProUGUI[children.Length];    // arraytextmeshpro 배열 초기화
             arraytextmeshpro2 = new TextMeshProUGUI[children2.Length]; // arraytextmeshpro2 배열 초기화
 
             for (int i = 0; i < children.Length; i++)
@@ -184,8 +185,7 @@ public class TextManager : MonoBehaviour
 
     public IEnumerator ChangeDecideStatus(int index)
     {
-        if (index >= 0 && index < isConfirmed.Length && GameManager.gamemanager.player1)
-        {
+        if (index >= 0 && index < isConfirmed.Length && GameManager.gamemanager.player1){
             if (!isConfirmed[index]) // 점수가 아직 확정되지 않은 경우
             {
                 isConfirmed[index] = true; // 해당 인덱스의 점수를 확정 상태로 변경합니다.
@@ -193,11 +193,10 @@ public class TextManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("이미 확정된 점수입니다."); // 이미 확정된 점수인 경우 메시지 출력
+                Debug.Log("이미 확정된 점수입니다.");
             }
         }
-        else if (index >= 0 && index < isConfirmed2.Length && GameManager.gamemanager.player2)
-        {
+        else if (index >= 0 && index < isConfirmed2.Length && GameManager.gamemanager.player2){
             if (!isConfirmed2[index]) // 점수가 아직 확정되지 않은 경우
             {
                 isConfirmed2[index] = true; // 해당 인덱스의 점수를 확정 상태로 변경합니다.
@@ -205,11 +204,9 @@ public class TextManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("이미 확정된 점수입니다."); // 이미 확정된 점수인 경우 메시지 출력
-            }
-            
-            
-            }
+                Debug.Log("이미 확정된 점수입니다.");
+            }         
+        }
         yield return new WaitForSeconds(0.5f);
         ChangeTurn();
     }
@@ -228,10 +225,7 @@ public class TextManager : MonoBehaviour
     }
     public void UpdateText(int index)
     {
-        // 현재는 간단히 점수를 업데이트하는 로직만 포함하도록 했습니다.
-        // 확정된 점수의 시각적인 변경은 여기에 추가할 수 있습니다.
-        if (GameManager.gamemanager.player1)
-        {
+        if (GameManager.gamemanager.player1) {
             if (index >= 0 && index < 6 && methodNames[6] != methodNames[index] && methodNames[13] != methodNames[index])
             {
                 int score = (int)typeof(RuleScripts).GetMethod(methodNames[index]).Invoke(RuleScripts.rule, null);
@@ -248,8 +242,7 @@ public class TextManager : MonoBehaviour
             else
                 return;
         }
-        else if(GameManager.gamemanager.player2)
-        {
+        else if(GameManager.gamemanager.player2){
             if (index >= 0 && index < 6 && methodNames[6] != methodNames[index] && methodNames[13] != methodNames[index])
             {
                 int score = (int)typeof(RuleScripts).GetMethod(methodNames[index]).Invoke(RuleScripts.rule, null);

@@ -45,22 +45,19 @@ public class RuleScripts : MonoBehaviour
         Array.Sort(diceValues);
     }
 
-    public int One()
-    {
+    public int One(){
         int score = 0; // score 변수를 0으로 초기화
-        foreach (int value in diceValues)
-        {
-            if (value == 1)
-            {
-                if (counts.ContainsKey(value))
-                {
+        foreach (int value in diceValues){
+            if (value == 1) {
+                if (counts.ContainsKey(value)){
                     counts[value]++;
-                    score += value; // counts[value] 대신 value 값을 누적하여 score에 추가
+                    // counts[value] 대신 value 값을 누적하여 score에 추가
+                    score += value; 
                 }
-                else
-                {
+                else {
                     counts[value] = 1;
-                    score = value; // counts[value]가 새로 추가되는 경우에도 value 값을 누적하여 score에 추가
+                    // counts[value]가 새로 추가되는 경우에도 value 값을 누적하여 score에 추가
+                    score = value;
                 }
             }
         }
@@ -178,8 +175,7 @@ public class RuleScripts : MonoBehaviour
     {
         int totalScore = 0;
         int sumOneToSix = 0;
-        for (int i = 0; i < 6; i++)
-        {
+        for (int i = 0; i < 6; i++) {
             if (TextManager.text.isConfirmed[i] && GameManager.gamemanager.player1){
                 sumOneToSix = TextManager.text.subtotal; // 각 메서드의 결과를 누적하여 계산
 
@@ -223,16 +219,13 @@ public class RuleScripts : MonoBehaviour
 
     public int FourOfAKind()
     {
-
         Dictionary<int, int> counts = new Dictionary<int, int>();
         foreach (int value in diceValues)
         {
-            if (counts.ContainsKey(value))
-            {
+            if (counts.ContainsKey(value)){
                 counts[value]++;
             }
-            else
-            {
+            else{
                 counts[value] = 1;
             }
         }
@@ -256,16 +249,14 @@ public class RuleScripts : MonoBehaviour
     }
 
     public int FullHouse()
-    {
+    {   // 세 개의 같은 숫자와 두 개의 같은 숫자가 있는지 확인
+        bool threeOfAKind = false;
+        bool twoOfAKind = false;
         Dictionary<int, int> counts = new Dictionary<int, int>();
-
         // 주사위 눈의 등장 횟수를 계산하여 Dictionary에 저장
-        foreach (int value in diceValues)
-        {
-            if (value != 0)
-            {
-                if (counts.ContainsKey(value))
-                {
+        foreach (int value in diceValues) {
+            if (value != 0){
+                if (counts.ContainsKey(value)){
                     counts[value]++;
                 }
                 else
@@ -274,18 +265,11 @@ public class RuleScripts : MonoBehaviour
                 }
             }
         }
-
-        // 세 개의 같은 숫자와 두 개의 같은 숫자가 있는지 확인
-        bool threeOfAKind = false;
-        bool twoOfAKind = false;
-        foreach (var pair in counts)
-        {
-            if (pair.Value == 3)
-            {
+        foreach (var pair in counts){
+            if (pair.Value == 3){
                 threeOfAKind = true;
             }
-            else if (pair.Value == 2)
-            {
+            else if (pair.Value == 2){
                 twoOfAKind = true;
             }
         }
@@ -358,8 +342,7 @@ public class RuleScripts : MonoBehaviour
         Dictionary<int, int> countst = new Dictionary<int, int>();
         int score = 0;
         bool found = false;
-        foreach (int value in diceValues)
-        {
+        foreach (int value in diceValues) {
             if (countst.ContainsKey(value))
             {
                 if (counts[value] != counts[0])
@@ -382,7 +365,6 @@ public class RuleScripts : MonoBehaviour
 
             }
         }
-
         score = found ? 50 : 0; // 5개의 주사위 눈금 값과 동일한 값이 있으면 50 반환, 아니면 0 반환
         return score;
     }
@@ -391,16 +373,12 @@ public class RuleScripts : MonoBehaviour
         int totalScore = 0;
 
 
-        for (int i = 6; i < TextManager.text.arraytextmeshpro.Length; i++)
-        {
-
-            if (TextManager.text.isConfirmed[i] || !TextManager.text.isConfirmed[6] && GameManager.gamemanager.player1)
-            {
+        for (int i = 6; i < TextManager.text.arraytextmeshpro.Length; i++){
+            if (TextManager.text.isConfirmed[i] || !TextManager.text.isConfirmed[6] && GameManager.gamemanager.player1){
                 totalScore = TextManager.text.haptotal+SubTotalPoint(); // 각 메서드의 결과를 누적하여 계산
 
             }
-            else if(TextManager.text.isConfirmed2[i] || !TextManager.text.isConfirmed2[6] && GameManager.gamemanager.player2)
-            {
+            else if(TextManager.text.isConfirmed2[i] || !TextManager.text.isConfirmed2[6] && GameManager.gamemanager.player2){
                 totalScore = TextManager.text.haptotal2+ SubTotalPoint(); // 각 메서드의 결과를 누적하여 계산
             }
         }

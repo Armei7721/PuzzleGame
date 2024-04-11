@@ -116,8 +116,9 @@ public class Dice : MonoBehaviour
     public IEnumerator rotation()
     {
         if (!dicerotate)
-        {   // 
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
+        {  
+            transform.rotation = Quaternion.Euler
+            (transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
             yield return new WaitForSeconds(1f);
             dicerotate = true;
         }
@@ -258,7 +259,8 @@ public class Dice : MonoBehaviour
                 }
             }
         }
-        else if (GameManager.gamemanager.currentPhase == GameManager.Phase.scorePhase && GameManager.gamemanager.act)
+        else if (GameManager.gamemanager.currentPhase == 
+        GameManager.Phase.scorePhase && GameManager.gamemanager.act)
         {
 
             AllReset();
@@ -266,8 +268,7 @@ public class Dice : MonoBehaviour
         }
     }
 
-    public void AllReset()
-    {
+    public void AllReset(){
         for (int i = 0; i < GameManager.gamemanager.slots.Length; i++){
             if (GameManager.gamemanager.slots[i] != null){
                 GameManager.gamemanager.conditionDice.Add(GameManager.gamemanager.slots[i]);

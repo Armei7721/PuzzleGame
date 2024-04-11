@@ -14,31 +14,22 @@ public class DiceNumberCheck : MonoBehaviour
     }
     private void Update()
     {
-        CheckNumber();
-        
+        CheckNumber();    
     }
-
-    public void CheckNumber()
-    {
-        for (int i = 0; i < GameManager.gamemanager.slots.Length; i++)
-        {
-            if (GameManager.gamemanager.slots[i] != null)
-            {
+    public void CheckNumber(){
+        for (int i = 0; i < GameManager.gamemanager.slots.Length; i++){
+            if (GameManager.gamemanager.slots[i] != null){
                 Dice currentDice = GameManager.gamemanager.slots[i].gameObject.GetComponent<Dice>();
-                if (currentDice != null && currentDice.SetDice)
-                {
-                    //Debug.Log(GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue + "  " + GameManager.gamemanager.slots[i] + "번째의 눈값입니다.");
+                if (currentDice != null && currentDice.SetDice){
                     dicenum = GameManager.gamemanager.slots[i].GetComponent<Dice>().diceValue;
                 }
             }
-            else
-            {
+            else{
                 break;
             }    
         }
-        //Debug.Log(dicenum+"의 값");
     }
-    private void OnTriggerEnter(Collider number)
+    private void OnTriggerStay(Collider number)
     {
         Dice currentDice = number.gameObject.GetComponentInParent<Dice>();
         if (currentDice != null)
@@ -66,5 +57,4 @@ public class DiceNumberCheck : MonoBehaviour
             }
         }
     }
-
 }
